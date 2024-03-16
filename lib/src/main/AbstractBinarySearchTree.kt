@@ -45,7 +45,10 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     abstract fun remove(key: K): V?
 
-    fun removeAndReturnPair(key: K): Pair<K, V>? {TODO()}
+    fun removeAndReturnPair(key: K): Pair<K, V>? {
+        val value = remove(key)
+        return if (value == null) null else Pair(key, value)
+    }
 
     protected fun getMinKeyNodeRec(vertex: InterfaceBSTVertex<K, V, N>? = root) : InterfaceBSTVertex<K, V, N>? {TODO()}
 
