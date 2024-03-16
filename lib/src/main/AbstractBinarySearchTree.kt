@@ -37,7 +37,8 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (maxKeyNode == null) null else Pair(maxKeyNode.key, maxKeyNode.value)
     }
 
-    abstract fun put(key: K, value: V)
+    abstract fun put(key: K, value: V, replaceIfExists : Boolean = true)
+// возможно нужен комментарий
 
     fun putAll(map: Map<K, V>) {
         for (pair in map) put(pair.key, pair.value)
