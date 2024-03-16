@@ -6,7 +6,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     operator fun iterator(): Iterator<Pair<K, V>> {TODO()}
 
-    fun size(): Long {TODO()}
+    fun size(): Long {return size}
 
     fun isEmpty(): Boolean {TODO()}
     
