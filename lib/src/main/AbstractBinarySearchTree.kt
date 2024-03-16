@@ -10,7 +10,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     fun isEmpty(): Boolean {return size == 0L}
     
-    fun get(key: K): V? {TODO()}
+    fun get(key: K): V? {return getRec(key)}
 
     fun getPair(key: K): Pair<K, V>? {TODO()}
 
