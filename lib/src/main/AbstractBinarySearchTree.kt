@@ -32,7 +32,10 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (minKeyNode == null) null else Pair(minKeyNode.key, minKeyNode.value)
     }
 
-    fun getMaxKeyPair(): Pair<K, V>? {TODO()}
+    fun getMaxKeyPair(): Pair<K, V>? {
+        val maxKeyNode = getMaxKeyNodeRec()
+        return if (maxKeyNode == null) null else Pair(maxKeyNode.key, maxKeyNode.value)
+    }
 
     abstract fun put(key: K, value: V)
 
