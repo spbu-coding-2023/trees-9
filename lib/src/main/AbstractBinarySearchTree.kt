@@ -39,7 +39,9 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     abstract fun put(key: K, value: V)
 
-    fun putAll(map: Map<K, V>){TODO()}
+    fun putAll(map: Map<K, V>) {
+        for (pair in map) put(pair.key, pair.value)
+    }
 
     abstract fun remove(key: K): V?
 
