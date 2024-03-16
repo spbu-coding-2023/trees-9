@@ -8,7 +8,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     fun size(): Long {return size}
 
-    fun isEmpty(): Boolean {TODO()}
+    fun isEmpty(): Boolean {return size == 0L}
     
     fun get(key: K): V? {TODO()}
 
