@@ -30,6 +30,12 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     fun removeAndReturnPair(key: K): Pair<K, V>? {TODO()}
 
+    private fun getRec(key: K, vertex: InterfaceBSTVertex<K,V,N>? = root): V? {
+        if (vertex == null) return null
+        if (vertex.key == key) return vertex.value
+        val cpr = comparator
+        if (cpr != null) {TODO()}
+
     protected fun getMinKeyNodeRec(vertex: InterfaceBSTVertex<K, V, N>? = root) : InterfaceBSTVertex<K, V, N>? {TODO()}
 
     protected fun getMaxKeyNodeRec(vertex: InterfaceBSTVertex<K, V, N>? = root) : InterfaceBSTVertex<K, V, N>? {TODO()}
