@@ -34,7 +34,16 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         if (vertex == null) return null
         if (vertex.key == key) return vertex.value
         val cpr = comparator
-        if (cpr != null) {TODO()}
+        if (cpr != null) {
+            return if (cpr.compare(key, vertex.key) < 0) getRec(key, vertex.leftSon)
+            else getRec(key, vertex.rightSon)
+        }
+        else {
+            val comparableKey: Comparable<K> = key as Comparable<K>
+            return if (comparableKey.compareTo(vertex.key) < 0) getRec(key, vertex.leftSon)
+            else getRec(key, vertex.rightSon)
+        }
+    }
 
     protected fun getMinKeyNodeRec(vertex: InterfaceBSTVertex<K, V, N>? = root) : InterfaceBSTVertex<K, V, N>? {TODO()}
 
