@@ -1,0 +1,8 @@
+name: CI Tests Demo
+on: workflow_dispatch
+jobs:
+  first_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print to console
+        run: echo first test completed
