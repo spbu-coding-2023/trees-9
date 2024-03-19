@@ -2,7 +2,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     protected var comparator: Comparator<K>? = null
     protected var size : Long = 0L
-    protected var root : InterfaceBSTVertex<K, V, N>? = null
+    protected var root : N? = null
 
     operator fun iterator(): Iterator<Pair<K, V>> {TODO()}
 
@@ -51,7 +51,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (value == null) null else Pair(key, value)
     }
 
-    private fun getRec(key: K, vertex: InterfaceBSTVertex<K,V,N>? = root): V? {
+    private fun getRec(key: K, vertex: N? = root): V? {
         if (vertex == null) return null
         if (vertex.key == key) return vertex.value
         val cpr = comparator
@@ -66,9 +66,9 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         }
     }
 
-    protected fun getMinKeyNodeRec(vertex: InterfaceBSTVertex<K, V, N>? = root) : InterfaceBSTVertex<K, V, N>? {TODO()}
+    protected fun getMinKeyNodeRec(vertex: N? = root) : N? {TODO()}
 
-    protected fun getMaxKeyNodeRec(vertex: InterfaceBSTVertex<K, V, N>? = root) : InterfaceBSTVertex<K, V, N>? {TODO()}
+    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {TODO()}
 
     constructor(comparator: Comparator<K>? = null) {
         this.comparator = comparator
