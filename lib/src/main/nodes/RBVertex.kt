@@ -1,4 +1,5 @@
 package main.nodes
+
 class RBVertex<K, V>(
     override var key: K,
     override var value: V
