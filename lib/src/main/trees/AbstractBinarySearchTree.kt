@@ -1,5 +1,6 @@
 package main.trees
 import main.vertexes.InterfaceBSTVertex
+import main.iterator.TreeIterator
 
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
@@ -7,7 +8,9 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
     protected var size : Long = 0L
     protected var root : N? = null
 
-    operator fun iterator(): Iterator<Pair<K, V>> {TODO()}
+    operator fun iterator(): Iterator<Pair<K, V>> {
+        return TreeIterator(root)
+    }
 
     fun size(): Long {return size}
 
