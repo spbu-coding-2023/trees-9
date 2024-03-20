@@ -16,5 +16,10 @@ internal class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
         return stack.isNotEmpty()
     }
 
-    override fun next(): Pair<K, V> {TODO()}
+    override fun next(): Pair<K, V> {
+        val nextVertex: N = stack.removeLast()
+        nextVertex.leftSon?.let { stack.add(it) }
+        nextVertex.rightSon?.let { stack.add(it) }
+        return Pair(nextVertex.key, nextVertex.value)
+    }
 }
