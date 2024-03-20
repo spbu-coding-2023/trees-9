@@ -1,6 +1,6 @@
 package main.iterator
-import nodes.InterfaceBSTVertex
-import pair.Pair
+import main.vertexes.InterfaceBSTVertex
+import main.pair.Pair
 
 internal class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
     vertex: InterfaceBSTVertex<K, V, N>?): Iterator<Pair<K, V>> {
