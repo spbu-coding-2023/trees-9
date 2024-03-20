@@ -12,7 +12,9 @@ internal class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
         vertex?.let { stack.add(it as N) }
     }
 
-    override fun hasNext(): Boolean {TODO()}
+    override fun hasNext(): Boolean {
+        return stack.isNotEmpty()
+    }
 
     override fun next(): Pair<K, V> {TODO()}
 }
