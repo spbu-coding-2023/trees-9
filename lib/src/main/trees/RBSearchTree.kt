@@ -1,5 +1,5 @@
 package main.trees
-import nodes.RBVertex
+import main.vertexes.RBVertex
 
 class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
 

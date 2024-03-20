@@ -1,9 +1,9 @@
 package main.trees
-import nodes.AVLVertex
+import main.vertexes.AVLVertex
 
 class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
-    override fun put(key: K, value: V) {TODO()}
+    override fun put(key: K, value: V, replaceIfExists: Boolean) {TODO()}
 
     override fun remove(key: K): V? {TODO()}
 

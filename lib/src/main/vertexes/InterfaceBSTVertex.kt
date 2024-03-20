@@ -1,6 +1,6 @@
-package main.nodes
-interface InterfaceBSTVertex<K, V, N> {
+package main.vertexes
 
+interface InterfaceBSTVertex<K, V, N> {
     var key: K
     var value: V
     var leftSon: N?

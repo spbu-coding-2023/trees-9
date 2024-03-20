@@ -1,6 +1,6 @@
 package main.trees
-import nodes.InterfaceBSTVertex
-import pair.Pair
+import main.vertexes.InterfaceBSTVertex
+import main.pair.Pair
 
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
