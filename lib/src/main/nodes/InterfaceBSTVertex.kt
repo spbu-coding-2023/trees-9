@@ -1,3 +1,4 @@
+package main.nodes
 interface InterfaceBSTVertex<K, V, N> {
 
     var key: K

@@ -1,4 +1,7 @@
-class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
+package main.trees
+import nodes.RBVertex
+
+class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
 
     override fun remove(key: K): V? { TODO()
 //        var currentVertex: RBVertex<K, V>? = root
