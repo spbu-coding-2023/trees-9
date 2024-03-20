@@ -4,12 +4,12 @@ import main.pair.Pair
 import java.util.LinkedList
 
 internal class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
-    vertex: InterfaceBSTVertex<K, V, N>?
+    vertex: N?
 ): Iterator<Pair<K, V>> {
     private val stack = LinkedList<N>()
 
     init {
-        vertex?.let { stack.add(it as N) }
+        vertex?.let { stack.add(it) }
     }
 
     override fun hasNext(): Boolean {
