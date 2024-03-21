@@ -46,8 +46,8 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
     abstract fun put(key: K, value: V, replaceIfExists : Boolean = true)
 // возможно нужен комментарий
 
-    fun putAll(map: Map<K, V>) {
-        for (pair in map) put(pair.key, pair.value)
+    fun putAll(map: Map<K, V>, replaceIfExists: Boolean = true) {
+        for (pair in map) put(pair.key, pair.value, replaceIfExists)
     }
 
     abstract fun remove(key: K): V?
@@ -92,8 +92,8 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         this.comparator = comparator
     }
 
-    constructor(map: Map<K, V>, comparator: Comparator<K>? = null) {
-        putAll(map)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) {
+        putAll(map, replaceIfExists)
         this.comparator = comparator
     }
 }
