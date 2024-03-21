@@ -1,5 +1,5 @@
 package main.trees
-import main.nodes.SimpleBSTVertex
+import main.vertexes.SimpleBSTVertex
 
 class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
 
