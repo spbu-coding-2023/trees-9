@@ -3,7 +3,9 @@ import main.nodes.SimpleBSTVertex
 
 class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
 
-    override fun put(key: K, value: V, replaceIfExists: Boolean) {TODO()}
+    override fun put(key: K, value: V, replaceIfExists: Boolean) {
+        putRec(key, value, replaceIfExists)
+    }
 
     private fun putRec(key: K, value: V, replaceIfExists: Boolean, vertex: SimpleBSTVertex<K, V>? = root) {
         if (root == null) {
