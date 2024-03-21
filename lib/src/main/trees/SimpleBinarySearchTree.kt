@@ -8,58 +8,37 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
     }
 
     private fun putRec(key: K, value: V, replaceIfExists: Boolean, vertex: SimpleBSTVertex<K, V>? = root) {
-        if (root == null) {
+        if (vertex == null) {
             root = SimpleBSTVertex(key, value)
             return
         }
 
         val cpr = comparator
+        if (cpr != null) {
+            if (vertex.key == key && replaceIfExists) vertex.value = value
+            else if (vertex.key == key && !replaceIfExists) return
 
-        if (cpr != null && vertex != null) {
-            if (vertex.key == key && replaceIfExists) {
-                vertex.value = value
-                return
-            } else if (vertex.key == key && !replaceIfExists) {
-                return
-            }
-
-            if (cpr.compare(key, vertex.key) < 0) {
-                if (vertex.leftSon == null) {
-                    vertex.leftSon = SimpleBSTVertex(key, value)
-                    return
-                }
-                putRec(key, value, replaceIfExists, vertex.leftSon)
+            else if (cpr.compare(key, vertex.key) < 0) {
+                if (vertex.leftSon == null) vertex.leftSon = SimpleBSTVertex(key, value)
+                else putRec(key, value, replaceIfExists, vertex.leftSon)
             }
             else {
-                if (vertex.rightSon == null) {
-                    vertex.rightSon = SimpleBSTVertex(key, value)
-                    return
-                }
-                putRec(key, value, replaceIfExists, vertex.rightSon)
+                if (vertex.rightSon == null) vertex.rightSon = SimpleBSTVertex(key, value)
+                else putRec(key, value, replaceIfExists, vertex.rightSon)
             }
         }
-        else if (cpr == null && vertex != null) {
-            if (vertex.key == key && replaceIfExists) {
-                vertex.value = value
-                return
-            } else if (vertex.key == key && !replaceIfExists) {
-                return
-            }
-
+        else {
             val comparableKey: Comparable<K> = key as Comparable<K>
-            if (comparableKey.compareTo(vertex.key) < 0) {
-                if (vertex.leftSon == null) {
-                    vertex.leftSon = SimpleBSTVertex(key, value)
-                    return
-                }
-                putRec(key, value, replaceIfExists, vertex.leftSon)
+            if (vertex.key == key && replaceIfExists) vertex.value = value
+            else if (vertex.key == key && !replaceIfExists) return
+
+            else if (comparableKey.compareTo(vertex.key) < 0) {
+                if (vertex.leftSon == null) vertex.leftSon = SimpleBSTVertex(key, value)
+                else putRec(key, value, replaceIfExists, vertex.leftSon)
             }
             else {
-                if (vertex.rightSon == null) {
-                    vertex.rightSon = SimpleBSTVertex(key, value)
-                    return
-                }
-                putRec(key, value, replaceIfExists, vertex.rightSon)
+                if (vertex.rightSon == null) vertex.rightSon = SimpleBSTVertex(key, value)
+                else putRec(key, value, replaceIfExists, vertex.rightSon)
             }
         }
     }
