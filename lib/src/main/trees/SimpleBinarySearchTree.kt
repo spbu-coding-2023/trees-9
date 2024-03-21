@@ -7,7 +7,7 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
         putRec(key, value, replaceIfExists)
     }
 
-    private fun putRec(key: K, value: V, replaceIfExists: Boolean, vertex: SimpleBSTVertex<K, V>? = root) {
+    private fun putRec(key: K, value: V, replaceIfExists: Boolean = true, vertex: SimpleBSTVertex<K, V>? = root) {
         if (vertex == null) {
             root = SimpleBSTVertex(key, value)
             return
@@ -15,8 +15,8 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
 
         val cpr = comparator
         if (cpr != null) {
-            if (vertex.key == key && replaceIfExists) vertex.value = value
-            else if (vertex.key == key && !replaceIfExists) return
+            if (cpr.compare(key, vertex.key) == 0 && replaceIfExists) vertex.value = value
+            else if (cpr.compare(key, vertex.key) == 0 && !replaceIfExists) return
 
             else if (cpr.compare(key, vertex.key) < 0) {
                 if (vertex.leftSon == null) vertex.leftSon = SimpleBSTVertex(key, value)
@@ -29,8 +29,8 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
         }
         else {
             val comparableKey: Comparable<K> = key as Comparable<K>
-            if (vertex.key == key && replaceIfExists) vertex.value = value
-            else if (vertex.key == key && !replaceIfExists) return
+            if (comparableKey.compareTo(vertex.key) == 0 && replaceIfExists) vertex.value = value
+            else if (comparableKey.compareTo(vertex.key) == 0 && !replaceIfExists) return
 
             else if (comparableKey.compareTo(vertex.key) < 0) {
                 if (vertex.leftSon == null) vertex.leftSon = SimpleBSTVertex(key, value)
