@@ -1,4 +1,4 @@
-package main.nodes
+package main.vertexes
 
 class AVLVertex<K, V>(
     override var key: K,
