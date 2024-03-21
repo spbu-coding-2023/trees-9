@@ -81,7 +81,13 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         }
     }
 
-    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {TODO()}
+    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {
+        if (vertex == null) return null
+        else {
+            return if (vertex.rightSon == null) vertex
+            else getMaxKeyNodeRec(vertex.rightSon)
+        }
+    }
 
     constructor(comparator: Comparator<K>? = null) {
         this.comparator = comparator
