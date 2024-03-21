@@ -29,6 +29,10 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         return leftSon
     }
 
+    private fun bigRotateLeft(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
+        curVertex.rightSon = rotateRight(curVertex.rightSon as AVLVertex<K,V>)
+        return rotateLeft(curVertex)
+    }
 
     constructor (comparator: Comparator<K>? = null) : super(comparator)
 
