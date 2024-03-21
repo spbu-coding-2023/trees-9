@@ -21,4 +21,3 @@ class RBVertex<K, V>(
         this.leftSon = leftSon; this.rightSon = rightSon; this.parent = parent; this.isRed = isRed
     }
 }
-

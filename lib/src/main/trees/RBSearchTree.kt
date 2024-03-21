@@ -3,97 +3,28 @@ import main.vertexes.RBVertex
 
 class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
 
-    override fun remove(key: K): V? { TODO()
-//        var currentVertex: RBVertex<K, V>? = root
-//        var parent: RBVertex<K, V>? = null
-//        var isLeft: Boolean = false
-//        val cpr = comparator
-//
-//        while (currentVertex != null) {
-//            if (cpr != null) {
-//
-//                if (cpr.compare(currentVertex.key, key) == 0) {
-//                    if (countChildren(currentVertex) < 2){
-//                        parent?.key = currentVertex.key
-//                        parent?.key = currentVertex.key
-//                        parent?.key = currentVertex.key
-//                    }
-//                    break
-//                }
-//
-//                parent = currentVertex
-//                if (cpr.compare(currentVertex.key, key) < 0){
-//                    currentVertex = currentVertex.rightSon
-//                    isLeft = false
-//                }
-//
-//                else if (cpr.compare(currentVertex.key, key) > 0){
-//                    currentVertex = currentVertex.leftSon
-//                    isLeft = true
-//                }
-//            } else {
-//
-//                val comparableKey = key as Comparable<K>
-//                if (comparableKey.compareTo(currentVertex.key) == 0) {
-//                    currentVertex.value = value
-//                    break
-//                }
-//
-//                parent = currentVertex
-//                if (comparableKey.compareTo(currentVertex.key) < 0){
-//                    currentVertex = currentVertex.rightSon
-//                    isLeft = false
-//                }
-//
-//                else if (comparableKey.compareTo(currentVertex.key) > 0){
-//                    currentVertex = currentVertex.leftSon
-//                    isLeft = true
-//                }
-//            }
-//        }
-    }
+    override fun remove(key: K): V? { TODO() }
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         var currentVertex: RBVertex<K, V>? = root
         var parent: RBVertex<K, V>? = null
         var isLeft: Boolean = false
-        val cpr = comparator
 
         while (currentVertex != null) {
-            if (cpr != null) {
-
-                if (cpr.compare(currentVertex.key, key) == 0) {
-                    currentVertex.value = value
-                    break
-                }
-
-                parent = currentVertex
-                if (cpr.compare(currentVertex.key, key) < 0){
-                    currentVertex = currentVertex.rightSon
-                    isLeft = false
-                }
-
-                else if (cpr.compare(currentVertex.key, key) > 0){
+            when (compareKeys(comparator, key, currentVertex.key)){
+                -1 -> {
+                    parent = currentVertex
                     currentVertex = currentVertex.leftSon
                     isLeft = true
                 }
-            } else {
-
-                val comparableKey = key as Comparable<K>
-                if (comparableKey.compareTo(currentVertex.key) == 0) {
-                    currentVertex.value = value
+                0 -> {
+                    if (replaceIfExists) currentVertex.value = value
                     break
                 }
-
-                parent = currentVertex
-                if (comparableKey.compareTo(currentVertex.key) < 0){
+                1 -> {
+                    parent = currentVertex
                     currentVertex = currentVertex.rightSon
                     isLeft = false
-                }
-
-                else if (comparableKey.compareTo(currentVertex.key) > 0){
-                    currentVertex = currentVertex.leftSon
-                    isLeft = true
                 }
             }
         }
@@ -103,6 +34,61 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
             if (isLeft) parent?.let { parent.leftSon = currentVertex }
             else parent?.let { parent.rightSon = currentVertex }
         }
+    }
+
+    private fun balanceAfterPut(vertex: RBVertex<K, V>) {
+        var currentVertex = vertex
+
+        while (currentVertex.parent?.isRed == true){
+            val grandparent = currentVertex.parent?.parent
+
+            if (currentVertex.parent == grandparent?.leftSon){
+                val uncle = grandparent?.rightSon
+
+                if (uncle?.isRed == true){
+                    currentVertex.parent?.isRed = false
+                    uncle.isRed = false
+                    grandparent.isRed = true
+                    currentVertex = grandparent
+                }
+
+                else {
+                    if (currentVertex == currentVertex.parent?.rightSon) {
+                        currentVertex = currentVertex.parent ?: currentVertex
+                        rotateLeft(currentVertex)
+                    }
+
+                    currentVertex.parent?.isRed = false
+                    currentVertex.parent?.parent?.isRed = true
+                    val vertexForRightRotate = currentVertex.parent?.parent
+                    vertexForRightRotate?.let { rotateRight(vertexForRightRotate) }
+                }
+            }
+
+            else {
+                val uncle = grandparent?.leftSon
+
+                if (uncle?.isRed == true){
+                    currentVertex.parent?.isRed = false
+                    uncle.isRed = false
+                    grandparent.isRed = true
+                    currentVertex = grandparent
+                }
+
+                else {
+                    if (currentVertex == currentVertex.parent?.leftSon) {
+                        currentVertex = currentVertex.parent ?: currentVertex
+                        rotateRight(currentVertex)
+                    }
+
+                    currentVertex.parent?.isRed = false
+                    currentVertex.parent?.parent?.isRed = true
+                    val vertexForLeftRotate = currentVertex.parent?.parent
+                    vertexForLeftRotate?.let { rotateLeft(vertexForLeftRotate) }
+                }
+            }
+        }
+        root?.isRed = false
     }
 
     private fun countChildren(vertex: RBVertex<K, V>): Int {
@@ -118,9 +104,11 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
         vertex.rightSon = rightVertex?.leftSon
         rightVertex?.leftSon.let { rightVertex?.leftSon?.parent = vertex }
         rightVertex?.parent = vertex.parent
-        if (vertex.parent == null) root = rightVertex
-        else if (vertex == vertex.parent?.leftSon) vertex.parent?.leftSon = rightVertex
-        else vertex.parent?.rightSon = rightVertex
+        when {
+            vertex.parent == null -> root = rightVertex
+            vertex == vertex.parent?.leftSon -> vertex.parent?.leftSon = rightVertex
+            else -> vertex.parent?.rightSon = rightVertex
+        }
         vertex.parent = rightVertex
         rightVertex?.leftSon = vertex
     }
@@ -131,11 +119,27 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
         vertex.leftSon = leftVertex?.rightSon
         leftVertex?.rightSon.let { leftVertex?.rightSon?.parent = vertex}
         leftVertex?.parent = vertex.parent
-        if (vertex.parent == null) root = leftVertex
-        else if (vertex == vertex.parent?.leftSon) vertex.parent?.leftSon = leftVertex
-        else vertex.parent?.rightSon = leftVertex
+        when {
+            vertex.parent == null -> root = leftVertex
+            vertex == vertex.parent?.leftSon -> vertex.parent?.leftSon = leftVertex
+            else -> vertex.parent?.rightSon = leftVertex
+        }
         vertex.parent = leftVertex
         leftVertex?.rightSon = vertex
+    }
+
+    private fun compareKeys(cpr: Comparator<K>?, firstKey: K, secondKey: K): Int{
+        return if (cpr != null) {
+            if (cpr.compare(firstKey, secondKey) < 0) -1
+            else if (cpr.compare(firstKey, secondKey) == 0) 0
+            else 1
+        }
+        else {
+            val comparableKey = firstKey as Comparable<K>
+            if (comparableKey.compareTo(secondKey) < 0) -1
+            else if (comparableKey.compareTo(secondKey) == 0) 0
+            else 1
+        }
     }
 
     constructor(comparator: Comparator<K>? = null) : super(comparator)
