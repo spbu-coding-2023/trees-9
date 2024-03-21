@@ -23,11 +23,12 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         curVertex.leftSon = leftSon.rightSon
         leftSon.rightSon = curVertex
         when (leftSon.sonsHeightDiff) {
-            0 -> leftSon.sonsHeightDiff = 1
-            -1 -> {curVertex.sonsHeightDiff = 0; leftSon.sonsHeightDiff = 0}
+            0 -> leftSon.sonsHeightDiff = -1
+            1 -> {curVertex.sonsHeightDiff = 0; leftSon.sonsHeightDiff = 0}
         }
         return leftSon
-    } 
+    }
+
 
     constructor (comparator: Comparator<K>? = null) : super(comparator)
 
