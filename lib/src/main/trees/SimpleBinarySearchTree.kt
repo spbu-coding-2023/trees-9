@@ -1,9 +1,9 @@
 package main.trees
-import nodes.SimpleBSTVertex
+import main.vertexes.SimpleBSTVertex
 
 class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
 
-    override fun put(key: K, value: V) {TODO()}
+    override fun put(key: K, value: V, replaceIfExists: Boolean) {TODO()}
 
     override fun remove(key: K): V? {TODO()}
 

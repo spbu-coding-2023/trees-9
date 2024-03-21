@@ -1,6 +1,5 @@
 package main.iterator
-import main.nodes.InterfaceBSTVertex
-import main.pair.Pair
+import main.vertexes.InterfaceBSTVertex
 import java.util.LinkedList
 
 internal class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
