@@ -7,6 +7,19 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     override fun remove(key: K): V? {TODO()}
 
+    private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V>{
+        if(curVertex.sonsHeightDiff == -1) {
+            val rightSon = curVertex.rightSon as AVLVertex<K,V>
+            return if (rightSon.sonsHeightDiff == 1) bigRotateLeft(curVertex, rightSon)
+            else rotateLeft(curVertex, rightSon)
+        }
+        else {
+            val leftSon = curVertex.leftSon as AVLVertex<K,V>
+            return if (leftSon.sonsHeightDiff == -1) bigRotateRight(curVertex, leftSon)
+            else rotateRight(curVertex, leftSon)
+        }    
+    }
+
     private fun rotateLeft(curVertex: AVLVertex<K,V>, rightSon : AVLVertex<K,V> ) : AVLVertex<K,V> {
         curVertex.rightSon = rightSon.leftSon
         rightSon.leftSon = curVertex
