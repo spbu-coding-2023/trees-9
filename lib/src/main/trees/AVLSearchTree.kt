@@ -3,7 +3,14 @@ import main.vertexes.AVLVertex
 
 class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
-    override fun put(key: K, value: V, replaceIfExists: Boolean) {TODO()}
+    override fun put(key: K, value: V, replaceIfExists: Boolean) {
+        if (!isEmpty()) {
+            putRec(key, value, replaceIfExists, root as )
+            return
+        }
+        root = AVLVertex<K,V>(key, value)
+        size++
+    }
 
     override fun remove(key: K): V? {TODO()}
 
