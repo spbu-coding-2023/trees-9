@@ -4,7 +4,7 @@ import main.vertexes.AVLVertex
 class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {TODO()}
-    
+
     override fun remove(key: K): V? {TODO()}
 
     private fun putRec
@@ -21,7 +21,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     size++
                     return vertex.leftSon
                 }
-                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
+                else nextCallReturned = putRecShort(vertex.leftSon as)
             }
             0 -> {
                 if (replaceIfExists) {
@@ -37,7 +37,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     size++
                     return vertex.rightSon
                 }
-                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
+                else nextCallReturned = putRecShort(vertex.leftSon as)
             }
         }
         if (nextCallReturned == null) return null
@@ -105,13 +105,13 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     }
     
     private fun bigRotateLeft(curVertex: AVLVertex<K,V>, rightSon : AVLVertex<K,V> ) : AVLVertex<K,V> {
-        val curRightSon = rotateRight(rightSon, rightSon.leftSon as AVLVertex<K,V>)
+        val curRightSon = rotateRight(rightSon, rightSon.leftSon as)
         curVertex.rightSon = curRightSon
         return rotateLeft(curVertex, curRightSon)
     }
 
     private fun bigRotateRight(curVertex: AVLVertex<K,V>, leftSon : AVLVertex<K,V>) : AVLVertex<K,V> {
-        val curLeftSon = rotateLeft(leftSon, leftSon.rightSon as AVLVertex<K,V>)
+        val curLeftSon = rotateLeft(leftSon, leftSon.rightSon as)
         curVertex.leftSon = curLeftSon
         return rotateRight(curVertex, curLeftSon)
     }
