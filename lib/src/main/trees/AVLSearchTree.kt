@@ -4,8 +4,70 @@ import main.vertexes.AVLVertex
 class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {TODO()}
-
+    
     override fun remove(key: K): V? {TODO()}
+
+    private fun putRec
+    (key: K, value: V, replaceIfExists: Boolean, vertex: AVLVertex<K,V>) : AVLVertex<K,V>? {
+        fun putRecShort(vrtx : AVLVertex<K,V>) : AVLVertex<K,V>? {
+            return putRec(key, value, replaceIfExists, vrtx)
+        } 
+        val nextCallReturned : AVLVertex<K,V>? 
+        when (compare(key, vertex.key)) {
+            -1 -> {
+                if (vertex.leftSon == null){
+                    vertex.leftSon = AVLVertex<K,V>(key, value)
+                    vertex.sonsHeightDiff++
+                    return vertex.leftSon
+                }
+                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
+            }
+            0 -> {
+                if (replaceIfExists) {
+                    vertex.key = key
+                    vertex.value = value
+                }
+                return null
+            }
+            else -> {
+                if (vertex.rightSon == null) {
+                    vertex.rightSon = AVLVertex<K,V>(key, value)
+                    vertex.sonsHeightDiff--
+                    return vertex.rightSon
+                }
+                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
+            }
+        }
+        if (nextCallReturned == null) return null
+        fun checkWhenLeftSubTreeChanged() : AVLVertex<K,V>? {
+            if (nextCallReturned.sonsHeightDiff == 0) return null
+            if (vertex.sonsHeightDiff + 1 == 2) return balance(vertex)
+            vertex.sonsHeightDiff++
+            return vertex 
+        }
+        fun checkWhenRightSubTreeChanged() : AVLVertex<K,V>? {
+            if (nextCallReturned.sonsHeightDiff == 0) return null
+            if (vertex.sonsHeightDiff - 1 == -2) return balance(vertex)
+            vertex.sonsHeightDiff--
+            return vertex
+        }
+        when (nextCallReturned){
+            vertex.leftSon -> return checkWhenLeftSubTreeChanged()
+            vertex.rightSon -> return checkWhenRightSubTreeChanged()              
+            else -> {
+                when (compare(nextCallReturned.key, vertex.key)) {
+                    -1 -> {
+                        vertex.leftSon = nextCallReturned
+                        return checkWhenLeftSubTreeChanged()
+                    }
+                    else -> {
+                        vertex.rightSon = nextCallReturned
+                        return checkWhenRightSubTreeChanged()
+                    }
+                }
+            }
+        }
+    }
 
     private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V>{
         if(curVertex.sonsHeightDiff == -1) {
