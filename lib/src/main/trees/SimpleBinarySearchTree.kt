@@ -45,6 +45,36 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
 
     override fun remove(key: K): V? {TODO()}
 
+    private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): SimpleBSTVertex<K, V>? {
+        if (vertex == null) return null
+        val cpr = comparator
+        if (cpr != null) {
+            if (cpr.compare(key, vertex.key) < 0) vertex.leftSon = removeRec(key, vertex.leftSon)
+            else if (cpr.compare(key, vertex.key) > 0) vertex.rightSon = removeRec(key, vertex.rightSon)
+
+            else if (cpr.compare(key, vertex.key) == 0) {
+                if (vertex.leftSon == null || vertex.rightSon == null) {
+                    vertex = if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
+//                    vertex.key = vertexForSubstitution.key
+//                    vertex.value = vertexForSubstitution.value
+//                    vertex.leftSon = vertexForSubstitution.leftSon
+//                    vertex.rightSon = vertexForSubstitution.rightSon
+                }
+                else if (vertex.leftSon != null && vertex.rightSon != null) {
+                    val minKeyInRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
+                    vertex.key = minKeyInRightSubtreeNode.key
+                    vertex.value = minKeyInRightSubtreeNode.value
+                    vertex.rightSon = removeRec(minKeyInRightSubtreeNode.key, vertex.rightSon)
+                }
+            }
+            else error("this key isn't in this SimpleBinarySearchTree\n")
+        }
+        else {
+            TODO()
+        }
+        return vertex
+    }
+
     constructor(comparator: Comparator<K>?) : super(comparator)
 
     constructor(map: Map<K, V>, comparator: Comparator<K>? = null) : super(map, comparator)
