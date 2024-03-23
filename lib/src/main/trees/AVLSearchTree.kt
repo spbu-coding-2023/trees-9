@@ -5,7 +5,10 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         if (!isEmpty()) {
-            putRec(key, value, replaceIfExists, root as AVLVertex<K,V> )
+            when (val putRecReturned = putRec(key, value, replaceIfExists, root as AVLVertex<K,V>)) {
+                null, root -> {}
+                else -> root = putRecReturned
+            }
             return
         }
         root = AVLVertex(key, value)
