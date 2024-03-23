@@ -47,7 +47,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     size++
                     return vertex.rightSon
                 }
-                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V> )
+                else nextCallReturned = putRecShort(vertex.rightSon as AVLVertex<K,V> )
             }
         }
         if (nextCallReturned == null) return null
