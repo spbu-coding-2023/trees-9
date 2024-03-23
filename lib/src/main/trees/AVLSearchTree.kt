@@ -8,7 +8,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             putRec(key, value, replaceIfExists, root as AVLVertex<K,V> )
             return
         }
-        root = AVLVertex<K,V>(key, value)
+        root = AVLVertex(key, value)
         size++
     }
 
@@ -23,7 +23,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         when (compare(key, vertex.key)) {
             -1 -> {
                 if (vertex.leftSon == null){
-                    vertex.leftSon = AVLVertex<K,V>(key, value)
+                    vertex.leftSon = AVLVertex(key, value)
                     vertex.sonsHeightDiff++
                     size++
                     return vertex.leftSon
@@ -39,7 +39,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             }
             else -> {
                 if (vertex.rightSon == null) {
-                    vertex.rightSon = AVLVertex<K,V>(key, value)
+                    vertex.rightSon = AVLVertex(key, value)
                     vertex.sonsHeightDiff--
                     size++
                     return vertex.rightSon
