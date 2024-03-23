@@ -31,7 +31,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     size++
                     return vertex
                 }
-                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
+                nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
             }
             0 -> {
                 if (replaceIfExists) {
@@ -47,7 +47,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     size++
                     return vertex
                 }
-                else nextCallReturned = putRecShort(vertex.rightSon as AVLVertex<K,V> )
+                nextCallReturned = putRecShort(vertex.rightSon as AVLVertex<K,V> )
             }
         }
         if (nextCallReturned == null) return null
@@ -81,7 +81,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         }
     }
 
-    private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V>{
+    private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
         if(curVertex.sonsHeightDiff == -1) {
             val rightSon = curVertex.rightSon as AVLVertex<K,V>
             return if (rightSon.sonsHeightDiff == 1) bigRotateLeft(curVertex, rightSon)
