@@ -43,7 +43,12 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
         }
     }
 
-    override fun remove(key: K): V? {TODO()}
+    override fun remove(key: K): V? {
+        val value = get(key)
+        if (value == null) return null
+        else removeRec(key)
+        return value
+    }
 
     private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): SimpleBSTVertex<K, V>? {
         if (vertex == null) return null
