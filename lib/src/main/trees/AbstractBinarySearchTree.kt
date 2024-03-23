@@ -92,7 +92,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         val cpr = comparator
         return if (cpr != null) {
             when (cpr.compare(firstKey, secondKey)) {
-                < 0 -> -1
+                in Int.MIN_VALUE .. -1 -> -1
                 0 ->  0
                 else -> 1
         }
@@ -100,7 +100,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         else {
             val comparableKey = firstKey as Comparable<K>
             when (comparableKey.compareTo(secondKey)) { 
-                < 0 -> -1
+                in Int.MIN_VALUE .. -1 -> -1
                 0 -> 0
                 else -> 1
             }
