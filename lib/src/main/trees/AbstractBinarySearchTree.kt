@@ -59,7 +59,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     private fun getRec(key: K, vertex: N? = root): V? {
         if (vertex == null) return null
-        return when (compareKeys(vertex.key, key)) {
+        return when (compareKeys(key, vertex.key)) {
             0 -> vertex.value
             -1 -> getRec(key, vertex.leftSon)
             else -> getRec(key, vertex.rightSon)
