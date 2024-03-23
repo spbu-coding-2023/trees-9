@@ -95,8 +95,8 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
                 in Int.MIN_VALUE .. -1 -> -1
                 0 ->  0
                 else -> 1
+            }
         }
-    }
         else {
             val comparableKey = firstKey as Comparable<K>
             when (comparableKey.compareTo(secondKey)) { 
