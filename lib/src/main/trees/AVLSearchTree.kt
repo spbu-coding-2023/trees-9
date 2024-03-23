@@ -5,7 +5,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         if (!isEmpty()) {
-            putRec(key, value, replaceIfExists, root as )
+            putRec(key, value, replaceIfExists, root as AVLVertex<K,V> )
             return
         }
         root = AVLVertex<K,V>(key, value)
@@ -28,7 +28,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     size++
                     return vertex.leftSon
                 }
-                else nextCallReturned = putRecShort(vertex.leftSon as)
+                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
             }
             0 -> {
                 if (replaceIfExists) {
@@ -44,7 +44,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     size++
                     return vertex.rightSon
                 }
-                else nextCallReturned = putRecShort(vertex.leftSon as)
+                else nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V> )
             }
         }
         if (nextCallReturned == null) return null
@@ -112,13 +112,13 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     }
     
     private fun bigRotateLeft(curVertex: AVLVertex<K,V>, rightSon : AVLVertex<K,V> ) : AVLVertex<K,V> {
-        val curRightSon = rotateRight(rightSon, rightSon.leftSon as)
+        val curRightSon = rotateRight(rightSon, rightSon.leftSon as AVLVertex<K,V>)
         curVertex.rightSon = curRightSon
         return rotateLeft(curVertex, curRightSon)
     }
 
     private fun bigRotateRight(curVertex: AVLVertex<K,V>, leftSon : AVLVertex<K,V>) : AVLVertex<K,V> {
-        val curLeftSon = rotateLeft(leftSon, leftSon.rightSon as)
+        val curLeftSon = rotateLeft(leftSon, leftSon.rightSon as AVLVertex<K,V>)
         curVertex.leftSon = curLeftSon
         return rotateRight(curVertex, curLeftSon)
     }
