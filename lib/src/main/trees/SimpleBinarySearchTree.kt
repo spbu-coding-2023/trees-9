@@ -53,24 +53,19 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
             else if (cpr.compare(key, vertex.key) > 0) vertex.rightSon = removeRec(key, vertex.rightSon)
 
             else if (cpr.compare(key, vertex.key) == 0) {
-                if (vertex.leftSon == null || vertex.rightSon == null) {
-                    vertex = if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
-//                    vertex.key = vertexForSubstitution.key
-//                    vertex.value = vertexForSubstitution.value
-//                    vertex.leftSon = vertexForSubstitution.leftSon
-//                    vertex.rightSon = vertexForSubstitution.rightSon
-                }
-                else if (vertex.leftSon != null && vertex.rightSon != null) {
-                    val minKeyInRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
-                    vertex.key = minKeyInRightSubtreeNode.key
-                    vertex.value = minKeyInRightSubtreeNode.value
-                    vertex.rightSon = removeRec(minKeyInRightSubtreeNode.key, vertex.rightSon)
-                }
+                if (vertex.leftSon == null || vertex.rightSon == null) return if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
+                else if (vertex.leftSon != null && vertex.rightSon != null) return getMinKeyNodeRec(vertex.rightSon)
             }
-            else error("this key isn't in this SimpleBinarySearchTree\n")
         }
         else {
-            TODO()
+            val comparableKey = key as Comparable<K>
+            if (comparableKey.compareTo(vertex.key) < 0) vertex.leftSon = removeRec(key, vertex.leftSon)
+            else if (comparableKey.compareTo(vertex.key) > 0) vertex.rightSon = removeRec(key, vertex.rightSon)
+
+            else if (comparableKey.compareTo(vertex.key) == 0) {
+                if (vertex.leftSon == null || vertex.rightSon == null) return if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
+                else if (vertex.leftSon != null && vertex.rightSon != null) return getMinKeyNodeRec(vertex.rightSon)
+            }
         }
         return vertex
     }
