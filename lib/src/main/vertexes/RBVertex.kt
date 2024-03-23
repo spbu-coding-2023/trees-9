@@ -1,3 +1,5 @@
+package main.vertexes
+
 class RBVertex<K, V>(
     override var key: K,
     override var value: V
