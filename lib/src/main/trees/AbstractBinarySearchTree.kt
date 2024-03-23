@@ -104,6 +104,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
                 0 -> 0
                 else -> 1
             }
+
         }
     }
 
