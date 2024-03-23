@@ -88,8 +88,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         }
     }
 
-
-    private fun compareKeys(firstKey: K, secondKey: K): Int{
+    protected fun compareKeys(firstKey: K, secondKey: K): Int{
         val cpr = comparator
         return if (cpr != null) {
             when (cpr.compare(firstKey, secondKey)) {
