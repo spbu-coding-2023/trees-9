@@ -1,6 +1,6 @@
 package main.trees
 import main.vertexes.InterfaceBSTVertex
-import main.pair.Pair
+import main.iterator.TreeIterator
 
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
@@ -8,7 +8,9 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
     protected var size : Long = 0L
     protected var root : N? = null
 
-    operator fun iterator(): Iterator<Pair<K, V>> {TODO()}
+    operator fun iterator(): Iterator<Pair<K, V>> {
+        return TreeIterator(root)
+    }
 
     fun size(): Long {return size}
 
@@ -44,8 +46,8 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
     abstract fun put(key: K, value: V, replaceIfExists : Boolean = true)
 // возможно нужен комментарий
 
-    fun putAll(map: Map<K, V>) {
-        for (pair in map) put(pair.key, pair.value)
+    fun putAll(map: Map<K, V>, replaceIfExists: Boolean = true) {
+        for (pair in map) put(pair.key, pair.value, replaceIfExists)
     }
 
     abstract fun remove(key: K): V?
@@ -70,16 +72,28 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         }
     }
 
-    protected fun getMinKeyNodeRec(vertex: N? = root) : N? {TODO()}
+    protected fun getMinKeyNodeRec(vertex: N? = root) : N? {
+        if (vertex == null) return null
+        else {
+            return if (vertex.leftSon == null) vertex
+            else getMinKeyNodeRec(vertex.leftSon)
+        }
+    }
 
-    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {TODO()}
+    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {
+        if (vertex == null) return null
+        else {
+            return if (vertex.rightSon == null) vertex
+            else getMaxKeyNodeRec(vertex.rightSon)
+        }
+    }
 
     constructor(comparator: Comparator<K>? = null) {
         this.comparator = comparator
     }
 
-    constructor(map: Map<K, V>, comparator: Comparator<K>? = null) {
-        putAll(map)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) {
+        putAll(map, replaceIfExists)
         this.comparator = comparator
     }
 }
