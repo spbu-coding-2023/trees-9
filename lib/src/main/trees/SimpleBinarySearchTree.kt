@@ -59,7 +59,14 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
 
             else if (cpr.compare(key, vertex.key) == 0) {
                 if (vertex.leftSon == null || vertex.rightSon == null) return if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
-                else if (vertex.leftSon != null && vertex.rightSon != null) return getMinKeyNodeRec(vertex.rightSon)
+                else if (vertex.leftSon != null && vertex.rightSon != null) {
+                    val minKeyRightSubtreeNode = getMinKeyNodeRec(vertex.rightSon)
+                    if (minKeyRightSubtreeNode != null) {
+                        vertex.key = minKeyRightSubtreeNode.key
+                        vertex.value = minKeyRightSubtreeNode.value
+                        removeRec(minKeyRightSubtreeNode.key, vertex.rightSon)
+                    }
+                }
             }
         }
         else {
@@ -67,9 +74,13 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
             if (comparableKey.compareTo(vertex.key) < 0) vertex.leftSon = removeRec(key, vertex.leftSon)
             else if (comparableKey.compareTo(vertex.key) > 0) vertex.rightSon = removeRec(key, vertex.rightSon)
 
-            else if (comparableKey.compareTo(vertex.key) == 0) {
-                if (vertex.leftSon == null || vertex.rightSon == null) return if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
-                else if (vertex.leftSon != null && vertex.rightSon != null) return getMinKeyNodeRec(vertex.rightSon)
+            else if (vertex.leftSon != null && vertex.rightSon != null) {
+                val minKeyRightSubtreeNode = getMinKeyNodeRec(vertex.rightSon)
+                if (minKeyRightSubtreeNode != null) {
+                    vertex.key = minKeyRightSubtreeNode.key
+                    vertex.value = minKeyRightSubtreeNode.value
+                    removeRec(minKeyRightSubtreeNode.key, vertex.rightSon)
+                }
             }
         }
         return vertex
