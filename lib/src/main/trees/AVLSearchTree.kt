@@ -100,14 +100,20 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                 nextCallReturned = removeRec(key, vertex.rightSon as AVLVertex<K,V>)
             }
             else -> {
-                size--
                 return when ((vertex.leftSon == null) to (vertex.rightSon == null)) {
-                    true to true -> Triple(RemovalStage.C, vertex, vertex.value)
-                    true to false -> Triple(RemovalStage.B,
-                     vertex.rightSon as AVLVertex<K,V>, vertex.value)
-                    false to true -> Triple(RemovalStage.B,
-                     vertex.leftSon as AVLVertex<K,V>, vertex.value)
-                    else -> Triple(RemovalStage.B,
+                    true to true -> {
+                        size--
+                        Triple(RemovalStage.C, vertex, vertex.value)
+                    }
+                    true to false -> {
+                        size--
+                        Triple(RemovalStage.C, vertex.rightSon as AVLVertex<K,V>, vertex.value)
+                    } 
+                    false to true -> { 
+                        size--
+                        Triple(RemovalStage.C, vertex.leftSon as AVLVertex<K,V>, vertex.value)
+                    }
+                    else -> Triple(RemovalStage.C,
                      prepareLargestLowerToReplaceVertex(vertex) as AVLVertex<K,V>, vertex.value)
                 }
             } 
