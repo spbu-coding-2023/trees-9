@@ -15,8 +15,6 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         size++
     }
 
-    override fun remove(key: K): V? {TODO()}
-
     private fun putRec
     (key: K, value: V, replaceIfExists: Boolean, vertex: AVLVertex<K,V>) : AVLVertex<K,V>? {
         fun putRecShort(vrtx : AVLVertex<K,V>) : AVLVertex<K,V>? {
@@ -51,35 +49,37 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             }
         }
         if (nextCallReturned == null) return null
-        fun checkWhenLeftSubTreeChanged() : AVLVertex<K,V>? {
+        fun doBalanceChoreWhenLeftSubTreeChanged() : AVLVertex<K,V>? {
             if (nextCallReturned.sonsHeightDiff == 0) return null
             if (vertex.sonsHeightDiff + 1 == 2) return balance(vertex)
             vertex.sonsHeightDiff++
             return vertex 
         }
-        fun checkWhenRightSubTreeChanged() : AVLVertex<K,V>? {
+        fun doBalanceChoreWhenRightSubTreeChanged() : AVLVertex<K,V>? {
             if (nextCallReturned.sonsHeightDiff == 0) return null
             if (vertex.sonsHeightDiff - 1 == -2) return balance(vertex)
             vertex.sonsHeightDiff--
             return vertex
         }
         when (nextCallReturned){
-            vertex.leftSon -> return checkWhenLeftSubTreeChanged()
-            vertex.rightSon -> return checkWhenRightSubTreeChanged()              
+            vertex.leftSon -> return doBalanceChoreWhenLeftSubTreeChanged()
+            vertex.rightSon -> return doBalanceChoreWhenRightSubTreeChanged()             
             else -> {
                 when (compare(nextCallReturned.key, vertex.key)) {
                     -1 -> {
                         vertex.leftSon = nextCallReturned
-                        return checkWhenLeftSubTreeChanged()
+                        return doBalanceChoreWhenLeftSubTreeChanged()
                     }
                     else -> {
                         vertex.rightSon = nextCallReturned
-                        return checkWhenRightSubTreeChanged()
+                        return doBalanceChoreWhenRightSubTreeChanged()
                     }
                 }
             }
         }
     }
+    
+    override fun remove(key: K): V? {TODO()}
 
     private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
         if(curVertex.sonsHeightDiff == -1) {
