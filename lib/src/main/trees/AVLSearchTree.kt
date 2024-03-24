@@ -65,16 +65,12 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             vertex.leftSon -> return doBalanceChoreWhenLeftSubTreeChanged()
             vertex.rightSon -> return doBalanceChoreWhenRightSubTreeChanged()             
             else -> {
-                when (compare(nextCallReturned.key, vertex.key)) {
-                    -1 -> {
+                if (compare(nextCallReturned.key, vertex.key) == -1) {
                         vertex.leftSon = nextCallReturned
                         return doBalanceChoreWhenLeftSubTreeChanged()
-                    }
-                    else -> {
+                }
                         vertex.rightSon = nextCallReturned
                         return doBalanceChoreWhenRightSubTreeChanged()
-                    }
-                }
             }
         }
     }
