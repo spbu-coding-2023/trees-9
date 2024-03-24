@@ -87,6 +87,15 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     // c - need to null due "Son" property of (if exists) the parent of removed vertex + b
     // d - need to change (but not to null) due "Son" property ... + b 
 
+    private fun replaceByLargestLower(vertex : AVLVertex<K,V> ) : AVLVertex<K,V>? {
+        val substitute = getMaxKeyNodeRec(vertex.leftSon)
+        if (substitute == null) return null
+        remove(substitute.key)
+        substitute.leftSon = vertex.leftSon
+        substitute.rightSon = vertex.rightSon
+        return substitute
+    }
+
     private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
         if(curVertex.sonsHeightDiff == -1) {
             val rightSon = curVertex.rightSon as AVLVertex<K,V>
