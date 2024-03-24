@@ -178,7 +178,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                 (rightSon as AVLVertex<K,V>).sonsHeightDiff = values.component2()
                 return
             }
-            (leftSon as AVLVertex<K,V>).sonsHeightDiff = values.component1()
+            (leftSon as AVLVertex<K,V>).sonsHeightDiff = values.component2()
         }
             
         if(curVertex.sonsHeightDiff == -1) {
