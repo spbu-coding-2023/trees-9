@@ -51,35 +51,20 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
     }
 
     private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): SimpleBSTVertex<K, V>? {
-        if (vertex == null) return null
-        val cpr = comparator
-        if (cpr != null) {
-            if (cpr.compare(key, vertex.key) < 0) vertex.leftSon = removeRec(key, vertex.leftSon)
-            else if (cpr.compare(key, vertex.key) > 0) vertex.rightSon = removeRec(key, vertex.rightSon)
-
-            else if (cpr.compare(key, vertex.key) == 0) {
-                if (vertex.leftSon == null || vertex.rightSon == null) return if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
-                else if (vertex.leftSon != null && vertex.rightSon != null) {
-                    val minKeyRightSubtreeNode = getMinKeyNodeRec(vertex.rightSon)
-                    if (minKeyRightSubtreeNode != null) {
-                        vertex.key = minKeyRightSubtreeNode.key
-                        vertex.value = minKeyRightSubtreeNode.value
-                        removeRec(minKeyRightSubtreeNode.key, vertex.rightSon)
+        if (vertex != null) {
+            when (compareKeys(key, vertex.key)) {
+                -1 -> vertex.leftSon = removeRec(key, vertex.leftSon)
+                1 -> vertex.rightSon = removeRec(key, vertex.rightSon)
+                else -> {
+                    if (vertex.leftSon == null || vertex.rightSon == null) return if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
+                    else if (vertex.leftSon != null && vertex.rightSon != null) {
+                        val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
+                        minKeyRightSubtreeNode?.let {
+                            vertex.key = it.key
+                            vertex.value = it.value
+                            removeRec(it.key, vertex.rightSon)
+                        }
                     }
-                }
-            }
-        }
-        else {
-            val comparableKey = key as Comparable<K>
-            if (comparableKey.compareTo(vertex.key) < 0) vertex.leftSon = removeRec(key, vertex.leftSon)
-            else if (comparableKey.compareTo(vertex.key) > 0) vertex.rightSon = removeRec(key, vertex.rightSon)
-
-            else if (vertex.leftSon != null && vertex.rightSon != null) {
-                val minKeyRightSubtreeNode = getMinKeyNodeRec(vertex.rightSon)
-                if (minKeyRightSubtreeNode != null) {
-                    vertex.key = minKeyRightSubtreeNode.key
-                    vertex.value = minKeyRightSubtreeNode.value
-                    removeRec(minKeyRightSubtreeNode.key, vertex.rightSon)
                 }
             }
         }
