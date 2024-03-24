@@ -166,6 +166,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         remove(substitute.key)
         substitute.leftSon = vertex.leftSon
         substitute.rightSon = vertex.rightSon
+        substitute.sonsHeightDiff = vertex.sonsHeightDiff
         return substitute
     }
 
