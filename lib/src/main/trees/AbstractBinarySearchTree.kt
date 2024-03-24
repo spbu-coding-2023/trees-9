@@ -46,8 +46,8 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
     abstract fun put(key: K, value: V, replaceIfExists : Boolean = true)
 // возможно нужен комментарий
 
-    fun putAll(map: Map<K, V>) {
-        for (pair in map) put(pair.key, pair.value)
+    fun putAll(map: Map<K, V>, replaceIfExists: Boolean = true) {
+        for (pair in map) put(pair.key, pair.value, replaceIfExists)
     }
 
     abstract fun remove(key: K): V?
@@ -59,29 +59,55 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     private fun getRec(key: K, vertex: N? = root): V? {
         if (vertex == null) return null
-        if (vertex.key == key) return vertex.value
-        val cpr = comparator
-        if (cpr != null) {
-            return if (cpr.compare(key, vertex.key) < 0) getRec(key, vertex.leftSon)
-            else getRec(key, vertex.rightSon)
-        }
-        else {
-            val comparableKey: Comparable<K> = key as Comparable<K>
-            return if (comparableKey.compareTo(vertex.key) < 0) getRec(key, vertex.leftSon)
-            else getRec(key, vertex.rightSon)
+        return when (compareKeys(key, vertex.key)) {
+            0 -> vertex.value
+            -1 -> getRec(key, vertex.leftSon)
+            else -> getRec(key, vertex.rightSon)
         }
     }
 
-    protected fun getMinKeyNodeRec(vertex: N? = root) : N? {TODO()}
+    protected fun getMinKeyNodeRec(vertex: N? = root) : N? {
+        if (vertex == null) return null
+        else {
+            return if (vertex.leftSon == null) vertex
+            else getMinKeyNodeRec(vertex.leftSon)
+        }
+    }
 
-    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {TODO()}
+    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {
+        if (vertex == null) return null
+        else {
+            return if (vertex.rightSon == null) vertex
+            else getMaxKeyNodeRec(vertex.rightSon)
+        }
+    }
+
+    protected fun compareKeys(firstKey: K, secondKey: K): Int{
+        val cpr = comparator
+        return if (cpr != null) {
+            when (cpr.compare(firstKey, secondKey)) {
+                in Int.MIN_VALUE .. -1 -> -1
+                0 ->  0
+                else -> 1
+            }
+        }
+        else {
+            val comparableKey = firstKey as Comparable<K>
+            when (comparableKey.compareTo(secondKey)) { 
+                in Int.MIN_VALUE .. -1 -> -1
+                0 -> 0
+                else -> 1
+            }
+
+        }
+    }
 
     constructor(comparator: Comparator<K>? = null) {
         this.comparator = comparator
     }
 
-    constructor(map: Map<K, V>, comparator: Comparator<K>? = null) {
-        putAll(map)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) {
+        putAll(map, replaceIfExists)
         this.comparator = comparator
     }
 }

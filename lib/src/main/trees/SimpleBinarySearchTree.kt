@@ -77,5 +77,5 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
 
     constructor(comparator: Comparator<K>?) : super(comparator)
 
-    constructor(map: Map<K, V>, comparator: Comparator<K>? = null) : super(map, comparator)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
 }
