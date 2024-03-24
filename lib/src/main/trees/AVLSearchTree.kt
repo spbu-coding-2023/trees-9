@@ -81,11 +81,10 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     
     override fun remove(key: K): V? {TODO()}
 
-    enum class RemoveStage {a, b, c, d}
+    enum class RemoveStage {a, b, c}
     // a - don't need tree changes anymore
-    // b - probably need some tree changes, but only related to balancing
+    // b - probably need some tree changes, but not nulling
     // c - need to null due "Son" property of (if exists) the parent of removed vertex + b
-    // d - need to change (but not to null) due "Son" property ... + b 
 
     private fun replaceByLargestLower(vertex : AVLVertex<K,V> ) : AVLVertex<K,V>? {
         val substitute = getMaxKeyNodeRec(vertex.leftSon)
