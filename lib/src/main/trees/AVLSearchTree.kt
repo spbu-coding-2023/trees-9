@@ -81,6 +81,12 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     
     override fun remove(key: K): V? {TODO()}
 
+    enum class RemoveStage {a, b, c, d}
+    // a - don't need tree changes anymore
+    // b - probably need some tree changes, but only related to balancing
+    // c - need to null due "Son" property of (if exists) the parent of removed vertex + b
+    // d - need to change (but not to null) due "Son" property ... + b 
+
     private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
         if(curVertex.sonsHeightDiff == -1) {
             val rightSon = curVertex.rightSon as AVLVertex<K,V>
