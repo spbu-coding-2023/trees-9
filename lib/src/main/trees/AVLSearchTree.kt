@@ -77,60 +77,60 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     
     override fun remove(key: K): V? {TODO()}
 
-    enum class RemoveStage {a, b, c}
+    enum class RemovalStage {A, B, C}
     // a - don't need tree changes anymore
     // b - probably need some tree changes, but not nulling
     // c - need to null due "Son" property of (if exists) the parent of removed vertex + b
 
-    private fun removeRec(key: K, vertex : AVLVertex<K,V>) : Triple <RemoveStage, AVLVertex<K,V>, V?> {
-        val nextCallReturned : Triple <RemoveStage, AVLVertex<K,V>?, V?>
+    private fun removeRec(key: K, vertex : AVLVertex<K,V>) : Triple <RemovalStage, AVLVertex<K,V>, V?> {
+        val nextCallReturned : Triple <RemovalStage, AVLVertex<K,V>?, V?>
         // Triple consists of:
-        // 1) remove stage
-        // 2) if RemoveStage == a : just a vertex (don't need it later)
-        // if RemoveStage == b : the root of the changed subtree
-        // if RemoveStage == c : the removed vertex
+        // 1) removal stage
+        // 2) if RemovalStage == a : just a vertex (don't need it later)
+        // if RemovalStage == b : the root of the changed subtree
+        // if RemovalStage == c : the removed vertex
         // 3) a value of the removed vertex (or null if key not exists)
         when (compare(key, vertex.key)) {
             -1 -> {
-                if (vertex.leftSon == null) return Triple(RemoveStage.a, vertex, null)
+                if (vertex.leftSon == null) return Triple(RemovalStage.A, vertex, null)
                 nextCallReturned = removeRec(key, vertex.leftSon as AVLVertex<K,V>)
             }
             1 -> {
-                if (vertex.rightSon == null) return Triple(RemoveStage.a, vertex, null)
+                if (vertex.rightSon == null) return Triple(RemovalStage.A, vertex, null)
                 nextCallReturned = removeRec(key, vertex.rightSon as AVLVertex<K,V>)
             }
             else -> {
                 size--
                 return when ((vertex.leftSon == null) to (vertex.rightSon == null)) {
-                    true to true -> Triple(RemoveStage.c, vertex, vertex.value)
-                    true to false -> Triple(RemoveStage.b,
+                    true to true -> Triple(RemovalStage.C, vertex, vertex.value)
+                    true to false -> Triple(RemovalStage.B,
                      vertex.rightSon as AVLVertex<K,V>, vertex.value)
-                    false to true -> Triple(RemoveStage.b,
+                    false to true -> Triple(RemovalStage.B,
                      vertex.leftSon as AVLVertex<K,V>, vertex.value)
-                    else -> Triple(RemoveStage.b,
+                    else -> Triple(RemovalStage.B,
                      prepareLargestLowerToReplaceVertex(vertex) as AVLVertex<K,V>, vertex.value)
                 }
             } 
         }
-        fun doBalanceChoreWhenLeftSubTreeChanged() : Triple <RemoveStage, AVLVertex<K,V>, V?> {
+        fun doBalanceChoreWhenLeftSubTreeChanged() : Triple <RemovalStage, AVLVertex<K,V>, V?> {
             if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1))
-                return Triple(RemoveStage.a, vertex, nextCallReturned.third)
+                return Triple(RemovalStage.A, vertex, nextCallReturned.third)
             if (vertex.sonsHeightDiff - 1 == -2) 
-                return Triple(RemoveStage.b, balance(vertex), nextCallReturned.third)
+                return Triple(RemovalStage.B, balance(vertex), nextCallReturned.third)
             vertex.sonsHeightDiff--
-            return Triple(RemoveStage.b, vertex, nextCallReturned.third) 
+            return Triple(RemovalStage.B, vertex, nextCallReturned.third) 
         }
-        fun doBalanceChoreWhenRightSubTreeChanged() : Triple <RemoveStage, AVLVertex<K,V>, V?> {
+        fun doBalanceChoreWhenRightSubTreeChanged() : Triple <RemovalStage, AVLVertex<K,V>, V?> {
             if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1))
-                return Triple(RemoveStage.a, vertex, nextCallReturned.third)
+                return Triple(RemovalStage.A, vertex, nextCallReturned.third)
             if (vertex.sonsHeightDiff + 1 == 2) 
-                return Triple(RemoveStage.b, balance(vertex), nextCallReturned.third)
+                return Triple(RemovalStage.B, balance(vertex), nextCallReturned.third)
             vertex.sonsHeightDiff++
-            return Triple(RemoveStage.b, vertex, nextCallReturned.third) 
+            return Triple(RemovalStage.B, vertex, nextCallReturned.third) 
         }
         when (nextCallReturned.component1()) {
-            RemoveStage.a -> return nextCallReturned
-            RemoveStage.b -> when (nextCallReturned.component2()) {
+            RemovalStage.A -> return nextCallReturned
+            RemovalStage.B -> when (nextCallReturned.component2()) {
                 vertex.leftSon -> return doBalanceChoreWhenLeftSubTreeChanged()
                 vertex.rightSon -> return doBalanceChoreWhenRightSubTreeChanged()
                 else ->
@@ -145,7 +145,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                         }
                     }
             }
-            RemoveStage.c ->
+            RemovalStage.C ->
                 when (compare(nextCallReturned.component2().key, vertex.key)) {
                     -1 -> {
                         vertex.leftSon = null
