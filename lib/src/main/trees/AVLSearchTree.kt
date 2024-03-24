@@ -75,7 +75,21 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         }
     }
     
-    override fun remove(key: K): V? {TODO()}
+    override fun remove(key: K): V? {
+        if (!isEmpty()) {
+            val removeRecReturned = removeRec(key, root as AVLVertex<K, V>)
+            when (removeRecReturned.first) {
+                RemovalStage.A -> {}
+                RemovalStage.B -> {
+                    if (removeRecReturned.component2() != root)
+                        root = removeRecReturned.component2()
+                }
+                RemovalStage.C -> root = null
+            }
+            return removeRecReturned.component3()
+        }
+        return null
+    }
 
     enum class RemovalStage {A, B, C}
     // a - don't need tree changes anymore
