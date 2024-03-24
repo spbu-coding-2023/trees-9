@@ -86,6 +86,84 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     // b - probably need some tree changes, but not nulling
     // c - need to null due "Son" property of (if exists) the parent of removed vertex + b
 
+    private fun removeRec(key: K, vertex : AVLVertex<K,V>) : Triple <RemoveStage, AVLVertex<K,V>, V?> {
+        val nextCallReturned : Triple <RemoveStage, AVLVertex<K,V>?, V?>
+        // Triple consists of:
+        // 1) remove stage
+        // 2) if RemoveStage == a : just a vertex (don't need it later)
+        // if RemoveStage == b : the root of the changed subtree
+        // if RemoveStage == c : the removed vertex
+        // 3) a value of the removed vertex (or null if key not exists)
+        when (compare(key, vertex.key)) {
+            -1 -> {
+                if (vertex.leftSon == null) return Triple(RemoveStage.a, vertex, null)
+                nextCallReturned = removeRec(key, vertex.leftSon as AVLVertex<K,V>)
+            }
+            1 -> {
+                if (vertex.rightSon == null) return Triple(RemoveStage.a, vertex, null)
+                nextCallReturned = removeRec(key, vertex.rightSon as AVLVertex<K,V>)
+            }
+            else -> {
+                size--
+                return when ((vertex.leftSon == null) to (vertex.rightSon == null)) {
+                    true to true -> Triple(RemoveStage.c, vertex, vertex.value)
+                    true to false -> Triple(RemoveStage.b,
+                        vertex.rightSon as AVLVertex<K,V>, vertex.value)
+                    false to true -> Triple(RemoveStage.b,
+                        vertex.leftSon as AVLVertex<K,V>, vertex.value)
+                    else -> Triple(RemoveStage.b,
+                        prepareLargestLowerToReplaceVertex(vertex) as AVLVertex<K,V>, vertex.value)
+                }
+            } 
+        }
+        fun doBalanceChoreWhenLeftSubTreeChanged() : Triple <RemoveStage, AVLVertex<K,V>, V?> {
+            if (nextCallReturned.component2().sonsHeightDiff in listOf(-1,1))
+                return Triple(RemoveStage.a, vertex, nextCallReturned.third)
+            if (vertex.sonsHeightDiff - 1 == -2) 
+                return Triple(RemoveStage.b, balance(vertex), nextCallReturned.third)
+            vertex.sonsHeightDiff--
+            return Triple(RemoveStage.b, vertex, nextCallReturned.third) 
+        }
+        fun doBalanceChoreWhenRightSubTreeChanged() : Triple <RemoveStage, AVLVertex<K,V>, V?> {
+            if (nextCallReturned.component2().sonsHeightDiff in listOf(-1,1))
+                return Triple(RemoveStage.a, vertex, nextCallReturned.third)
+            if (vertex.sonsHeightDiff + 1 == 2) 
+                return Triple(RemoveStage.b, balance(vertex), nextCallReturned.third)
+            vertex.sonsHeightDiff++
+            return Triple(RemoveStage.b, vertex, nextCallReturned.third) 
+        }
+        when (nextCallReturned.component1()) {
+            RemoveStage.a -> return nextCallReturned
+            RemoveStage.b -> when (nextCallReturned.component2()) {
+                vertex.leftSon -> return doBalanceChoreWhenLeftSubTreeChanged()
+                vertex.rightSon -> return doBalanceChoreWhenRightSubTreeChanged()
+                else ->
+                    when (compare(nextCallReturned.component2().key, vertex.key)) {
+                        -1 -> {
+                            vertex.leftSon = nextCallReturned.component2()
+                            return doBalanceChoreWhenLeftSubTreeChanged()
+                        }
+                        else -> {
+                            vertex.rightSon = nextCallReturned.component2()
+                            return doBalanceChoreWhenRightSubTreeChanged()
+                        }
+                    }
+            }
+            RemoveStage.c ->
+                when (compare(nextCallReturned.component2().key, vertex.key)) {
+                    -1 -> {
+                        vertex.leftSon = null
+                        return doBalanceChoreWhenLeftSubTreeChanged()
+                    }
+                    else -> {
+                        vertex.rightSon = null
+                        return doBalanceChoreWhenRightSubTreeChanged()
+                    }
+                }  
+            
+        }
+    }
+
     private fun prepareLargestLowerToReplaceVertex(vertex : AVLVertex<K,V> ) : AVLVertex<K,V>? {
         val substitute = getMaxKeyNodeRec(vertex.leftSon)
         if (substitute == null) return null
