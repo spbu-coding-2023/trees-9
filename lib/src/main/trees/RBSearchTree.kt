@@ -30,14 +30,89 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
         return value
     }
 
-    private fun balanceAfterRemove(vertex: RBVertex<K, V>?){ TODO() }
+    private fun balanceAfterRemove(vertex: RBVertex<K, V>?){
+        var currentVertex = vertex
+        while (currentVertex != root && (currentVertex?.isRed == false || currentVertex == null)){
+            var brother: RBVertex<K, V>?
+            if (currentVertex == currentVertex?.parent?.leftSon){
+                brother = currentVertex?.parent?.rightSon
+
+                if (brother?.isRed == true){
+                    brother.isRed = false
+                    currentVertex?.parent?.isRed = true
+                    val vertexForRotate = currentVertex?.parent
+                    vertexForRotate?.let { rotateLeft(vertexForRotate) }
+                    brother = currentVertex?.parent?.rightSon
+                }
+
+                if ((brother?.leftSon?.isRed == false || brother?.leftSon == null) &&
+                    (brother?.rightSon?.isRed == false || brother?.rightSon == null)){
+                    brother?.isRed = true
+                    currentVertex = currentVertex?.parent
+                }
+
+                else{
+                    if (brother.rightSon?.isRed == false || brother.rightSon == null){
+                        brother.leftSon?.isRed = false
+                        brother.isRed = true
+                        rotateRight(brother)
+                        brother = currentVertex?.parent?.rightSon
+                    }
+
+                    val parentColor = currentVertex?.parent?.isRed
+                    parentColor?.let { brother?.isRed = parentColor }
+                    currentVertex?.parent?.isRed = false
+                    brother?.rightSon?.isRed = false
+                    val vertexForRotate = currentVertex?.parent
+                    vertexForRotate?.let { rotateLeft(vertexForRotate) }
+                    currentVertex = root
+                }
+            }
+
+            else{
+                brother = currentVertex?.parent?.leftSon
+
+                if (brother?.isRed == true){
+                    brother.isRed = false
+                    currentVertex?.parent?.isRed = true
+                    val vertexForRotate = currentVertex?.parent
+                    vertexForRotate?.let { rotateRight(vertexForRotate) }
+                    brother = currentVertex?.parent?.leftSon
+                }
+
+                if ((brother?.leftSon?.isRed == false || brother?.leftSon == null) &&
+                    (brother?.rightSon?.isRed == false || brother?.rightSon == null)){
+                    brother?.isRed = true
+                    currentVertex = currentVertex?.parent
+                }
+
+                else{
+                    if (brother.leftSon?.isRed == false || brother.leftSon == null){
+                        brother.rightSon?.isRed = false
+                        brother.isRed = true
+                        rotateLeft(brother)
+                        brother = currentVertex?.parent?.leftSon
+                    }
+
+                    val parentColor = currentVertex?.parent?.isRed
+                    parentColor?.let { brother?.isRed = parentColor }
+                    currentVertex?.parent?.isRed = false
+                    brother?.rightSon?.isRed = false
+                    val vertexForRotate = currentVertex?.parent
+                    vertexForRotate?.let { rotateRight(vertexForRotate) }
+                    currentVertex = root
+                }
+            }
+        }
+        currentVertex?.isRed = false
+    }
 
     private fun getVertex(key: K): RBVertex<K, V>? {
         var currentVertex: RBVertex<K, V>? = root
 
         while (currentVertex?.key != key){
             if (currentVertex == null) return null
-            when (compareKeys(comparator, key, currentVertex.key)){
+            when (compareKeys(key, currentVertex.key)){
                 -1 -> {
                     currentVertex = currentVertex.leftSon
                 }
@@ -55,7 +130,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
         var isLeft: Boolean = false
 
         while (currentVertex != null) {
-            when (compareKeys(comparator, key, currentVertex.key)){
+            when (compareKeys(key, currentVertex.key)){
                 -1 -> {
                     parent = currentVertex
                     currentVertex = currentVertex.leftSon
@@ -181,20 +256,6 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
         }
         vertex.parent = leftVertex
         leftVertex?.rightSon = vertex
-    }
-
-    private fun compareKeys(cpr: Comparator<K>?, firstKey: K, secondKey: K): Int{
-        return if (cpr != null) {
-            if (cpr.compare(firstKey, secondKey) < 0) -1
-            else if (cpr.compare(firstKey, secondKey) == 0) 0
-            else 1
-        }
-        else {
-            val comparableKey = firstKey as Comparable<K>
-            if (comparableKey.compareTo(secondKey) < 0) -1
-            else if (comparableKey.compareTo(secondKey) == 0) 0
-            else 1
-        }
     }
 
     constructor(comparator: Comparator<K>? = null) : super(comparator)
