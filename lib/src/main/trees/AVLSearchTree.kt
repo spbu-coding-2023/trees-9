@@ -15,8 +15,8 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         size++
     }
 
-    private fun putRec
-    (key: K, value: V, replaceIfExists: Boolean, vertex: AVLVertex<K,V>) : AVLVertex<K,V>? {
+    private fun putRec(key: K, value: V,
+     replaceIfExists: Boolean, vertex: AVLVertex<K,V>) : AVLVertex<K,V>? {
         fun putRecShort(vrtx : AVLVertex<K,V>) : AVLVertex<K,V>? {
             return putRec(key, value, replaceIfExists, vrtx)
         } 
@@ -104,16 +104,16 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                 return when ((vertex.leftSon == null) to (vertex.rightSon == null)) {
                     true to true -> Triple(RemoveStage.c, vertex, vertex.value)
                     true to false -> Triple(RemoveStage.b,
-                        vertex.rightSon as AVLVertex<K,V>, vertex.value)
+                     vertex.rightSon as AVLVertex<K,V>, vertex.value)
                     false to true -> Triple(RemoveStage.b,
-                        vertex.leftSon as AVLVertex<K,V>, vertex.value)
+                     vertex.leftSon as AVLVertex<K,V>, vertex.value)
                     else -> Triple(RemoveStage.b,
-                        prepareLargestLowerToReplaceVertex(vertex) as AVLVertex<K,V>, vertex.value)
+                     prepareLargestLowerToReplaceVertex(vertex) as AVLVertex<K,V>, vertex.value)
                 }
             } 
         }
         fun doBalanceChoreWhenLeftSubTreeChanged() : Triple <RemoveStage, AVLVertex<K,V>, V?> {
-            if (nextCallReturned.component2().sonsHeightDiff in listOf(-1,1))
+            if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1))
                 return Triple(RemoveStage.a, vertex, nextCallReturned.third)
             if (vertex.sonsHeightDiff - 1 == -2) 
                 return Triple(RemoveStage.b, balance(vertex), nextCallReturned.third)
@@ -121,7 +121,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             return Triple(RemoveStage.b, vertex, nextCallReturned.third) 
         }
         fun doBalanceChoreWhenRightSubTreeChanged() : Triple <RemoveStage, AVLVertex<K,V>, V?> {
-            if (nextCallReturned.component2().sonsHeightDiff in listOf(-1,1))
+            if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1))
                 return Triple(RemoveStage.a, vertex, nextCallReturned.third)
             if (vertex.sonsHeightDiff + 1 == 2) 
                 return Triple(RemoveStage.b, balance(vertex), nextCallReturned.third)
@@ -170,35 +170,74 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
     }
 
     private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
-        if(curVertex.sonsHeightDiff == -1) {
-            val rightSon = curVertex.rightSon as AVLVertex<K,V>
-            return if (rightSon.sonsHeightDiff == 1) bigRotateLeft(curVertex, rightSon)
-            else rotateLeft(curVertex, rightSon)
+        var (rightSon, leftSon) = List<AVLVertex<K,V>?>(2){null}
+        fun setTwoSonHeightDiffs(values : Pair<Int, Int>) {
+            curVertex.sonsHeightDiff = values.component1()
+            if (rightSon != null){
+                (rightSon as AVLVertex<K,V>).sonsHeightDiff = values.component2()
+                return
+            }
+            (leftSon as AVLVertex<K,V>).sonsHeightDiff = values.component1()
         }
-        else {
-            val leftSon = curVertex.leftSon as AVLVertex<K,V>
-            return if (leftSon.sonsHeightDiff == -1) bigRotateRight(curVertex, leftSon)
-            else rotateRight(curVertex, leftSon)
-        }    
+            
+        if(curVertex.sonsHeightDiff == -1) {
+            rightSon = curVertex.rightSon as AVLVertex<K,V>
+            return if (rightSon.sonsHeightDiff == 1) {
+                val rightSonSLeftSon = rightSon.leftSon as AVLVertex<K,V>
+                var subtreeRoot = bigRotateLeft(curVertex, rightSon)
+                setTwoSonHeightDiffs(
+                    when (rightSonSLeftSon.sonsHeightDiff) {
+                        1 -> 0 to -1
+                        -1 -> 1 to 0
+                        else -> 0 to 0
+                    }
+                )
+                rightSonSLeftSon.sonsHeightDiff = 0
+                subtreeRoot
+            }
+            else {
+                var subtreeRoot = rotateLeft(curVertex, rightSon)
+                setTwoSonHeightDiffs(
+                    if (rightSon.sonsHeightDiff == 0) -1 to 1
+                    else 0 to 0
+                    )
+                subtreeRoot
+            }
+
+        }
+            leftSon = curVertex.leftSon as AVLVertex<K,V>
+            return if (leftSon.sonsHeightDiff == -1) {
+                val leftSonSRightSon = leftSon.rightSon as AVLVertex<K,V>
+                var subtreeRoot = bigRotateRight(curVertex, leftSon)
+                setTwoSonHeightDiffs(
+                    when (leftSonSRightSon.sonsHeightDiff) {
+                        -1 -> 0 to 1
+                        1 -> -1 to 0
+                        else -> 0 to 0
+                    }
+                )
+                leftSonSRightSon.sonsHeightDiff = 0
+                subtreeRoot
+            }
+            else {
+                var subtreeRoot = rotateRight(curVertex, leftSon)
+                setTwoSonHeightDiffs(
+                    if (leftSon.sonsHeightDiff == 0) 1 to -1
+                    else 0 to 0
+                    )
+                subtreeRoot
+            }
     }
 
     private fun rotateLeft(curVertex: AVLVertex<K,V>, rightSon : AVLVertex<K,V> ) : AVLVertex<K,V> {
         curVertex.rightSon = rightSon.leftSon
         rightSon.leftSon = curVertex
-        when (rightSon.sonsHeightDiff) {
-            0 -> rightSon.sonsHeightDiff = 1
-            -1 -> {curVertex.sonsHeightDiff = 0; rightSon.sonsHeightDiff = 0}
-        }
         return rightSon
     }
 
     private fun rotateRight(curVertex: AVLVertex<K,V>, leftSon : AVLVertex<K,V>) : AVLVertex<K,V> {
         curVertex.leftSon = leftSon.rightSon
         leftSon.rightSon = curVertex
-        when (leftSon.sonsHeightDiff) {
-            0 -> leftSon.sonsHeightDiff = -1
-            1 -> {curVertex.sonsHeightDiff = 0; leftSon.sonsHeightDiff = 0}
-        }
         return leftSon
     }
     
