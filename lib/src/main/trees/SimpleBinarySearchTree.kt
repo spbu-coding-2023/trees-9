@@ -12,31 +12,13 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
             root = SimpleBSTVertex(key, value)
             return
         }
-
-        val cpr = comparator
-        if (cpr != null) {
-            if (cpr.compare(key, vertex.key) == 0 && replaceIfExists) vertex.value = value
-            else if (cpr.compare(key, vertex.key) == 0 && !replaceIfExists) return
-
-            else if (cpr.compare(key, vertex.key) < 0) {
+        when (compareKeys(key, vertex.key)) {
+            0 -> if (replaceIfExists) vertex.value = value
+            -1 -> {
                 if (vertex.leftSon == null) vertex.leftSon = SimpleBSTVertex(key, value)
                 else putRec(key, value, replaceIfExists, vertex.leftSon)
             }
-            else {
-                if (vertex.rightSon == null) vertex.rightSon = SimpleBSTVertex(key, value)
-                else putRec(key, value, replaceIfExists, vertex.rightSon)
-            }
-        }
-        else {
-            val comparableKey: Comparable<K> = key as Comparable<K>
-            if (comparableKey.compareTo(vertex.key) == 0 && replaceIfExists) vertex.value = value
-            else if (comparableKey.compareTo(vertex.key) == 0 && !replaceIfExists) return
-
-            else if (comparableKey.compareTo(vertex.key) < 0) {
-                if (vertex.leftSon == null) vertex.leftSon = SimpleBSTVertex(key, value)
-                else putRec(key, value, replaceIfExists, vertex.leftSon)
-            }
-            else {
+            1 -> {
                 if (vertex.rightSon == null) vertex.rightSon = SimpleBSTVertex(key, value)
                 else putRec(key, value, replaceIfExists, vertex.rightSon)
             }
