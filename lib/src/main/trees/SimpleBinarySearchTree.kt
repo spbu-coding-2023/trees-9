@@ -50,25 +50,38 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
         return value
     }
 
-    private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): SimpleBSTVertex<K, V>? {
+    private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): Pair<SimpleBSTVertex<K, V>?, V?> {
+        var returnedVertexAndDeletedValue: Pair<SimpleBSTVertex<K, V>?, V?> = Pair(null, null)
         if (vertex != null) {
             when (compareKeys(key, vertex.key)) {
-                -1 -> vertex.leftSon = removeRec(key, vertex.leftSon)
-                1 -> vertex.rightSon = removeRec(key, vertex.rightSon)
+                -1 -> {
+                    returnedVertexAndDeletedValue = removeRec(key, vertex.leftSon)
+                    vertex.leftSon = returnedVertexAndDeletedValue.first
+                }
+                1 -> {
+                    returnedVertexAndDeletedValue = removeRec(key, vertex.rightSon)
+                    vertex.rightSon = returnedVertexAndDeletedValue.first
+                }
                 else -> {
-                    if (vertex.leftSon == null || vertex.rightSon == null) return if (vertex.leftSon == null) vertex.rightSon else vertex.leftSon
+                    if (vertex.leftSon == null || vertex.rightSon == null) {
+                        if (vertex.leftSon == null) return Pair(vertex.rightSon, vertex.value)
+                        else return Pair(vertex.leftSon, vertex.value)
+                    }
                     else if (vertex.leftSon != null && vertex.rightSon != null) {
+                        var returnValue: V? = null
                         val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
                         minKeyRightSubtreeNode?.let {
+                            returnValue = vertex.value
                             vertex.key = it.key
                             vertex.value = it.value
                             removeRec(it.key, vertex.rightSon)
                         }
+                        return Pair(vertex, returnValue)
                     }
                 }
             }
         }
-        return vertex
+        return Pair(vertex, returnedVertexAndDeletedValue.second)
     }
 
     constructor(comparator: Comparator<K>?) : super(comparator)
