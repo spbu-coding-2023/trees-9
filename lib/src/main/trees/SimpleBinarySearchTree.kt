@@ -44,10 +44,8 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
     }
 
     override fun remove(key: K): V? {
-        val value = get(key)
-        if (value == null) return null
-        else removeRec(key)
-        return value
+        val returnedVertexAndDeletedValue: Pair<SimpleBSTVertex<K, V>?, V?> = removeRec(key)
+        return returnedVertexAndDeletedValue.second
     }
 
     private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): Pair<SimpleBSTVertex<K, V>?, V?> {
