@@ -13,11 +13,8 @@ class AVLVertex<K, V>(
         key: K,
         value: V,
         leftSon: AVLVertex<K, V>?,
-        rightSon: AVLVertex<K, V>?,
-        sonsHeightDiff : Int = 0
+        rightSon: AVLVertex<K, V>?
     ) : this(key, value) {
-        this.leftSon = leftSon
-        this.rightSon = rightSon
-        this.sonsHeightDiff = sonsHeightDiff
+        this.leftSon = leftSon; this.rightSon = rightSon
     }
 }
