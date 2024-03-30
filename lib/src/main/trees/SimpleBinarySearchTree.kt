@@ -33,7 +33,7 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
     }
 
     override fun remove(key: K): V? {
-        val (_, deletedValue, isRemoved)= removeRec(key)
+        val (_, deletedValue, isRemoved) = removeRec(key)
         if (isRemoved) size--
         return deletedValue
     }
@@ -43,13 +43,13 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
 
         when (compareKeys(key, vertex.key)) {
             -1 -> {
-                val (updateLeftSon, deletedValue, isRemoved) = removeRec(key, vertex.leftSon)
-                vertex.leftSon = updateLeftSon
+                val (updatedLeftSon, deletedValue, isRemoved) = removeRec(key, vertex.leftSon)
+                vertex.leftSon = updatedLeftSon
                 return Triple(vertex, deletedValue, isRemoved)
             }
             1 -> {
-                val (updateLeftSon, deletedValue, isRemoved) = removeRec(key, vertex.rightSon)
-                vertex.rightSon = updateLeftSon
+                val (updatedRightSon, deletedValue, isRemoved) = removeRec(key, vertex.rightSon)
+                vertex.rightSon = updatedRightSon
                 return Triple(vertex, deletedValue, isRemoved)
             }
             else -> {
@@ -74,4 +74,3 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
 
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
 }
-
