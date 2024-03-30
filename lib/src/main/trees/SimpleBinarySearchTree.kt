@@ -4,14 +4,12 @@ import main.vertexes.SimpleBSTVertex
 class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
+        if (root == null) root = SimpleBSTVertex(key, value)
         putRec(key, value, replaceIfExists)
     }
 
     private fun putRec(key: K, value: V, replaceIfExists: Boolean = true, vertex: SimpleBSTVertex<K, V>? = root) {
-        if (vertex == null) {
-            root = SimpleBSTVertex(key, value)
-            return
-        }
+        if (vertex == null) return
         when (compareKeys(key, vertex.key)) {
             0 -> if (replaceIfExists) vertex.value = value
             -1 -> {
