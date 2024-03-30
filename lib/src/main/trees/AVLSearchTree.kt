@@ -21,7 +21,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             return putRec(key, value, replaceIfExists, vrtx)
         } 
         val nextCallReturned : AVLVertex<K,V>? 
-        when (compare(key, vertex.key)) {
+        when (compareKeys(key, vertex.key)) {
             -1 -> {
                 if (vertex.leftSon == null){
                     vertex.leftSon = AVLVertex(key, value)
@@ -65,7 +65,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             vertex.leftSon -> return doBalanceChoreWhenLeftSubTreeChanged()
             vertex.rightSon -> return doBalanceChoreWhenRightSubTreeChanged()             
             else -> {
-                if (compare(nextCallReturned.key, vertex.key) == -1) {
+                if (compareKeys(nextCallReturned.key, vertex.key) == -1) {
                         vertex.leftSon = nextCallReturned
                         return doBalanceChoreWhenLeftSubTreeChanged()
                 }
@@ -104,7 +104,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         // if RemovalStage == b : the root of the changed subtree
         // if RemovalStage == c : the removed vertex
         // 3) a value of the removed vertex (or null if key not exists)
-        when (compare(key, vertex.key)) {
+        when (compareKeys(key, vertex.key)) {
             -1 -> {
                 if (vertex.leftSon == null) return Triple(RemovalStage.A, vertex, null)
                 nextCallReturned = removeRec(key, vertex.leftSon as AVLVertex<K,V>)
@@ -154,7 +154,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                 vertex.leftSon -> return doBalanceChoreWhenLeftSubTreeChanged()
                 vertex.rightSon -> return doBalanceChoreWhenRightSubTreeChanged()
                 else ->
-                    when (compare(nextCallReturned.component2().key, vertex.key)) {
+                    when (compareKeys(nextCallReturned.component2().key, vertex.key)) {
                         -1 -> {
                             vertex.leftSon = nextCallReturned.component2()
                             return doBalanceChoreWhenLeftSubTreeChanged()
@@ -166,7 +166,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
                     }
             }
             RemovalStage.C ->
-                when (compare(nextCallReturned.component2().key, vertex.key)) {
+                when (compareKeys(nextCallReturned.component2().key, vertex.key)) {
                     -1 -> {
                         vertex.leftSon = null
                         return doBalanceChoreWhenLeftSubTreeChanged()
