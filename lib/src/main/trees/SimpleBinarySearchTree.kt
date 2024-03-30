@@ -24,40 +24,39 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
     }
 
     override fun remove(key: K): V? {
-        val returnedVertexAndDeletedValue: Pair<SimpleBSTVertex<K, V>?, V?> = removeRec(key)
-        return returnedVertexAndDeletedValue.second
+        val (_, deletedValue, isRemoved)= removeRec(key)
+        if (isRemoved) size--
+        return deletedValue
     }
 
-    private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): Pair<SimpleBSTVertex<K, V>?, V?> {
-        if (vertex == null) return Pair(null, null)
+    private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): Triple<SimpleBSTVertex<K, V>?, V?, Boolean> {
+        if (vertex == null) return Triple(null, null, false)
 
         when (compareKeys(key, vertex.key)) {
             -1 -> {
-                val (updateLeftSon, deletedValue) = removeRec(key, vertex.leftSon)
+                val (updateLeftSon, deletedValue, isRemoved) = removeRec(key, vertex.leftSon)
                 vertex.leftSon = updateLeftSon
-                return Pair(vertex, deletedValue)
+                return Triple(vertex, deletedValue, isRemoved)
             }
             1 -> {
-                val (updateLeftSon, deletedValue) = removeRec(key, vertex.rightSon)
+                val (updateLeftSon, deletedValue, isRemoved) = removeRec(key, vertex.rightSon)
                 vertex.rightSon = updateLeftSon
-                return Pair(vertex, deletedValue)
+                return Triple(vertex, deletedValue, isRemoved)
             }
             else -> {
                 val deletedValue: V = vertex.value
                 if (vertex.leftSon == null || vertex.rightSon == null) {
-                    if (vertex.leftSon == null) return Pair(vertex.rightSon, deletedValue)
-                    else return Pair(vertex.leftSon, deletedValue)
+                    if (vertex.leftSon == null) return Triple(vertex.rightSon, deletedValue, true)
+                    return Triple(vertex.leftSon, deletedValue, true)
                 }
-                else {
-                    val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
-                    minKeyRightSubtreeNode?.let {
-                        vertex.key = it.key
-                        vertex.value = it.value
-                        val (updatedRightSon, _) = removeRec(it.key, vertex.rightSon)
-                        vertex.rightSon = updatedRightSon
-                    }
-                    return Pair(vertex, deletedValue)
+                val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
+                minKeyRightSubtreeNode?.let {
+                    vertex.key = it.key
+                    vertex.value = it.value
+                    val (updatedRightSon, _, _) = removeRec(it.key, vertex.rightSon)
+                    vertex.rightSon = updatedRightSon
                 }
+                return Triple(vertex, deletedValue, true)
             }
         }
     }
@@ -66,3 +65,4 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
 
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
 }
+
