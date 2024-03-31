@@ -185,7 +185,8 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
 
         if (currentVertex == null){
             currentVertex = RBVertex(key, value, null, null, true, parent)
-            if (isLeft) parent?.let { parent.leftSon = currentVertex }
+            if (root == null) root = currentVertex
+            else if (isLeft) parent?.let { parent.leftSon = currentVertex }
             else parent?.let { parent.rightSon = currentVertex }
         }
 
