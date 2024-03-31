@@ -90,7 +90,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
         }
         return null
     }
-    
+
     private enum class RemovalStage {A, B, C}
     // a - don't need tree changes anymore
     // b - probably need some tree changes, but not nulling
@@ -121,13 +121,13 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                     }
                     true to false -> {
                         size--
-                        Triple(RemovalStage.C, vertex.rightSon as AVLVertex<K,V>, vertex.value)
+                        Triple(RemovalStage.B, vertex.rightSon as AVLVertex<K,V>, vertex.value)
                     } 
                     false to true -> { 
                         size--
-                        Triple(RemovalStage.C, vertex.leftSon as AVLVertex<K,V>, vertex.value)
+                        Triple(RemovalStage.B, vertex.leftSon as AVLVertex<K,V>, vertex.value)
                     }
-                    else -> Triple(RemovalStage.C,
+                    else -> Triple(RemovalStage.B,
                      prepareLargestLowerToReplaceVertex(vertex) as AVLVertex<K,V>, vertex.value)
                 }
             } 
