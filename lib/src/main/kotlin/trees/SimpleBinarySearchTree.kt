@@ -1,7 +1,7 @@
 package main.trees
 import main.vertexes.SimpleBSTVertex
 
-class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
+open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         if (root == null) {
