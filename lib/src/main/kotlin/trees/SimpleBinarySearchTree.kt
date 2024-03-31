@@ -55,7 +55,11 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
             else -> {
                 val deletedValue: V = vertex.value
                 if (vertex.leftSon == null || vertex.rightSon == null) {
-                    if (vertex.leftSon == null) return Triple(vertex.rightSon, deletedValue, true)
+                    if (vertex.leftSon == null) {
+                        if (vertex == root) root = root?.rightSon
+                        return Triple(vertex.rightSon, deletedValue, true)
+                    }
+                    if (vertex == root) root = root?.leftSon
                     return Triple(vertex.leftSon, deletedValue, true)
                 }
                 val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
