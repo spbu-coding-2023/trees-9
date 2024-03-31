@@ -1,23 +1,17 @@
-<br />
-<div align="">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="120" height="120">
-  </a>
-</div>
 <p><img alt="badge" src="https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white"/>
 <img alt="badge" src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"/>
 <img alt="badge" src="https://img.shields.io/badge/Junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white"/></p>
 
 # BinTreeKit
-___
 
 
 ## Table of Contents
 - [About Project](#about-project)
 - [Usage](#usage)
-- [Project Structure](#project-structure)
 - [Developers and Contacts](#developers-and-contacts)
 - [License](#license)
+
+[//]: # (- [Project Structure]&#40;#project-structure&#41;)
 
 
 ## About Project
