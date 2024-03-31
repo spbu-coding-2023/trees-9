@@ -161,5 +161,11 @@ class SimpleBSTTests {
         assertEquals(0, tree.size())
     }
 
-
+    @Test
+    fun `remove non-existing value`() {
+        val tree: TestSimpleBST<Int?, String?> = TestSimpleBST(mapOf(Pair(1, "one")))
+        val deletedValue = tree.remove(100)
+        assertEquals(null, deletedValue)
+        assertEquals(1, tree.size())
+    }
 }
