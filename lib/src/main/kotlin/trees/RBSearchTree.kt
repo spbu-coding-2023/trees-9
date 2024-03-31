@@ -285,8 +285,8 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
         rightVertex?.parent = vertex.parent
         when {
             vertex.parent == null -> root = rightVertex
-            vertex == vertex.parent?.leftSon -> vertex.parent?.leftSon = rightVertex
-            else -> vertex.parent?.rightSon = rightVertex
+            vertex == vertex.parent?.rightSon -> vertex.parent?.rightSon = rightVertex
+            else -> vertex.parent?.leftSon = rightVertex
         }
         vertex.parent = rightVertex
         rightVertex?.leftSon = vertex
