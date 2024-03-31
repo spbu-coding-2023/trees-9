@@ -1,7 +1,7 @@
 package main.trees
 import main.vertexes.AVLVertex
 
-class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
+open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         if (!isEmpty()) {
@@ -90,8 +90,8 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         }
         return null
     }
-
-    enum class RemovalStage {A, B, C}
+    
+    private enum class RemovalStage {A, B, C}
     // a - don't need tree changes anymore
     // b - probably need some tree changes, but not nulling
     // c - need to null due "Son" property of (if exists) the parent of removed vertex + b
@@ -276,5 +276,6 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     constructor (comparator: Comparator<K>? = null) : super(comparator)
 
-    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true,
+     comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
 }
