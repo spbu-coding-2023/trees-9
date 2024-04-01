@@ -17,8 +17,10 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>> {
     }
 
     private fun putRec(
-        key: K, value: V,
-        replaceIfExists: Boolean, vertex: AVLVertex<K, V>
+        key: K,
+        value: V,
+        replaceIfExists: Boolean,
+        vertex: AVLVertex<K, V>
     ): AVLVertex<K, V>? {
         fun putRecShort(vrtx: AVLVertex<K, V>): AVLVertex<K, V>? {
             return putRec(key, value, replaceIfExists, vrtx)
@@ -195,7 +197,6 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>> {
                         return doBalanceChoreWhenRightSubTreeChanged()
                     }
                 }
-
         }
     }
 
@@ -242,7 +243,6 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>> {
                 )
                 subtreeRoot
             }
-
         }
         leftSon = curVertex.leftSon as AVLVertex<K, V>
         return if (leftSon.sonsHeightDiff == -1) {

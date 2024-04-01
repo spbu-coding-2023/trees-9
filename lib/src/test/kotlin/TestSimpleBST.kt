@@ -7,6 +7,9 @@ class TestSimpleBST<K, V> : SimpleBinarySearchTree<K, V> {
     }
 
     constructor(comparator: Comparator<K>?) : super(comparator)
-    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null)
-            : super(map, replaceIfExists, comparator)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
+        map,
+        replaceIfExists,
+        comparator
+    )
 }
