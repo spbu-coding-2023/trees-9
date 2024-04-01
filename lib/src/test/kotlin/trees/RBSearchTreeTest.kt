@@ -209,7 +209,7 @@ class RBSearchTreeTest {
         rbTree.put(11, "Shady")
         rbTree.remove(11)
 
-        //now vertexes with keys 9 and 12 are black
+        // now vertexes with keys 9 and 12 are black
         rbTree.remove(9)
 
         expectedResult = listOf(Pair(7, "hi"), Pair(10, "name"), Pair(12, "Slim"), Pair(4, "my"))
@@ -230,7 +230,7 @@ class RBSearchTreeTest {
         rbTree.put(97, "ninety-seven")
         rbTree.put(95, "ninety-five")
 
-        //now vertex with key 96 is red, with key 65 - black
+        // now vertex with key 96 is red, with key 65 - black
         rbTree.remove(65)
 
         expectedResult = listOf(
@@ -285,7 +285,7 @@ class RBSearchTreeTest {
         rbTree.put(3, "Shady")
         rbTree.remove(3)
 
-        //now vertexes with keys 2 and 5 are black
+        // now vertexes with keys 2 and 5 are black
         rbTree.remove(5)
 
         expectedResult = listOf(Pair(7, "hi"), Pair(10, "name"), Pair(4, "my"), Pair(2, "is"))
@@ -306,7 +306,7 @@ class RBSearchTreeTest {
         rbTree.put(69, "sixty-nine")
         rbTree.put(17, "seventeen")
 
-        //now vertex with key 15 is red, with key 51 - black
+        // now vertex with key 15 is red, with key 51 - black
         rbTree.remove(51)
 
         expectedResult = listOf(
@@ -322,5 +322,4 @@ class RBSearchTreeTest {
         rbTree = RBSearchTree(testMap)
         expectedResult = listOf(Pair(2, "two"), Pair(3, "three"), Pair(1, "one"))
     }
-
 }
