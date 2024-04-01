@@ -19,28 +19,43 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
     override fun remove(key: K): V? {
         val vertex: RBVertex<K, V> = getVertex(key) ?: return null
         val value = vertex.value
-        var isVertexRed = vertex.isRed
-        var child: RBVertex<K, V>? = null
 
-        if (countChildren(vertex) < 2){
-            child = getChild(vertex)
-            replaceVertexBy(vertex, child)
-        }
-
-        else{
-            val vertexForSwap = getMinKeyNodeRec(vertex.rightSon)
-            vertexForSwap?.let{
-                vertex.key = it.key
-                vertex.value = it.value
-                isVertexRed = it.isRed
-                child = getChild(it)
-                replaceVertexBy(it, child)
-            }
-        }
-
-        if (!isVertexRed) balanceAfterRemove(child)
+        if (needToBalance(vertex)) balanceAfterRemove(vertex)
 
         return value
+    }
+
+    private fun needToBalance(vertex: RBVertex<K, V>): Boolean{
+        when (countChildren(vertex)){
+            0 -> {
+                if (vertex.isRed){
+                    replaceVertexBy(vertex, null)
+                    return false
+                }
+                return true
+            }
+
+            1 -> {
+                replaceVertexBy(vertex, getChild(vertex))
+                return false
+            }
+
+            2 -> {
+                val vertexForSwap = getMinKeyNodeRec(vertex.rightSon)
+                vertexForSwap?.let{
+                    val key = vertex.key
+                    vertex.key = it.key
+                    it.key = key
+
+                    val value = vertex.value
+                    vertex.value = it.value
+                    it.value = value
+
+                    needToBalance(vertexForSwap)
+                }
+            }
+        }
+        return false
     }
 
     //we need to balance tree after removal black vertex with 0 children
@@ -79,6 +94,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                 if ((brother?.leftSon?.isRed == false || brother?.leftSon == null) &&
                     (brother?.rightSon?.isRed == false || brother?.rightSon == null)){
                     brother?.isRed = true
+                    if (currentVertex == vertex) currentVertex?.parent?.leftSon = null
                     currentVertex = currentVertex?.parent
                 }
 
@@ -96,6 +112,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                     brother?.rightSon?.isRed = false
                     val vertexForRotate = currentVertex?.parent
                     vertexForRotate?.let { rotateLeft(vertexForRotate) }
+                    if (currentVertex == vertex) currentVertex?.parent?.leftSon = null
                     currentVertex = root
                 }
             }
@@ -114,6 +131,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                 if ((brother?.leftSon?.isRed == false || brother?.leftSon == null) &&
                     (brother?.rightSon?.isRed == false || brother?.rightSon == null)){
                     brother?.isRed = true
+                    if (currentVertex == vertex) currentVertex?.parent?.rightSon = null
                     currentVertex = currentVertex?.parent
                 }
 
@@ -131,6 +149,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                     brother?.rightSon?.isRed = false
                     val vertexForRotate = currentVertex?.parent
                     vertexForRotate?.let { rotateRight(vertexForRotate) }
+                    if (currentVertex == vertex) currentVertex?.parent?.rightSon = null
                     currentVertex = root
                 }
             }
@@ -140,7 +159,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
 
     //finds vertex by corresponding key
     //if such vertex doesn't exist returns null
-    private fun getVertex(key: K): RBVertex<K, V>? {
+    fun getVertex(key: K): RBVertex<K, V>? {
         var currentVertex: RBVertex<K, V>? = root
 
         while (currentVertex?.key != key){
