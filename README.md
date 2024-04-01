@@ -2,31 +2,37 @@
 <img alt="badge" src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"/>
 <img alt="badge" src="https://img.shields.io/badge/Junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white"/></p>
 
-## BinTreeKit
+# BinTreeKit
 
 
-### Table of Contents
+## Table of Contents
 - [About Project](#about-project)
 - [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Developers and Contacts](#developers-and-contacts)
+- [Library Features](#library-features)
+  - [Constructors](#constructors)
+  - [Methods](#methods)
+  - [Tree Properties](#tree-properties)
+  - [Iterator](#iterator)
+    - [Constructors](#constructors-1)
+    - [Methods](#methods-1)
+- [Developers](#developers)
 - [Contributing](#contributing)
 - [License](#license)
 
 
-### About Project
+## About Project
 `BinTreeKit` is a library that provides implementations for three types of trees: `SimpleBinarySearchTree`, `AVLSearchTree` and `RBSearchTree`. The library is designed to simplify the process of managing hierarchical data, allowing Kotlin developers to focus on building robust and scalable applications.
 
 
-### Usage
-1. Importing Classes:
+## Usage
+1. **Importing Classes:**
 ```kotlin
 import main.trees.SimpleBinarySearchTree
 import main.trees.AVLSearchTree
 import main.trees.RBSearchTree
 ```
 
-2. Instantiate Trees:
+2. **Instantiate Trees:**
 ```kotlin
 // create a Simple Binary Search Tree
 val bstTree = SimpleBinarySearchTree<Int, String>(mapOf(Pair(1, "cat"), Pair(2, "dog")))
@@ -38,7 +44,7 @@ val avlTree = AVLSearchTree<Int, String>(mapOf(Pair(1, "cat"), Pair(2, "dog")))
 val rbTree = RBSearchTree<Int, String>(mapOf(Pair(1, "cat"), Pair(2, "dog")))
 ```
 
-3. Use Tree Methods:
+3. **Use Tree Methods:**
 ```kotlin
 // put key-value pairs with different values of replaceIfExists perematers
 bstTree.putAll(mapOf(Pair(2, "hamster"), Pair(3, "bird")), true)
@@ -55,7 +61,7 @@ for (pair in avlTree) {
 ```
 
 
-### Project Structure
+## Library Features
 
 
 #### Constructors
@@ -128,13 +134,13 @@ for (pair in avlTree) {
 - `next(): Pair<K, V>` - retrieves the next key-value pair in the iteration and returns the next key-value pair in the iteration.
 
 
-### Developers
+## Developers
 - [vicitori](https://github.com/vicitori) - Victoria Lutsyuk (Simple Binary Search Tree)
 - [Szczucki](https://github.com/Szczucki) - Nikita Shchutskii (AVL Search Tree)
 - [TerrMen](https://github.com/TerrMen) - Kostya Oreshin (RB Search Tree)
 
 
-### Contributing
+## Contributing
 
 **Quick start**
 
@@ -157,5 +163,5 @@ git push origin my_feature
 4. Open pull request to `develop` 
 
 
-### License
+## License
 This project uses the **APACHE LICENSE, VERSION 2.0**. See the [LICENSE](LICENSE.md) for more info.
