@@ -4,6 +4,19 @@ import main.iterator.TreeIterator
 
 /**
  * An abstract class representing a binary search tree.
+ *
+ * When attempting to perform insertion, removal, or search operations on a non-empty binary search tree with a key that
+ * is incomparable with the keys in the tree, the behavior is as follows:
+ *
+ * **Put**: If an attempt is made to insert a key-value pair with a key that is incomparable with the existing
+ * keys in the tree, the insertion operation will fail and the tree will remain unchanged.
+ *
+ * **Remove**: If an attempt is made to remove a key-value pair with a key that is incomparable with the existing keys
+ * in the tree, the removal operation will fail and the tree will remain unchanged.
+ *
+ * **Get**: When searching for a key that is incomparable with the keys in the tree, the search operation will not
+ * find any matching key-value pair.
+ *
  * @param K The type of keys.
  * @param V The type of values.
  * @param N The type of vertices implementing the [InterfaceBSTVertex] interface.
