@@ -2,10 +2,10 @@ package main.iterator
 import main.vertexes.InterfaceBSTVertex
 import java.util.LinkedList
 
-internal class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
+open class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
     vertex: N?
 ): Iterator<Pair<K, V>> {
-    private val stack = LinkedList<N>()
+    protected val stack = LinkedList<N>()
 
     init {
         vertex?.let { stack.add(it) }
