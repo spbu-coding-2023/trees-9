@@ -19,11 +19,12 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     //4) remove black vertex with 0 children -> just remove vertex
     override fun remove(key: K): V? {
         val vertex: RBVertex<K, V> = getVertex(key) ?: return null
+        --size
         val value = vertex.value
 
-        if (needToBalance(vertex)) balanceAfterRemove(vertex)
+        if (vertex == root && size == 0L) root = null
+        else if (needToBalance(vertex)) balanceAfterRemove(vertex)
 
-        --size
         return value
     }
 
@@ -181,6 +182,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
         var currentVertex: RBVertex<K, V>? = root
         var parent: RBVertex<K, V>? = null
         var isLeft: Boolean = false
+        ++size
 
         while (currentVertex != null) {
             when (compareKeys(key, currentVertex.key)) {
@@ -192,6 +194,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
                 0 -> {
                     if (replaceIfExists) currentVertex.value = value
+                    --size
                     break
                 }
 
@@ -211,7 +214,6 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
         }
 
         balanceAfterPut(currentVertex)
-        ++size
     }
 
     //we need to balance tree in two cases
