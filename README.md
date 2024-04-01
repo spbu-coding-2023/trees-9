@@ -8,23 +8,20 @@
 ## About Project
 `BinTreeKit` is a library that provides implementations for three types of trees: `SimpleBinarySearchTree`, `AVLSearchTree` and `RBSearchTree`. The library is designed to simplify the process of managing hierarchical data, allowing Kotlin developers to focus on building robust and scalable applications.
 
-<details>
-    <summary><b>Table of Contents</b></summary>
 
-  
-  - [About Project](#about-project)
-  - [Usage](#usage)
-  - [Library Features](#library-features)
-    - [Constructors](#constructors)
-    - [Methods](#methods)
-    - [Tree Properties](#tree-properties)
-    - [Iterator](#iterator)
-      - [Constructors](#constructors-1)
-      - [Methods](#methods-1)
-  - [Developers](#developers)
-  - [Contributing](#contributing)
-  - [License](#license)
-</details>
+#### Table of Contents
+- [About Project](#about-project)
+- [Usage](#usage)
+- [Library Features](#library-features)
+  - [Constructors](#constructors)
+  - [Methods](#methods)
+  - [Tree Properties](#tree-properties)
+  - [Iterator](#iterator)
+    - [Constructors](#constructors-1)
+    - [Methods](#methods-1)
+- [Developers](#developers)
+- [Contributing](#contributing)
+- [License](#license)
 
 
 ## Usage
@@ -37,30 +34,39 @@ import main.trees.RBSearchTree
 
 2. **Instantiate Trees:**
 ```kotlin
+val map = mapOf(Pair(1, "cat"), Pair(2, "dog"))
+
 // create a Simple Binary Search Tree
-val bstTree = SimpleBinarySearchTree<Int, String>(mapOf(Pair(1, "cat"), Pair(2, "dog")))
+val emptyBstTree = SimpleBinarySearchTree()
+val bstTree = SimpleBinarySearchTree(map)
 
 // create an AVL Search Tree
-val avlTree = AVLSearchTree<Int, String>(mapOf(Pair(1, "cat"), Pair(2, "dog")))
+val emptyAvlTree = AVLSearchTree()
+val avlTree = AVLSearchTree(map)
 
 // create a Red-Black Search Tree
-val rbTree = RBSearchTree<Int, String>(mapOf(Pair(1, "cat"), Pair(2, "dog")))
+val emptyRbTree = RBSearchTree()
+val rbTree = RBSearchTree(map)
 ```
+
 
 3. **Use Tree Methods:**
 ```kotlin
 // put key-value pairs with different values of replaceIfExists perematers
-bstTree.putAll(mapOf(Pair(2, "hamster"), Pair(3, "bird")), true)
+bstTree.putAll(map, true)
 rbTree.put(4, "horse", false)
 
 // remove key-value pair from tree and return value 
 println(rbTree.remove(4)) // output: horse
 bstTree.remove(1)
 
+//get key-value pair from tree
+println(avlTree.getMin()) //output: cat
+
 // pairwise iteration
 for (pair in avlTree) {
-    print(pair)
-} // output: (1, "cat")(2, "dog")
+    print("${pair.second}, ")
+} // output: cat, dog
 ```
 
 
