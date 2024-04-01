@@ -1,22 +1,29 @@
 package main.trees
+
 import main.vertexes.InterfaceBSTVertex
 import main.iterator.TreeIterator
 
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
     protected var comparator: Comparator<K>? = null
-    protected var size : Long = 0L
-    protected var root : N? = null
+    protected var size: Long = 0L
+    protected var root: N? = null
 
     operator fun iterator(): Iterator<Pair<K, V>> {
         return TreeIterator(root)
     }
 
-    fun size(): Long {return size}
+    fun size(): Long {
+        return size
+    }
 
-    fun isEmpty(): Boolean {return size == 0L}
-    
-    fun get(key: K): V? {return getRec(key)}
+    fun isEmpty(): Boolean {
+        return size == 0L
+    }
+
+    fun get(key: K): V? {
+        return getRec(key)
+    }
 
     fun getPair(key: K): Pair<K, V>? {
         val value = get(key)
@@ -28,7 +35,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (minKeyNode == null) null else minKeyNode.value
     }
 
-    fun getMax(): V?{
+    fun getMax(): V? {
         val maxKeyNode = getMaxKeyNodeRec()
         return if (maxKeyNode == null) null else maxKeyNode.value
     }
@@ -43,7 +50,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (maxKeyNode == null) null else Pair(maxKeyNode.key, maxKeyNode.value)
     }
 
-    abstract fun put(key: K, value: V, replaceIfExists : Boolean = true)
+    abstract fun put(key: K, value: V, replaceIfExists: Boolean = true)
 
     fun putAll(map: Map<K, V>, replaceIfExists: Boolean = true) {
         for (pair in map) put(pair.key, pair.value, replaceIfExists)
@@ -65,7 +72,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         }
     }
 
-    protected fun getMinKeyNodeRec(vertex: N? = root) : N? {
+    protected fun getMinKeyNodeRec(vertex: N? = root): N? {
         if (vertex == null) return null
         else {
             return if (vertex.leftSon == null) vertex
@@ -73,7 +80,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         }
     }
 
-    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {
+    protected fun getMaxKeyNodeRec(vertex: N? = root): N? {
         if (vertex == null) return null
         else {
             return if (vertex.rightSon == null) vertex
@@ -81,19 +88,18 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         }
     }
 
-    protected fun compareKeys(firstKey: K, secondKey: K): Int{
+    protected fun compareKeys(firstKey: K, secondKey: K): Int {
         val cpr = comparator
         return if (cpr != null) {
             when (cpr.compare(firstKey, secondKey)) {
-                in Int.MIN_VALUE .. -1 -> -1
-                0 ->  0
+                in Int.MIN_VALUE..-1 -> -1
+                0 -> 0
                 else -> 1
             }
-        }
-        else {
+        } else {
             val comparableKey = firstKey as Comparable<K>
-            when (comparableKey.compareTo(secondKey)) { 
-                in Int.MIN_VALUE .. -1 -> -1
+            when (comparableKey.compareTo(secondKey)) {
+                in Int.MIN_VALUE..-1 -> -1
                 0 -> 0
                 else -> 1
             }
