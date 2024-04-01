@@ -1,8 +1,25 @@
 package main.trees
 import main.vertexes.AVLVertex
 
+/**
+ * An implementation of a binary search tree that automatically balances itself using AVL rotations.
+ * It extends AbstractBinarySearchTree and uses AVLVertex as vertices.
+ * This class extends AbstractBinarySearchTree and provides methods to put, remove for key-value pairs.
+ * @param K the type of keys in the tree
+ * @param V the type of values associated with the keys
+ * @property comparator The comparator used to order the keys. If null, keys are expected to be comparable.
+ * @property size The number of elements in the tree.
+ * @property root The root vertex of the tree.
+ */
 class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
+    /**
+     * Associates the specified value with the specified key in this tree.
+     * If parameter replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.
+     * @param key the key with which the specified value is to be associated
+     * @param value the value to be associated with the specified key
+     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
+     */
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         if (!isEmpty()) {
             when (val putRecReturned = putRec(key, value, replaceIfExists, root as AVLVertex<K,V>)) {
@@ -15,6 +32,14 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         size++
     }
 
+    /**
+     * Associates the specified value with the specified key in this tree.
+     * If replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.
+     * @param key the key with which the specified value is to be associated
+     * @param value the value to be associated with the specified key
+     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
+     * @return the root vertex of the tree after the operation
+     */
     private fun putRec(key: K, value: V,
      replaceIfExists: Boolean, vertex: AVLVertex<K,V>) : AVLVertex<K,V>? {
         fun putRecShort(vrtx : AVLVertex<K,V>) : AVLVertex<K,V>? {
@@ -74,7 +99,12 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             }
         }
     }
-    
+
+    /**
+     * Removes the mapping for a key from this tree if it is present.
+     * @param key the key whose mapping is to be removed from the tree
+     * @return the previous value associated with key, or null if there was no mapping for key
+     */
     override fun remove(key: K): V? {
         if (!isEmpty()) {
             val removeRecReturned = removeRec(key, root as AVLVertex<K, V>)
@@ -91,19 +121,55 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         return null
     }
 
-    enum class RemovalStage {A, B, C}
-    // a - don't need tree changes anymore
-    // b - probably need some tree changes, but not nulling
-    // c - need to null due "Son" property of (if exists) the parent of removed vertex + b
+    /**
+     * An enumeration representing different stages of removal during the removal process.
+     */
+    enum class RemovalStage {
+        /**
+         * Don't need tree changes anymore
+         */
+        A,
 
+        /**
+         * Probably need some tree changes, but not nulling
+         */
+        B,
+
+        /**
+         * Need to null due "Son" property of (if exists) the parent of removed vertex + b
+         */
+        C
+    }
+
+    /**
+     * Recursively removes a key-value pair from the subtree rooted at the given vertex.
+     * @param key the key to remove
+     * @param vertex the root of the subtree to remove from
+     * @return Triple that consists of:
+     *
+     *          1) removal stage;
+     *
+     *          2) if RemovalStage == a : just a vertex (don't need it later);
+     *
+     *          if RemovalStage == b : the root of the changed subtree;
+     *
+     *          if RemovalStage == c : the removed vertex;
+     *
+     *          3) a value of the removed vertex (or null if key not exists). */
     private fun removeRec(key: K, vertex : AVLVertex<K,V>) : Triple <RemovalStage, AVLVertex<K,V>, V?> {
+
+        /**
+         * Triple consists of:
+         *
+         * 1) removal stage;
+         *
+         * 2) if RemovalStage == a : just a vertex (don't need it later);
+         * if RemovalStage == b : the root of the changed subtree;
+         * if RemovalStage == c : the removed vertex;
+         *
+         * 3) a value of the removed vertex (or null if key not exists).
+         */
         val nextCallReturned : Triple <RemovalStage, AVLVertex<K,V>?, V?>
-        // Triple consists of:
-        // 1) removal stage
-        // 2) if RemovalStage == a : just a vertex (don't need it later)
-        // if RemovalStage == b : the root of the changed subtree
-        // if RemovalStage == c : the removed vertex
-        // 3) a value of the removed vertex (or null if key not exists)
         when (compareKeys(key, vertex.key)) {
             -1 -> {
                 if (vertex.leftSon == null) return Triple(RemovalStage.A, vertex, null)
@@ -180,6 +246,11 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         }
     }
 
+    /**
+     * Prepares the largest lower vertex to replace the specified vertex.
+     * @param vertex the vertex to be replaced
+     * @return the substitute vertex prepared to replace the specified vertex
+     */
     private fun prepareLargestLowerToReplaceVertex(vertex : AVLVertex<K,V> ) : AVLVertex<K,V>? {
         val substitute = getMaxKeyNodeRec(vertex.leftSon)
         if (substitute == null) return null
@@ -190,6 +261,11 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
         return substitute
     }
 
+    /**
+     * Balances the tree starting from the specified vertex.
+     * @param curVertex the current vertex to start balancing from
+     * @return the root vertex of the tree after balancing
+     */
     private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
         var (rightSon, leftSon) = List<AVLVertex<K,V>?>(2){null}
         fun setTwoSonHeightDiffs(values : Pair<Int, Int>) {
@@ -250,31 +326,65 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
             }
     }
 
+    /**
+     * Performs a single left rotation around the specified vertices.
+     * @param curVertex the current vertex to rotate around
+     * @param rightSon the right son vertex
+     * @return the new root vertex after rotation
+     */
     private fun rotateLeft(curVertex: AVLVertex<K,V>, rightSon : AVLVertex<K,V> ) : AVLVertex<K,V> {
         curVertex.rightSon = rightSon.leftSon
         rightSon.leftSon = curVertex
         return rightSon
     }
 
+    /**
+     * Performs a single right rotation around the specified vertices.
+     * @param curVertex the current vertex to rotate around
+     * @param leftSon the left son vertex
+     * @return the new root vertex after rotation
+     */
     private fun rotateRight(curVertex: AVLVertex<K,V>, leftSon : AVLVertex<K,V>) : AVLVertex<K,V> {
         curVertex.leftSon = leftSon.rightSon
         leftSon.rightSon = curVertex
         return leftSon
     }
-    
+
+    /**
+     * Performs a big left rotation around the specified vertices.
+     * @param curVertex the current vertex to rotate around
+     * @param rightSon the right son vertex
+     * @return the new root vertex after rotation
+     */
     private fun bigRotateLeft(curVertex: AVLVertex<K,V>, rightSon : AVLVertex<K,V> ) : AVLVertex<K,V> {
         val curRightSon = rotateRight(rightSon, rightSon.leftSon as AVLVertex<K,V>)
         curVertex.rightSon = curRightSon
         return rotateLeft(curVertex, curRightSon)
     }
 
+    /**
+     * Performs a big right rotation around the specified vertices.
+     * @param curVertex the current vertex to rotate around
+     * @param leftSon the left son vertex
+     * @return the new root vertex after rotation
+     */
     private fun bigRotateRight(curVertex: AVLVertex<K,V>, leftSon : AVLVertex<K,V>) : AVLVertex<K,V> {
         val curLeftSon = rotateLeft(leftSon, leftSon.rightSon as AVLVertex<K,V>)
         curVertex.leftSon = curLeftSon
         return rotateRight(curVertex, curLeftSon)
     }
 
+    /**
+     * Constructs a new binary search tree with the specified comparator.
+     * @param comparator the comparator to use for comparing keys, or null to use natural ordering
+     */
     constructor (comparator: Comparator<K>? = null) : super(comparator)
 
+    /**
+     * Constructs a new binary search tree and initializes it with the mappings from the specified map.
+     * @param map the map whose mappings are to be added to this tree
+     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
+     * @param comparator the comparator to use for comparing keys, or null to use natural ordering
+     */
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
 }
