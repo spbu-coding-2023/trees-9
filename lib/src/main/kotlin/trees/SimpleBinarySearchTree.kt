@@ -2,7 +2,7 @@ package main.trees
 
 import main.vertexes.SimpleBSTVertex
 
-open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
+open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         if (root == null) {
@@ -20,15 +20,14 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
                 if (vertex.leftSon == null) {
                     vertex.leftSon = SimpleBSTVertex(key, value)
                     size++
-                }
-                else putRec(key, value, replaceIfExists, vertex.leftSon)
+                } else putRec(key, value, replaceIfExists, vertex.leftSon)
             }
+
             1 -> {
                 if (vertex.rightSon == null) {
                     vertex.rightSon = SimpleBSTVertex(key, value)
                     size++
-                }
-                else putRec(key, value, replaceIfExists, vertex.rightSon)
+                } else putRec(key, value, replaceIfExists, vertex.rightSon)
             }
         }
     }
@@ -48,11 +47,13 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
                 vertex.leftSon = updatedLeftSon
                 return Triple(vertex, deletedValue, isRemoved)
             }
+
             1 -> {
                 val (updatedRightSon, deletedValue, isRemoved) = removeRec(key, vertex.rightSon)
                 vertex.rightSon = updatedRightSon
                 return Triple(vertex, deletedValue, isRemoved)
             }
+
             else -> {
                 val deletedValue: V = vertex.value
                 if (vertex.leftSon == null || vertex.rightSon == null) {

@@ -1,7 +1,7 @@
 package main.trees
 
-import main.vertexes.InterfaceBSTVertex
 import main.iterator.TreeIterator
+import main.vertexes.InterfaceBSTVertex
 
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
@@ -103,7 +103,6 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
                 0 -> 0
                 else -> 1
             }
-
         }
     }
 
