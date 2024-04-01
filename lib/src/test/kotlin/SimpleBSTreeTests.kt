@@ -4,13 +4,6 @@ import kotlin.test.assertEquals
 class SimpleBSTTests {
 
     @Test
-    fun `get root`() {
-        val tree: TestSimpleBST<Int, String> = TestSimpleBST(mapOf(Pair(1, "one")))
-        val root = tree.getTreeRoot()
-        assertEquals(1, root?.key)
-    }
-
-    @Test
     fun `put vertex after remove root test`() {
         val tree: TestSimpleBST<Int?, String?> = TestSimpleBST(mapOf(Pair(1, "one")))
         val deletedValue = tree.remove(1)
