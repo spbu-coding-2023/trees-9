@@ -11,6 +11,19 @@ import main.vertexes.RBVertex
  *   - Every leaf (NIL) is black.
  *   - If a vertex is red, then both its children are black.
  *   - Every simple path from a vertex to a descendant leaf (NIL) has the same number of black vertexes.
+ *
+ * When attempting to perform insertion, removal, or search operations on a non-empty binary search tree with a key that
+ * is incomparable with the keys in the tree, the behavior is as follows:
+ *
+ * **Put**: If an attempt is made to put a key-value pair with a key that is incomparable with the existing
+ * keys in the tree, the insertion operation will fail and the tree will remain unchanged.
+ *
+ * **Remove**: If an attempt is made to remove a key-value pair with a key that is incomparable with the existing keys
+ * in the tree, the removal operation will fail and the tree will remain unchanged.
+ *
+ * **Get**: When getting for a key that is incomparable with the keys in the tree, the search operation will not
+ * find any matching key-value pair the get operation will fail.
+ *
  * @param K the type of keys in the tree
  * @param V the type of values associated with the keys
  * @property comparator The comparator used to order the keys. If null, keys are expected to be comparable.
