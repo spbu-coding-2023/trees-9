@@ -1,3 +1,5 @@
+package iterator
+
 import main.iterator.TreeIterator
 import main.vertexes.InterfaceBSTVertex
 import java.util.LinkedList

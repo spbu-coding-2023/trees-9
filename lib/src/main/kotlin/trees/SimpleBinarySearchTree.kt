@@ -91,7 +91,7 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         }
     }
 
-    constructor(comparator: Comparator<K>?) : super(comparator)
+    constructor(comparator: Comparator<K>? = null) : super(comparator)
 
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
         map,
