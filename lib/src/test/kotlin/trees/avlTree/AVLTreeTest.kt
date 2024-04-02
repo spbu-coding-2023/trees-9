@@ -1,4 +1,4 @@
-	package trees.avlTree
+package trees.avlTree
 
 import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
@@ -1027,8 +1027,8 @@ class AVLTreeTest {
         tree.remove('u')
         assert(isSonsHeightDiffCorrect(tree))
     }
-    
-    @Test  
+
+    @Test
     fun `remove fun return null if entry's key isn't exists(2)`() {
         val tree = makeTreeForRemoveSonWithBothSons()
         assert(tree.remove('x') == null)
