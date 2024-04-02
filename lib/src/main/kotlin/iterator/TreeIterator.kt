@@ -1,4 +1,5 @@
 package main.iterator
+
 import main.vertexes.InterfaceBSTVertex
 import java.util.LinkedList
 
@@ -9,11 +10,10 @@ import java.util.LinkedList
  * @param V the type of values associated with the keys
  * @param N the type of tree vertices implementing InterfaceBSTVertex
  */
-internal class TreeIterator<K, V, N: InterfaceBSTVertex<K, V, N>>(
-    vertex: N?
-): Iterator<Pair<K, V>> {
-    // Stack to store vertices for traversal
-    private val stack = LinkedList<N>()
+open class TreeIterator<K, V, N : InterfaceBSTVertex<K, V, N>>(
+    vertex: N?,
+) : Iterator<Pair<K, V>> {
+    protected val stack = LinkedList<N>()
 
     init {
         // Initialize the iterator with the given vertex by adding it to the stack

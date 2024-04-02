@@ -1,6 +1,7 @@
 package main.trees
-import main.vertexes.InterfaceBSTVertex
+
 import main.iterator.TreeIterator
+import main.vertexes.InterfaceBSTVertex
 
 /**
  * An abstract class representing a binary search tree.
@@ -30,10 +31,10 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
     protected var comparator: Comparator<K>? = null
 
     /** The number of elements in the tree. */
-    protected var size : Long = 0L
+    protected var size: Long = 0L
 
     /** The root vertex of the tree. */
-    protected var root : N? = null
+    protected var root: N? = null
 
     /**
      * Returns an iterator over the elements in this tree in proper sequence.
@@ -47,13 +48,17 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * Returns the number of key-value pairs in this tree.
      * @return the number of key-value pairs in this tree
      */
-    fun size(): Long {return size}
+    fun size(): Long {
+        return size
+    }
 
     /**
      * Returns true if this tree contains no key-value pairs.
      * @return true if this tree contains no key-value pairs
      */
-    fun isEmpty(): Boolean {return size == 0L}
+    fun isEmpty(): Boolean {
+        return size == 0L
+    }
 
     /**
      * Returns the value associated with the specified key in this tree.
@@ -61,7 +66,9 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * @param key the key whose associated value is to be returned
      * @return the value associated with the specified key, or null if the key is not found
      */
-    fun get(key: K): V? {return getRec(key)}
+    fun get(key: K): V? {
+        return getRec(key)
+    }
 
     /**
      * Returns a Pair containing the specified key-value mapping, if found.
@@ -87,7 +94,7 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * Returns the maximum value in the tree, or null if the tree is empty.
      * @return the maximum value in the tree, or null if the tree is empty
      */
-    fun getMax(): V?{
+    fun getMax(): V? {
         val maxKeyNode = getMaxKeyNodeRec()
         return if (maxKeyNode == null) null else maxKeyNode.value
     }
@@ -117,15 +124,22 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * @param value the value to be associated with the specified key
      * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
      */
-    abstract fun put(key: K, value: V, replaceIfExists : Boolean = true)
+    abstract fun put(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean = true,
+    )
 
     /**
-     * Put all of the pairs from the specified map to this tree.
+     * Put all pairs from the specified map to this tree.
      * If parameter replaceIfExists is true and a key already exists, the value is replaced; otherwise, the value is ignored.
      * @param map the map whose mappings are to be added to this tree
      * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
      */
-    fun putAll(map: Map<K, V>, replaceIfExists: Boolean = true) {
+    fun putAll(
+        map: Map<K, V>,
+        replaceIfExists: Boolean = true,
+    ) {
         for (pair in map) put(pair.key, pair.value, replaceIfExists)
     }
 
@@ -152,7 +166,10 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * @param vertex the current vertex being examined
      * @return the value associated with the specified key, or null if not found
      */
-    private fun getRec(key: K, vertex: N? = root): V? {
+    private fun getRec(
+        key: K,
+        vertex: N? = root,
+    ): V? {
         if (vertex == null) return null
         return when (compareKeys(key, vertex.key)) {
             0 -> vertex.value
@@ -166,11 +183,15 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * @param vertex the current vertex being examined
      * @return the vertex with the minimum key in the tree, or null if the tree is empty
      */
-    protected fun getMinKeyNodeRec(vertex: N? = root) : N? {
-        if (vertex == null) return null
-        else {
-            return if (vertex.leftSon == null) vertex
-            else getMinKeyNodeRec(vertex.leftSon)
+    protected fun getMinKeyNodeRec(vertex: N? = root): N? {
+        if (vertex == null) {
+            return null
+        } else {
+            return if (vertex.leftSon == null) {
+                vertex
+            } else {
+                getMinKeyNodeRec(vertex.leftSon)
+            }
         }
     }
 
@@ -179,11 +200,15 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * @param vertex the current vertex being examined
      * @return the vertex with the maximum key in the tree, or null if the tree is empty
      */
-    protected fun getMaxKeyNodeRec(vertex: N? = root) : N? {
-        if (vertex == null) return null
-        else {
-            return if (vertex.rightSon == null) vertex
-            else getMaxKeyNodeRec(vertex.rightSon)
+    protected fun getMaxKeyNodeRec(vertex: N? = root): N? {
+        if (vertex == null) {
+            return null
+        } else {
+            return if (vertex.rightSon == null) {
+                vertex
+            } else {
+                getMaxKeyNodeRec(vertex.rightSon)
+            }
         }
     }
 
@@ -193,23 +218,24 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
      * @param secondKey the second key to compare
      * @return -1 if the first key is less than the second key, 0 if they are equal, or 1 if the first key is greater than the second key
      */
-    protected fun compareKeys(firstKey: K, secondKey: K): Int{
+    protected fun compareKeys(
+        firstKey: K,
+        secondKey: K,
+    ): Int {
         val cpr = comparator
         return if (cpr != null) {
             when (cpr.compare(firstKey, secondKey)) {
-                in Int.MIN_VALUE .. -1 -> -1
-                0 ->  0
-                else -> 1
-            }
-        }
-        else {
-            val comparableKey = firstKey as Comparable<K>
-            when (comparableKey.compareTo(secondKey)) { 
-                in Int.MIN_VALUE .. -1 -> -1
+                in Int.MIN_VALUE..-1 -> -1
                 0 -> 0
                 else -> 1
             }
-
+        } else {
+            val comparableKey = firstKey as Comparable<K>
+            when (comparableKey.compareTo(secondKey)) {
+                in Int.MIN_VALUE..-1 -> -1
+                0 -> 0
+                else -> 1
+            }
         }
     }
 

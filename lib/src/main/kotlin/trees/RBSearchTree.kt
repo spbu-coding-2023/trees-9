@@ -1,4 +1,5 @@
 package main.trees
+
 import main.vertexes.RBVertex
 
 /**
@@ -30,7 +31,7 @@ import main.vertexes.RBVertex
  * @property size The number of elements in the tree.
  * @property root The root vertex of the tree.
  */
-class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
+class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     /**
      * This method removes the vertex with the given key from the tree and returns its associated value,
@@ -55,29 +56,54 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
      */
     override fun remove(key: K): V? {
         val vertex: RBVertex<K, V> = getVertex(key) ?: return null
+        --size
         val value = vertex.value
-        var isVertexRed = vertex.isRed
-        var child: RBVertex<K, V>? = null
 
-        if (countChildren(vertex) < 2){
-            child = getChild(vertex)
-            replaceVertexBy(vertex, child)
+        if (vertex == root && size == 0L) {
+            root = null
+        } else if (needToBalance(vertex)) {
+            balanceAfterRemove(vertex)
         }
-
-        else{
-            val vertexForSwap = getMinKeyNodeRec(vertex.rightSon)
-            vertexForSwap?.let{
-                vertex.key = it.key
-                vertex.value = it.value
-                isVertexRed = it.isRed
-                child = getChild(it)
-                replaceVertexBy(it, child)
-            }
-        }
-
-        if (!isVertexRed) balanceAfterRemove(child)
 
         return value
+    }
+
+    /**
+     * Determines whether balancing is required after removing a vertex from the Red-Black Search Tree.
+     * @param vertex The vertex to be checked for balancing.
+     * @return true if further balancing is required, false otherwise.
+     */
+    private fun needToBalance(vertex: RBVertex<K, V>): Boolean {
+        when (countChildren(vertex)) {
+            0 -> {
+                if (vertex.isRed) {
+                    replaceVertexBy(vertex, null)
+                    return false
+                }
+                return true
+            }
+
+            1 -> {
+                replaceVertexBy(vertex, getChild(vertex))
+                return false
+            }
+
+            2 -> {
+                val vertexForSwap = getMinKeyNodeRec(vertex.rightSon)
+                vertexForSwap?.let {
+                    val key = vertex.key
+                    vertex.key = it.key
+                    it.key = key
+
+                    val value = vertex.value
+                    vertex.value = it.value
+                    it.value = value
+
+                    needToBalance(vertexForSwap)
+                }
+            }
+        }
+        return false
     }
 
     /**
@@ -100,14 +126,14 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
      * rotate left. We move conflict on level below, then we look at the previous cases
      * @param vertex The child vertex of the removed vertex or null if the removed vertex had no children.
      */
-    private fun balanceAfterRemove(vertex: RBVertex<K, V>?){
+    private fun balanceAfterRemove(vertex: RBVertex<K, V>?) {
         var currentVertex = vertex
-        while (currentVertex != root && (currentVertex?.isRed == false || currentVertex == null)){
+        while (currentVertex != root && (currentVertex?.isRed == false || currentVertex == null)) {
             var brother: RBVertex<K, V>?
-            if (currentVertex == currentVertex?.parent?.leftSon){
+            if (currentVertex == currentVertex?.parent?.leftSon) {
                 brother = currentVertex?.parent?.rightSon
 
-                if (brother?.isRed == true){
+                if (brother?.isRed == true) {
                     brother.isRed = false
                     currentVertex?.parent?.isRed = true
                     val vertexForRotate = currentVertex?.parent
@@ -116,13 +142,13 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                 }
 
                 if ((brother?.leftSon?.isRed == false || brother?.leftSon == null) &&
-                    (brother?.rightSon?.isRed == false || brother?.rightSon == null)){
+                    (brother?.rightSon?.isRed == false || brother?.rightSon == null)
+                ) {
                     brother?.isRed = true
                     currentVertex = currentVertex?.parent
-                }
-
-                else{
-                    if (brother.rightSon?.isRed == false || brother.rightSon == null){
+                    if (vertex == currentVertex?.leftSon) currentVertex?.leftSon = null
+                } else {
+                    if (brother.rightSon?.isRed == false || brother.rightSon == null) {
                         brother.leftSon?.isRed = false
                         brother.isRed = true
                         rotateRight(brother)
@@ -135,14 +161,13 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                     brother?.rightSon?.isRed = false
                     val vertexForRotate = currentVertex?.parent
                     vertexForRotate?.let { rotateLeft(vertexForRotate) }
+                    if (currentVertex == vertex) currentVertex?.parent?.leftSon = null
                     currentVertex = root
                 }
-            }
-
-            else{
+            } else {
                 brother = currentVertex?.parent?.leftSon
 
-                if (brother?.isRed == true){
+                if (brother?.isRed == true) {
                     brother.isRed = false
                     currentVertex?.parent?.isRed = true
                     val vertexForRotate = currentVertex?.parent
@@ -151,13 +176,13 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                 }
 
                 if ((brother?.leftSon?.isRed == false || brother?.leftSon == null) &&
-                    (brother?.rightSon?.isRed == false || brother?.rightSon == null)){
+                    (brother?.rightSon?.isRed == false || brother?.rightSon == null)
+                ) {
                     brother?.isRed = true
                     currentVertex = currentVertex?.parent
-                }
-
-                else{
-                    if (brother.leftSon?.isRed == false || brother.leftSon == null){
+                    if (vertex == currentVertex?.rightSon) currentVertex?.rightSon = null
+                } else {
+                    if (brother.leftSon?.isRed == false || brother.leftSon == null) {
                         brother.rightSon?.isRed = false
                         brother.isRed = true
                         rotateLeft(brother)
@@ -167,9 +192,10 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                     val parentColor = currentVertex?.parent?.isRed
                     parentColor?.let { brother?.isRed = parentColor }
                     currentVertex?.parent?.isRed = false
-                    brother?.rightSon?.isRed = false
+                    brother?.leftSon?.isRed = false
                     val vertexForRotate = currentVertex?.parent
                     vertexForRotate?.let { rotateRight(vertexForRotate) }
+                    if (currentVertex == vertex) currentVertex?.parent?.rightSon = null
                     currentVertex = root
                 }
             }
@@ -185,12 +211,13 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
     private fun getVertex(key: K): RBVertex<K, V>? {
         var currentVertex: RBVertex<K, V>? = root
 
-        while (currentVertex?.key != key){
+        while (currentVertex?.key != key) {
             if (currentVertex == null) return null
-            when (compareKeys(key, currentVertex.key)){
+            when (compareKeys(key, currentVertex.key)) {
                 -1 -> {
                     currentVertex = currentVertex.leftSon
                 }
+
                 1 -> {
                     currentVertex = currentVertex.rightSon
                 }
@@ -206,22 +233,30 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
      * @param value the value to be associated with the specified key
      * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
      */
-    override fun put(key: K, value: V, replaceIfExists: Boolean) {
+    override fun put(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean,
+    ) {
         var currentVertex: RBVertex<K, V>? = root
         var parent: RBVertex<K, V>? = null
         var isLeft: Boolean = false
+        ++size
 
         while (currentVertex != null) {
-            when (compareKeys(key, currentVertex.key)){
+            when (compareKeys(key, currentVertex.key)) {
                 -1 -> {
                     parent = currentVertex
                     currentVertex = currentVertex.leftSon
                     isLeft = true
                 }
+
                 0 -> {
                     if (replaceIfExists) currentVertex.value = value
+                    --size
                     break
                 }
+
                 1 -> {
                     parent = currentVertex
                     currentVertex = currentVertex.rightSon
@@ -230,10 +265,15 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
             }
         }
 
-        if (currentVertex == null){
+        if (currentVertex == null) {
             currentVertex = RBVertex(key, value, null, null, true, parent)
-            if (isLeft) parent?.let { parent.leftSon = currentVertex }
-            else parent?.let { parent.rightSon = currentVertex }
+            if (root == null) {
+                root = currentVertex
+            } else if (isLeft) {
+                parent?.let { parent.leftSon = currentVertex }
+            } else {
+                parent?.let { parent.rightSon = currentVertex }
+            }
         }
 
         balanceAfterPut(currentVertex)
@@ -256,20 +296,18 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
     private fun balanceAfterPut(vertex: RBVertex<K, V>) {
         var currentVertex = vertex
 
-        while (currentVertex.parent?.isRed == true){
+        while (currentVertex.parent?.isRed == true) {
             val grandparent = currentVertex.parent?.parent
 
-            if (currentVertex.parent == grandparent?.leftSon){
+            if (currentVertex.parent == grandparent?.leftSon) {
                 val uncle = grandparent?.rightSon
 
-                if (uncle?.isRed == true){
+                if (uncle?.isRed == true) {
                     currentVertex.parent?.isRed = false
                     uncle.isRed = false
                     grandparent.isRed = true
                     currentVertex = grandparent
-                }
-
-                else {
+                } else {
                     if (currentVertex == currentVertex.parent?.rightSon) {
                         currentVertex = currentVertex.parent ?: currentVertex
                         rotateLeft(currentVertex)
@@ -280,19 +318,15 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
                     val vertexForRightRotate = currentVertex.parent?.parent
                     vertexForRightRotate?.let { rotateRight(vertexForRightRotate) }
                 }
-            }
-
-            else {
+            } else {
                 val uncle = grandparent?.leftSon
 
-                if (uncle?.isRed == true){
+                if (uncle?.isRed == true) {
                     currentVertex.parent?.isRed = false
                     uncle.isRed = false
                     grandparent.isRed = true
                     currentVertex = grandparent
-                }
-
-                else {
+                } else {
                     if (currentVertex == currentVertex.parent?.leftSon) {
                         currentVertex = currentVertex.parent ?: currentVertex
                         rotateRight(currentVertex)
@@ -332,10 +366,17 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
      * @param oldVertex The old vertex to be replaced.
      * @param newVertex The new vertex that replaces the old vertex.
      */
-    private fun replaceVertexBy(oldVertex: RBVertex<K, V>, newVertex: RBVertex<K, V>?){
-        if (root == oldVertex) root = newVertex
-        else if (oldVertex == oldVertex.parent?.leftSon) oldVertex.parent?.leftSon = newVertex
-        else oldVertex.parent?.rightSon = newVertex
+    private fun replaceVertexBy(
+        oldVertex: RBVertex<K, V>,
+        newVertex: RBVertex<K, V>?,
+    ) {
+        if (root == oldVertex) {
+            root = newVertex
+        } else if (oldVertex == oldVertex.parent?.leftSon) {
+            oldVertex.parent?.leftSon = newVertex
+        } else {
+            oldVertex.parent?.rightSon = newVertex
+        }
         newVertex?.parent = oldVertex.parent
     }
 
@@ -351,8 +392,8 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
         rightVertex?.parent = vertex.parent
         when {
             vertex.parent == null -> root = rightVertex
-            vertex == vertex.parent?.leftSon -> vertex.parent?.leftSon = rightVertex
-            else -> vertex.parent?.rightSon = rightVertex
+            vertex == vertex.parent?.rightSon -> vertex.parent?.rightSon = rightVertex
+            else -> vertex.parent?.leftSon = rightVertex
         }
         vertex.parent = rightVertex
         rightVertex?.leftSon = vertex
@@ -366,7 +407,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
     private fun rotateRight(vertex: RBVertex<K, V>) {
         val leftVertex: RBVertex<K, V>? = vertex.leftSon
         vertex.leftSon = leftVertex?.rightSon
-        leftVertex?.rightSon.let { leftVertex?.rightSon?.parent = vertex}
+        leftVertex?.rightSon.let { leftVertex?.rightSon?.parent = vertex }
         leftVertex?.parent = vertex.parent
         when {
             vertex.parent == null -> root = leftVertex
@@ -389,5 +430,9 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K,V>> {
      * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
      * @param comparator the comparator to use for comparing keys, or null to use natural ordering
      */
-    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
+        map,
+        replaceIfExists,
+        comparator,
+    )
 }

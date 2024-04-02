@@ -1,4 +1,5 @@
 package main.trees
+
 import main.vertexes.SimpleBSTVertex
 
 /**
@@ -23,7 +24,7 @@ import main.vertexes.SimpleBSTVertex
  * @property size The number of elements in the tree.
  * @property root The root vertex of the tree.
  */
-class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K,V>> {
+open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
 
     /**
      * Associates the specified value with the specified key in this tree.
@@ -32,7 +33,11 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
      * @param value the value to be associated with the specified key
      * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
      */
-    override fun put(key: K, value: V, replaceIfExists: Boolean) {
+    override fun put(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean,
+    ) {
         if (root == null) {
             root = SimpleBSTVertex(key, value)
             size++
@@ -47,7 +52,12 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
      * @param replaceIfExists If true, replaces the existing value for the key.
      * @param vertex The current vertex in the recursion.
      */
-    private fun putRec(key: K, value: V, replaceIfExists: Boolean = true, vertex: SimpleBSTVertex<K, V>? = root) {
+    private fun putRec(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean = true,
+        vertex: SimpleBSTVertex<K, V>? = root,
+    ) {
         if (vertex == null) return
         when (compareKeys(key, vertex.key)) {
             0 -> if (replaceIfExists) vertex.value = value
@@ -55,15 +65,18 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
                 if (vertex.leftSon == null) {
                     vertex.leftSon = SimpleBSTVertex(key, value)
                     size++
+                } else {
+                    putRec(key, value, replaceIfExists, vertex.leftSon)
                 }
-                else putRec(key, value, replaceIfExists, vertex.leftSon)
             }
+
             1 -> {
                 if (vertex.rightSon == null) {
                     vertex.rightSon = SimpleBSTVertex(key, value)
                     size++
+                } else {
+                    putRec(key, value, replaceIfExists, vertex.rightSon)
                 }
-                else putRec(key, value, replaceIfExists, vertex.rightSon)
             }
         }
     }
@@ -90,7 +103,10 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
      * @param vertex The current vertex being examined in the recursion.
      * @return A pair containing the updated vertex and the value associated with the removed key, or null if the key is not found.
      */
-    private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): Triple<SimpleBSTVertex<K, V>?, V?, Boolean> {
+    private fun removeRec(
+        key: K,
+        vertex: SimpleBSTVertex<K, V>? = root,
+    ): Triple<SimpleBSTVertex<K, V>?, V?, Boolean> {
         if (vertex == null) return Triple(null, null, false)
 
         when (compareKeys(key, vertex.key)) {
@@ -99,11 +115,13 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
                 vertex.leftSon = updatedLeftSon
                 return Triple(vertex, deletedValue, isRemoved)
             }
+
             1 -> {
                 val (updatedRightSon, deletedValue, isRemoved) = removeRec(key, vertex.rightSon)
                 vertex.rightSon = updatedRightSon
                 return Triple(vertex, deletedValue, isRemoved)
             }
+
             else -> {
                 val deletedValue: V = vertex.value
                 if (vertex.leftSon == null || vertex.rightSon == null) {
@@ -138,5 +156,9 @@ class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVer
      * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
      * @param comparator the comparator to use for comparing keys, or null to use natural ordering
      */
-    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
+        map,
+        replaceIfExists,
+        comparator,
+    )
 }
