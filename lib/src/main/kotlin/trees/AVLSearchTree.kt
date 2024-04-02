@@ -51,6 +51,7 @@ class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
      * @param key the key with which the specified value is to be associated
      * @param value the value to be associated with the specified key
      * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
+     * @param vertex the current vertex in the recursion
      * @return the root vertex of the tree after the operation
      */
     private fun putRec(key: K, value: V,
