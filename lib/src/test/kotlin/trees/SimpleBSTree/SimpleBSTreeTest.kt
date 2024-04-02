@@ -1,8 +1,10 @@
+package trees.SimpleBSTree
+
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class SimpleBSTTests {
+class SimpleBSTreeTest {
     private lateinit var tree: TestSimpleBST<Int, String>
     @BeforeEach
     fun setup() {

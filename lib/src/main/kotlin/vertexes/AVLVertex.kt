@@ -3,7 +3,7 @@ package main.vertexes
 class AVLVertex<K, V>(
     override var key: K,
     override var value: V
-): InterfaceBSTVertex<K, V, AVLVertex<K, V>> {
+) : InterfaceBSTVertex<K, V, AVLVertex<K, V>> {
 
     override var leftSon: AVLVertex<K, V>? = null
     override var rightSon: AVLVertex<K, V>? = null
@@ -14,7 +14,7 @@ class AVLVertex<K, V>(
         value: V,
         leftSon: AVLVertex<K, V>?,
         rightSon: AVLVertex<K, V>?,
-        sonsHeightDiff : Int = 0
+        sonsHeightDiff: Int = 0
     ) : this(key, value) {
         this.leftSon = leftSon
         this.rightSon = rightSon
