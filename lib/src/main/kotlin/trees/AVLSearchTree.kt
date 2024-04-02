@@ -1,11 +1,12 @@
 package main.trees
+
 import main.vertexes.AVLVertex
 
 open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> {
 
     override fun put(key: K, value: V, replaceIfExists: Boolean) {
         if (!isEmpty()) {
-            when (val putRecReturned = putRec(key, value, replaceIfExists, root as AVLVertex<K,V>)) {
+            when (val putRecReturned = putRec(key, value, replaceIfExists, root as AVLVertex<K, V>)) {
                 null, root -> {}
                 else -> root = putRecReturned
             }
@@ -23,14 +24,15 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
         val nextCallReturned : AVLVertex<K,V>?
         when (compareKeys(key, vertex.key)) {
             -1 -> {
-                if (vertex.leftSon == null){
+                if (vertex.leftSon == null) {
                     vertex.leftSon = AVLVertex(key, value)
                     vertex.sonsHeightDiff++
                     size++
                     return vertex
                 }
-                nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K,V>)
+                nextCallReturned = putRecShort(vertex.leftSon as AVLVertex<K, V>)
             }
+
             0 -> {
                 if (replaceIfExists) {
                     vertex.key = key
@@ -38,6 +40,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                 }
                 return null
             }
+
             else -> {
                 if (vertex.rightSon == null) {
                     vertex.rightSon = AVLVertex(key, value)
@@ -45,23 +48,24 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                     size++
                     return vertex
                 }
-                nextCallReturned = putRecShort(vertex.rightSon as AVLVertex<K,V> )
+                nextCallReturned = putRecShort(vertex.rightSon as AVLVertex<K, V>)
             }
         }
         if (nextCallReturned == null) return null
-        fun doBalanceChoreWhenLeftSubTreeChanged() : AVLVertex<K,V>? {
+        fun doBalanceChoreWhenLeftSubTreeChanged(): AVLVertex<K, V>? {
             if (nextCallReturned.sonsHeightDiff == 0) return null
             if (vertex.sonsHeightDiff + 1 == 2) return balance(vertex)
             vertex.sonsHeightDiff++
             return vertex
         }
-        fun doBalanceChoreWhenRightSubTreeChanged() : AVLVertex<K,V>? {
+
+        fun doBalanceChoreWhenRightSubTreeChanged(): AVLVertex<K, V>? {
             if (nextCallReturned.sonsHeightDiff == 0) return null
             if (vertex.sonsHeightDiff - 1 == -2) return balance(vertex)
             vertex.sonsHeightDiff--
             return vertex
         }
-        when (nextCallReturned){
+        when (nextCallReturned) {
             vertex.leftSon -> return doBalanceChoreWhenLeftSubTreeChanged()
             vertex.rightSon -> return doBalanceChoreWhenRightSubTreeChanged()
             else -> {
@@ -84,6 +88,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                     if (removeRecReturned.component2() != root)
                         root = removeRecReturned.component2()
                 }
+
                 RemovalStage.C -> root = null
                 RemovalStage.D -> root = removeRecReturned.component2()
             }
@@ -98,8 +103,8 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
     // C - need to null due "Son" property of (if exists) the parent of removed vertex + b
     // D - need only to change due "Son" property of (if exists) the parent
 
-    private fun removeRec(key: K, vertex : AVLVertex<K,V>) : Triple <RemovalStage, AVLVertex<K,V>, V?> {
-        val nextCallReturned : Triple <RemovalStage, AVLVertex<K,V>?, V?>
+    private fun removeRec(key: K, vertex: AVLVertex<K, V>): Triple<RemovalStage, AVLVertex<K, V>, V?> {
+        val nextCallReturned: Triple<RemovalStage, AVLVertex<K, V>?, V?>
         // Triple consists of:
         // 1) removal stage
         // 2) if RemovalStage == a : just a vertex (don't need it later)
@@ -109,18 +114,21 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
         when (compareKeys(key, vertex.key)) {
             -1 -> {
                 if (vertex.leftSon == null) return Triple(RemovalStage.A, vertex, null)
-                nextCallReturned = removeRec(key, vertex.leftSon as AVLVertex<K,V>)
+                nextCallReturned = removeRec(key, vertex.leftSon as AVLVertex<K, V>)
             }
+
             1 -> {
                 if (vertex.rightSon == null) return Triple(RemovalStage.A, vertex, null)
-                nextCallReturned = removeRec(key, vertex.rightSon as AVLVertex<K,V>)
+                nextCallReturned = removeRec(key, vertex.rightSon as AVLVertex<K, V>)
             }
+
             else -> {
                 return when ((vertex.leftSon == null) to (vertex.rightSon == null)) {
                     true to true -> {
                         size--
                         Triple(RemovalStage.C, vertex, vertex.value)
                     }
+
                     true to false -> {
                         size--
                         Triple(RemovalStage.B, vertex.rightSon as AVLVertex<K,V>, vertex.value)
@@ -134,7 +142,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                 }
             }
         }
-        fun doBalanceChoreWhenLeftSubTreeChanged() : Triple <RemovalStage, AVLVertex<K,V>, V?> {
+        fun doBalanceChoreWhenLeftSubTreeChanged(): Triple<RemovalStage, AVLVertex<K, V>, V?> {
             if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1))
                 return Triple(RemovalStage.A, vertex, nextCallReturned.component3())
             if (vertex.sonsHeightDiff - 1 == -2)
@@ -142,7 +150,8 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
             vertex.sonsHeightDiff--
             return Triple(RemovalStage.B, vertex, nextCallReturned.third)
         }
-        fun doBalanceChoreWhenRightSubTreeChanged() : Triple <RemovalStage, AVLVertex<K,V>, V?> {
+
+        fun doBalanceChoreWhenRightSubTreeChanged(): Triple<RemovalStage, AVLVertex<K, V>, V?> {
             if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1))
                 return Triple(RemovalStage.A, vertex, nextCallReturned.component3())
             if (vertex.sonsHeightDiff + 1 == 2)
@@ -161,23 +170,27 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                             vertex.leftSon = nextCallReturned.component2()
                             return doBalanceChoreWhenLeftSubTreeChanged()
                         }
+
                         else -> {
                             vertex.rightSon = nextCallReturned.component2()
                             return doBalanceChoreWhenRightSubTreeChanged()
                         }
                     }
             }
+
             RemovalStage.C ->
                 when (compareKeys(nextCallReturned.component2().key, vertex.key)) {
                     -1 -> {
                         vertex.leftSon = null
                         return doBalanceChoreWhenLeftSubTreeChanged()
                     }
+
                     else -> {
                         vertex.rightSon = null
                         return doBalanceChoreWhenRightSubTreeChanged()
                     }
                 }
+                
             RemovalStage.D -> {
                 if (compareKeys(nextCallReturned.component2().key, vertex.key) == -1)
                     vertex.leftSon = nextCallReturned.component2()
@@ -197,21 +210,21 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
         return substitute
     }
 
-    private fun balance(curVertex: AVLVertex<K,V>) : AVLVertex<K,V> {
-        var (rightSon, leftSon) = List<AVLVertex<K,V>?>(2){null}
-        fun setTwoSonHeightDiffs(values : Pair<Int, Int>) {
+    private fun balance(curVertex: AVLVertex<K, V>): AVLVertex<K, V> {
+        var (rightSon, leftSon) = List<AVLVertex<K, V>?>(2) { null }
+        fun setTwoSonHeightDiffs(values: Pair<Int, Int>) {
             curVertex.sonsHeightDiff = values.component1()
-            if (rightSon != null){
-                (rightSon as AVLVertex<K,V>).sonsHeightDiff = values.component2()
+            if (rightSon != null) {
+                (rightSon as AVLVertex<K, V>).sonsHeightDiff = values.component2()
                 return
             }
-            (leftSon as AVLVertex<K,V>).sonsHeightDiff = values.component2()
+            (leftSon as AVLVertex<K, V>).sonsHeightDiff = values.component2()
         }
 
-        if(curVertex.sonsHeightDiff == -1) {
-            rightSon = curVertex.rightSon as AVLVertex<K,V>
+        if (curVertex.sonsHeightDiff == -1) {
+            rightSon = curVertex.rightSon as AVLVertex<K, V>
             return if (rightSon.sonsHeightDiff == 1) {
-                val rightSonSLeftSon = rightSon.leftSon as AVLVertex<K,V>
+                val rightSonSLeftSon = rightSon.leftSon as AVLVertex<K, V>
                 val subtreeRoot = bigRotateLeft(curVertex, rightSon)
                 setTwoSonHeightDiffs(
                     when (rightSonSLeftSon.sonsHeightDiff) {
@@ -222,8 +235,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                 )
                 rightSonSLeftSon.sonsHeightDiff = 0
                 subtreeRoot
-            }
-            else {
+            } else {
                 val subtreeRoot = rotateLeft(curVertex, rightSon)
                 setTwoSonHeightDiffs(
                     if (rightSon.sonsHeightDiff == 0) -1 to 1
@@ -231,11 +243,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
                 )
                 subtreeRoot
             }
-
         }
-        leftSon = curVertex.leftSon as AVLVertex<K,V>
+        leftSon = curVertex.leftSon as AVLVertex<K, V>
         return if (leftSon.sonsHeightDiff == -1) {
-            val leftSonSRightSon = leftSon.rightSon as AVLVertex<K,V>
+            val leftSonSRightSon = leftSon.rightSon as AVLVertex<K, V>
             val subtreeRoot = bigRotateRight(curVertex, leftSon)
             setTwoSonHeightDiffs(
                 when (leftSonSRightSon.sonsHeightDiff) {
@@ -257,13 +268,13 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
         }
     }
 
-    private fun rotateLeft(curVertex: AVLVertex<K,V>, rightSon : AVLVertex<K,V> ) : AVLVertex<K,V> {
+    private fun rotateLeft(curVertex: AVLVertex<K, V>, rightSon: AVLVertex<K, V>): AVLVertex<K, V> {
         curVertex.rightSon = rightSon.leftSon
         rightSon.leftSon = curVertex
         return rightSon
     }
 
-    private fun rotateRight(curVertex: AVLVertex<K,V>, leftSon : AVLVertex<K,V>) : AVLVertex<K,V> {
+    private fun rotateRight(curVertex: AVLVertex<K, V>, leftSon: AVLVertex<K, V>): AVLVertex<K, V> {
         curVertex.leftSon = leftSon.rightSon
         leftSon.rightSon = curVertex
         return leftSon
@@ -275,14 +286,17 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K,V>> 
         return rotateLeft(curVertex, curRightSon)
     }
 
-    private fun bigRotateRight(curVertex: AVLVertex<K,V>, leftSon : AVLVertex<K,V>) : AVLVertex<K,V> {
-        val curLeftSon = rotateLeft(leftSon, leftSon.rightSon as AVLVertex<K,V>)
+    private fun bigRotateRight(curVertex: AVLVertex<K, V>, leftSon: AVLVertex<K, V>): AVLVertex<K, V> {
+        val curLeftSon = rotateLeft(leftSon, leftSon.rightSon as AVLVertex<K, V>)
         curVertex.leftSon = curLeftSon
         return rotateRight(curVertex, curLeftSon)
     }
 
     constructor (comparator: Comparator<K>? = null) : super(comparator)
 
-    constructor(map: Map<K, V>, replaceIfExists: Boolean = true,
-                comparator: Comparator<K>? = null) : super(map, replaceIfExists, comparator)
+    constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
+        map,
+        replaceIfExists,
+        comparator
+    )
 }
