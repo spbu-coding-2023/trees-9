@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
 class IteratorTests {
-
     @Test
     fun `add in stack`() {
         val vertex = SimpleBSTVertex(1, "one")

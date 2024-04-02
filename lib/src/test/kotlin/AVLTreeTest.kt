@@ -1,9 +1,8 @@
-import kotlin.collections.hashMapOf
 import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
+import kotlin.collections.hashMapOf
 
 class AVLTreeTest {
-
     private fun makeEmptyTree(): AVLTreeForTest<Int, Char> {
         return AVLTreeForTest<Int, Char>()
     }
@@ -79,7 +78,10 @@ class AVLTreeTest {
         return AVLTreeForTest(AVLVertex(4, 'A', AVLVertex(1, 'I'), AVLVertex(5, 'S')), 3L)
     }
 
-    private fun <K, V> isTreeConsistsOf(expectedContent: Set<Pair<K, V>>, tree: AVLTreeForTest<K, V>): Boolean {
+    private fun <K, V> isTreeConsistsOf(
+        expectedContent: Set<Pair<K, V>>,
+        tree: AVLTreeForTest<K, V>,
+    ): Boolean {
         val vertexes = tree.getVertexesInDFSOrder()
         val pairsFromVertexes = (Array(vertexes.size) { i -> (vertexes[i].key to vertexes[i].value) }).toSet()
         return pairsFromVertexes == expectedContent
@@ -102,7 +104,7 @@ class AVLTreeTest {
     private fun <K, V> isTreeSStructureThat(
         tree: AVLTreeForTest<K, V>,
         order: Array<K>,
-        deps: List<Triple<Int, Int?, Int?>>
+        deps: List<Triple<Int, Int?, Int?>>,
     ): Boolean {
         // Tiple consists of indexes in order of (1)vertex, one's (2)leftSon and (3)RightSon
         val vertexes = tree.getVertexesInDFSOrder()
@@ -110,12 +112,16 @@ class AVLTreeTest {
         for (i in order.indices)
             if (order[i] != vertexes[i].key) return false
         for (dep in deps) {
-            if (dep.component2() != null)
-                if (vertexes[dep.component1()].leftSon != vertexes[dep.component2() as Int])
+            if (dep.component2() != null) {
+                if (vertexes[dep.component1()].leftSon != vertexes[dep.component2() as Int]) {
                     return false
-            if (dep.component3() != null)
-                if (vertexes[dep.component1()].rightSon != vertexes[dep.component3() as Int])
+                }
+            }
+            if (dep.component3() != null) {
+                if (vertexes[dep.component1()].rightSon != vertexes[dep.component3() as Int]) {
                     return false
+                }
+            }
         }
         return true
     }
@@ -167,10 +173,18 @@ class AVLTreeTest {
     fun `content is correct after entry was added (have to rotate left)`() {
         val tree = makeTreeForHaveToRotateLeftPutTest()
         tree.put('j', 'J')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'c' to 'C',
-            'd' to 'D', 'e' to 'E', 'h' to 'H', 'f' to 'F', 'i' to 'I', 'j' to 'J'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'e' to 'E',
+                'h' to 'H',
+                'f' to 'F',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -185,10 +199,14 @@ class AVLTreeTest {
     fun `structure is correct after added (have to rotate left)`() {
         val tree = makeTreeForHaveToRotateLeftPutTest()
         tree.put('j', 'J')
-        val expectedDependences = listOf(
-            Triple(0, 1, 3), Triple(1, 2, null), Triple(3, 4, 7),
-            Triple(4, 5, 6), Triple(7, null, 8)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 3),
+                Triple(1, 2, null),
+                Triple(3, 4, 7),
+                Triple(4, 5, 6),
+                Triple(7, null, 8),
+            )
         val expectedOrder = arrayOf('c', 'b', 'a', 'h', 'e', 'd', 'f', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -211,10 +229,18 @@ class AVLTreeTest {
     fun `content is correct after entry was added (have to rotate right)`() {
         val tree = makeTreeForHaveToRotateRightPutTest()
         tree.put('a', 'A')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'c' to 'C',
-            'd' to 'D', 'e' to 'E', 'h' to 'H', 'f' to 'F', 'i' to 'I', 'j' to 'J'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'e' to 'E',
+                'h' to 'H',
+                'f' to 'F',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -229,10 +255,14 @@ class AVLTreeTest {
     fun `structure is correct after added (have to rotate right)`() {
         val tree = makeTreeForHaveToRotateRightPutTest()
         tree.put('a', 'A')
-        val expectedDependences = listOf(
-            Triple(0, 1, 7), Triple(1, 2, 4), Triple(2, 3, null),
-            Triple(4, 5, 6), Triple(7, null, 8)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 7),
+                Triple(1, 2, 4),
+                Triple(2, 3, null),
+                Triple(4, 5, 6),
+                Triple(7, null, 8),
+            )
         val expectedOrder = arrayOf('h', 'c', 'b', 'a', 'f', 'd', 'e', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -330,10 +360,18 @@ class AVLTreeTest {
     fun `content is correct after entry was added (have to big rotate left)(1)`() {
         val tree = makeTreeForHaveToBigRotateLeftPutTest()
         tree.put('f', 'F')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'c' to 'C',
-            'd' to 'D', 'e' to 'E', 'g' to 'G', 'f' to 'F', 'i' to 'I', 'j' to 'J'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'e' to 'E',
+                'g' to 'G',
+                'f' to 'F',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -341,10 +379,18 @@ class AVLTreeTest {
     fun `content is correct after entry was added (have to big rotate left)(2)`() {
         val tree = makeTreeForHaveToBigRotateLeftPutTest()
         tree.put('h', 'H')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'c' to 'C',
-            'd' to 'D', 'e' to 'E', 'h' to 'H', 'g' to 'G', 'i' to 'I', 'j' to 'J'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'e' to 'E',
+                'h' to 'H',
+                'g' to 'G',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -366,10 +412,14 @@ class AVLTreeTest {
     fun `structure is correct after added (have to big rotate left)(1)`() {
         val tree = makeTreeForHaveToBigRotateLeftPutTest()
         tree.put('f', 'F')
-        val expectedDependences = listOf(
-            Triple(0, 1, 3), Triple(1, 2, null), Triple(3, 4, 7),
-            Triple(4, 5, 6), Triple(7, null, 8)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 3),
+                Triple(1, 2, null),
+                Triple(3, 4, 7),
+                Triple(4, 5, 6),
+                Triple(7, null, 8),
+            )
         val expectedOrder = arrayOf('c', 'b', 'a', 'g', 'e', 'd', 'f', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -378,10 +428,14 @@ class AVLTreeTest {
     fun `structure is correct after added (have to big rotate left)(2)`() {
         val tree = makeTreeForHaveToBigRotateLeftPutTest()
         tree.put('h', 'H')
-        val expectedDependences = listOf(
-            Triple(0, 1, 3), Triple(1, 2, null), Triple(3, 4, 6),
-            Triple(4, 5, null), Triple(6, 7, 8)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 3),
+                Triple(1, 2, null),
+                Triple(3, 4, 6),
+                Triple(4, 5, null),
+                Triple(6, 7, 8),
+            )
         val expectedOrder = arrayOf('c', 'b', 'a', 'g', 'e', 'd', 'i', 'h', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -412,10 +466,18 @@ class AVLTreeTest {
     fun `content is correct after entry was added (have to big rotate right)(1)`() {
         val tree = makeTreeForHaveToBigRotateRightPutTest()
         tree.put('c', 'C')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'c' to 'C',
-            'd' to 'D', 'h' to 'H', 'g' to 'G', 'f' to 'F', 'i' to 'I', 'j' to 'J'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'h' to 'H',
+                'g' to 'G',
+                'f' to 'F',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -423,10 +485,18 @@ class AVLTreeTest {
     fun `content is correct after entry was added (have to big rotate right)(2)`() {
         val tree = makeTreeForHaveToBigRotateRightPutTest()
         tree.put('e', 'E')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'f' to 'F',
-            'd' to 'D', 'e' to 'E', 'h' to 'H', 'g' to 'G', 'i' to 'I', 'j' to 'J'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'f' to 'F',
+                'd' to 'D',
+                'e' to 'E',
+                'h' to 'H',
+                'g' to 'G',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -448,10 +518,14 @@ class AVLTreeTest {
     fun `structure is correct after added (have to big rotate right)(1)`() {
         val tree = makeTreeForHaveToBigRotateRightPutTest()
         tree.put('c', 'C')
-        val expectedDependences = listOf(
-            Triple(0, 1, 7), Triple(7, null, 8), Triple(1, 2, 5),
-            Triple(5, null, 6), Triple(2, 3, 4)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 7),
+                Triple(7, null, 8),
+                Triple(1, 2, 5),
+                Triple(5, null, 6),
+                Triple(2, 3, 4),
+            )
         val expectedOrder = arrayOf('h', 'd', 'b', 'a', 'c', 'f', 'g', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -460,10 +534,14 @@ class AVLTreeTest {
     fun `structure is correct after added (have to big rotate right)(2)`() {
         val tree = makeTreeForHaveToBigRotateRightPutTest()
         tree.put('e', 'E')
-        val expectedDependences = listOf(
-            Triple(0, 1, 7), Triple(7, null, 8), Triple(1, 2, 4),
-            Triple(2, 3, null), Triple(4, 5, 6)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 7),
+                Triple(7, null, 8),
+                Triple(1, 2, 4),
+                Triple(2, 3, null),
+                Triple(4, 5, 6),
+            )
         val expectedOrder = arrayOf('h', 'd', 'b', 'a', 'f', 'e', 'g', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -550,8 +628,11 @@ class AVLTreeTest {
         val tree = makeTreeForRemoveLeafWithoutBalanceingTest()
         tree.remove('z')
         val root = tree.getRootT()
-        if (root != null) assert(root.rightSon == null)
-        else assert(false)
+        if (root != null) {
+            assert(root.rightSon == null)
+        } else {
+            assert(false)
+        }
     }
 
     @Test
@@ -559,8 +640,11 @@ class AVLTreeTest {
         val tree = makeTreeForRemoveLeafWithoutBalanceingTest()
         tree.remove('n')
         val root = tree.getRootT()
-        if (root != null) assert(root.leftSon == null)
-        else assert(false)
+        if (root != null) {
+            assert(root.leftSon == null)
+        } else {
+            assert(false)
+        }
     }
 
     @Test
@@ -833,10 +917,21 @@ class AVLTreeTest {
     fun `content is correct after removed left son with both sons (needn't balanceing)`() {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('f')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'c' to 'C', 'e' to 'E', 'i' to 'I',
-            'z' to 'Z', 'k' to 'K', 'n' to 'N', 'u' to 'U', 'q' to 'Q', 's' to 'S', 'w' to 'W'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'e' to 'E',
+                'i' to 'I',
+                'z' to 'Z',
+                'k' to 'K',
+                'n' to 'N',
+                'u' to 'U',
+                'q' to 'Q',
+                's' to 'S',
+                'w' to 'W',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -851,10 +946,15 @@ class AVLTreeTest {
     fun `structure is correct after removed left son with both sons (needn't balanceing)`() {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('f')
-        val expectedDependences = listOf(
-            Triple(0, 1, 7), Triple(1, 2, 5), Triple(2, 3, 4),
-            Triple(5, null, 6), Triple(7, 8, 10), Triple(10, null, 11)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 7),
+                Triple(1, 2, 5),
+                Triple(2, 3, 4),
+                Triple(5, null, 6),
+                Triple(7, 8, 10),
+                Triple(10, null, 11),
+            )
         val expectedOrder = arrayOf('n', 'e', 'b', 'a', 'c', 'i', 'k', 'u', 'q', 's', 'w', 'z')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -876,10 +976,21 @@ class AVLTreeTest {
     fun `content is correct after removed right son with both sons (needn't balanceing)`() {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('u')
-        val expectedContent = setOf(
-            'a' to 'A', 'b' to 'B', 'c' to 'C', 'e' to 'E', 'i' to 'I',
-            'z' to 'Z', 'k' to 'K', 'n' to 'N', 'f' to 'F', 'q' to 'Q', 's' to 'S', 'w' to 'W'
-        )
+        val expectedContent =
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'e' to 'E',
+                'i' to 'I',
+                'z' to 'Z',
+                'k' to 'K',
+                'n' to 'N',
+                'f' to 'F',
+                'q' to 'Q',
+                's' to 'S',
+                'w' to 'W',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -894,10 +1005,16 @@ class AVLTreeTest {
     fun `structure is correct after removed right son with both sons (needn't balanceing)`() {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('u')
-        val expectedDependences = listOf(
-            Triple(0, 1, 8), Triple(1, 2, 6), Triple(2, 3, 4),
-            Triple(6, null, 7), Triple(4, 5, null), Triple(8, 9, 10), Triple(10, null, 11)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 8),
+                Triple(1, 2, 6),
+                Triple(2, 3, 4),
+                Triple(6, null, 7),
+                Triple(4, 5, null),
+                Triple(8, 9, 10),
+                Triple(10, null, 11),
+            )
         val expectedOrder = arrayOf('n', 'f', 'b', 'a', 'e', 'c', 'i', 'k', 's', 'q', 'w', 'z')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -984,10 +1101,15 @@ class AVLTreeTest {
     fun `content is correct after removed and rotated left (1)`() {
         val tree = makeTreeForRemoveWithLeftRotate1Test()
         tree.remove('l')
-        val expectedContent = setOf(
-            'k' to true, 'i' to false, 'm' to true,
-            'o' to false, 'p' to true, 'a' to false
-        )
+        val expectedContent =
+            setOf(
+                'k' to true,
+                'i' to false,
+                'm' to true,
+                'o' to false,
+                'p' to true,
+                'a' to false,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -995,10 +1117,16 @@ class AVLTreeTest {
     fun `content is correct after removed and rotated left (2)`() {
         val tree = makeTreeForRemoveWithLeftRotate2Test()
         tree.remove('l')
-        val expectedContent = setOf(
-            'k' to true, 'i' to false, 'm' to true,
-            'o' to false, 'p' to true, 'n' to true, 'a' to false
-        )
+        val expectedContent =
+            setOf(
+                'k' to true,
+                'i' to false,
+                'm' to true,
+                'o' to false,
+                'p' to true,
+                'n' to true,
+                'a' to false,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -1029,10 +1157,13 @@ class AVLTreeTest {
     fun `structure is correct after removed and rotated left (2)`() {
         val tree = makeTreeForRemoveWithLeftRotate2Test()
         tree.remove('l')
-        val expectedDependences = listOf(
-            Triple(0, 1, 3), Triple(3, 4, 6),
-            Triple(4, null, 5), Triple(1, 2, null)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 3),
+                Triple(3, 4, 6),
+                Triple(4, null, 5),
+                Triple(1, 2, null),
+            )
         val expectedOrder = arrayOf('k', 'i', 'a', 'o', 'm', 'n', 'p')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -1082,10 +1213,15 @@ class AVLTreeTest {
     fun `content is correct after removed and rotated right (1)`() {
         val tree = makeTreeForRemoveWithRightRotate1Test()
         tree.remove('e')
-        val expectedContent = setOf(
-            'k' to true, 'b' to true, 'm' to true,
-            'o' to false, 'd' to true, 'a' to false
-        )
+        val expectedContent =
+            setOf(
+                'k' to true,
+                'b' to true,
+                'm' to true,
+                'o' to false,
+                'd' to true,
+                'a' to false,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -1093,10 +1229,16 @@ class AVLTreeTest {
     fun `content is correct after removed and rotated right (2)`() {
         val tree = makeTreeForRemoveWithRightRotate2Test()
         tree.remove('e')
-        val expectedContent = setOf(
-            'k' to true, 'b' to true, 'm' to true,
-            'o' to false, 'd' to true, 'a' to false, 'c' to true
-        )
+        val expectedContent =
+            setOf(
+                'k' to true,
+                'b' to true,
+                'm' to true,
+                'o' to false,
+                'd' to true,
+                'a' to false,
+                'c' to true,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -1127,10 +1269,13 @@ class AVLTreeTest {
     fun `structure is correct after removed and rotated right (2)`() {
         val tree = makeTreeForRemoveWithRightRotate2Test()
         tree.remove('e')
-        val expectedDependences = listOf(
-            Triple(0, 1, 5), Triple(1, 2, 3),
-            Triple(5, null, 6), Triple(3, 4, null)
-        )
+        val expectedDependences =
+            listOf(
+                Triple(0, 1, 5),
+                Triple(1, 2, 3),
+                Triple(5, null, 6),
+                Triple(3, 4, null),
+            )
         val expectedOrder = arrayOf('k', 'b', 'a', 'd', 'c', 'm', 'o')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependences))
     }
@@ -1250,10 +1395,16 @@ class AVLTreeTest {
     fun `content is correct after removed (bigRotateLeft changed root)`() {
         val tree = makeTreeForBigRotateLeftChangesRootRemoveTest()
         tree.remove(' ')
-        val expectedContent = setOf(
-            'd' to 'D', 'c' to 'C', 'e' to 'E', 'f' to 'F',
-            'g' to 'G', 'b' to 'B', 'a' to 'A'
-        )
+        val expectedContent =
+            setOf(
+                'd' to 'D',
+                'c' to 'C',
+                'e' to 'E',
+                'f' to 'F',
+                'g' to 'G',
+                'b' to 'B',
+                'a' to 'A',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -1297,10 +1448,16 @@ class AVLTreeTest {
     fun `content is correct after removed (bigRotateRight changed root)`() {
         val tree = makeTreeForBigRotateRightChangesRootRemoveTest()
         tree.remove('k')
-        val expectedContent = setOf(
-            'a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5,
-            'i' to 9, 'f' to 8
-        )
+        val expectedContent =
+            setOf(
+                'a' to 1,
+                'b' to 2,
+                'c' to 3,
+                'd' to 4,
+                'e' to 5,
+                'i' to 9,
+                'f' to 8,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 

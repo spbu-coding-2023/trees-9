@@ -4,7 +4,7 @@ import main.vertexes.InterfaceBSTVertex
 import java.util.LinkedList
 
 open class TreeIterator<K, V, N : InterfaceBSTVertex<K, V, N>>(
-    vertex: N?
+    vertex: N?,
 ) : Iterator<Pair<K, V>> {
     protected val stack = LinkedList<N>()
 

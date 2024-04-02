@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class SimpleBSTTests {
-
     @Test
     fun `get root`() {
         val tree: TestSimpleBST<Int, String> = TestSimpleBST(mapOf(Pair(1, "one")))
@@ -63,14 +62,15 @@ class SimpleBSTTests {
 
     @Test
     fun `put many vertexes with method putAll() test`() {
-        val map: Map<Int, String> = mapOf(
-            Pair(1, "one"),
-            Pair(4, "four"),
-            Pair(0, "zero"),
-            Pair(3, "three"),
-            Pair(5, "five"),
-            Pair(2, "two")
-        )
+        val map: Map<Int, String> =
+            mapOf(
+                Pair(1, "one"),
+                Pair(4, "four"),
+                Pair(0, "zero"),
+                Pair(3, "three"),
+                Pair(5, "five"),
+                Pair(2, "two"),
+            )
         val tree: TestSimpleBST<Int, String> = TestSimpleBST(mapOf(Pair(1, "one")))
         tree.putAll(map)
         assertEquals(6, tree.size())
@@ -128,16 +128,17 @@ class SimpleBSTTests {
 
     @Test
     fun `remove two sons with right subtree vertex test`() {
-        val tree: TestSimpleBST<Int?, String?> = TestSimpleBST(
-            mapOf(
-                Pair(1, "one"),
-                Pair(4, "four"),
-                Pair(0, "zero"),
-                Pair(3, "three"),
-                Pair(5, "five"),
-                Pair(2, "two")
+        val tree: TestSimpleBST<Int?, String?> =
+            TestSimpleBST(
+                mapOf(
+                    Pair(1, "one"),
+                    Pair(4, "four"),
+                    Pair(0, "zero"),
+                    Pair(3, "three"),
+                    Pair(5, "five"),
+                    Pair(2, "two"),
+                ),
             )
-        )
         tree.remove(1)
         assertEquals(2, tree.getTreeRoot()?.key)
         assertEquals(5, tree.size())
@@ -145,16 +146,17 @@ class SimpleBSTTests {
 
     @Test
     fun `remove many vertex test`() {
-        val tree: TestSimpleBST<Int?, String?> = TestSimpleBST(
-            mapOf(
-                Pair(1, "one"),
-                Pair(4, "four"),
-                Pair(0, "zero"),
-                Pair(3, "three"),
-                Pair(5, "five"),
-                Pair(2, "two")
+        val tree: TestSimpleBST<Int?, String?> =
+            TestSimpleBST(
+                mapOf(
+                    Pair(1, "one"),
+                    Pair(4, "four"),
+                    Pair(0, "zero"),
+                    Pair(3, "three"),
+                    Pair(5, "five"),
+                    Pair(2, "two"),
+                ),
             )
-        )
         for (key in 0..5) {
             tree.remove(key)
         }

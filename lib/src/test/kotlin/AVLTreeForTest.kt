@@ -1,11 +1,10 @@
+import main.trees.AVLSearchTree
+import main.vertexes.AVLVertex
 import kotlin.collections.mutableListOf
 import kotlin.collections.mutableMapOf
 import kotlin.math.max
-import main.trees.AVLSearchTree
-import main.vertexes.AVLVertex
 
 class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {
-
     fun getRootT(): AVLVertex<K, V>? {
         return root
     }
@@ -16,7 +15,10 @@ class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {
         return vertexes
     }
 
-    private fun getVertexesRec(curVertex: AVLVertex<K, V>?, vrtList: MutableList<AVLVertex<K, V>>) {
+    private fun getVertexesRec(
+        curVertex: AVLVertex<K, V>?,
+        vrtList: MutableList<AVLVertex<K, V>>,
+    ) {
         if (curVertex == null) return
         vrtList.add(curVertex)
         getVertexesRec(curVertex.leftSon, vrtList)
@@ -30,7 +32,10 @@ class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {
         return heights
     }
 
-    private fun getHeightsRec(rootOfSubtree: AVLVertex<K, V>, heights: MutableMap<K, Int>): Int {
+    private fun getHeightsRec(
+        rootOfSubtree: AVLVertex<K, V>,
+        heights: MutableMap<K, Int>,
+    ): Int {
         return when ((rootOfSubtree.leftSon == null) to (rootOfSubtree.rightSon == null)) {
             true to true -> {
                 heights.put(rootOfSubtree.key, 0)
@@ -69,6 +74,6 @@ class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {
     constructor(
         map: Map<K, V>,
         replaceIfExists: Boolean = true,
-        comparator: Comparator<K>? = null
+        comparator: Comparator<K>? = null,
     ) : super(map, replaceIfExists, comparator)
 }
