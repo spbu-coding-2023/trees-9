@@ -1,4 +1,3 @@
-import AVLTreeForTest
 import kotlin.collections.hashMapOf
 import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
@@ -102,7 +101,8 @@ class AVLTreeTest {
 
     private fun <K, V> isTreeSStructureThat(
         tree: AVLTreeForTest<K, V>,
-        order: Array<K>, deps: List<Triple<Int, Int?, Int?>>
+        order: Array<K>,
+        deps: List<Triple<Int, Int?, Int?>>
     ): Boolean {
         // Tiple consists of indexes in order of (1)vertex, one's (2)leftSon and (3)RightSon
         val vertexes = tree.getVertexesInDFSOrder()
