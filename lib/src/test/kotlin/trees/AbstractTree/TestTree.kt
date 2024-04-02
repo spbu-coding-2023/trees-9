@@ -1,3 +1,5 @@
+package trees.AbstractTree
+
 import main.trees.AbstractBinarySearchTree
 import main.vertexes.SimpleBSTVertex
 

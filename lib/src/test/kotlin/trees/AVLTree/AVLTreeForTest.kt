@@ -1,3 +1,5 @@
+package trees.AVLTree
+
 import main.trees.AVLSearchTree
 import main.vertexes.AVLVertex
 import kotlin.collections.mutableListOf

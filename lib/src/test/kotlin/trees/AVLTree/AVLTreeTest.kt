@@ -1,3 +1,5 @@
+package trees.AVLTree
+
 import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import kotlin.collections.hashMapOf

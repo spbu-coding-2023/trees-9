@@ -1,4 +1,4 @@
-package trees
+package trees.RBSearchTree
 
 import main.trees.RBSearchTree
 import org.junit.jupiter.api.AfterEach
