@@ -1,13 +1,14 @@
-package trees.AbstractTree
+package trees.abstractTree
 
 import main.vertexes.SimpleBSTVertex
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import java.util.Comparator
 
 class AbstractTreeTest {
-
-    private fun makeEmptyTree() : TestTree<IntArray, String> {
+    private fun makeEmptyTree(): TestTree<IntArray, String> {
         return TestTree<IntArray, String>()
     }
 
@@ -52,8 +53,8 @@ class AbstractTreeTest {
         val tree = makeEmptyTree()
         assertNull(tree.getMinKeyPair())
     }
-    
-    private fun makeTreeWithBothRootSSons() : TestTree<Char, String> {
+
+    private fun makeTreeWithBothRootSSons(): TestTree<Char, String> {
         val leftSon = SimpleBSTVertex('1', "!", SimpleBSTVertex('0', ")"), null)
         val rightSon = SimpleBSTVertex('4', "$", SimpleBSTVertex('3', "#"), null)
         return TestTree(SimpleBSTVertex('2', "@", leftSon, rightSon), 5L)
@@ -107,53 +108,53 @@ class AbstractTreeTest {
         assert(tree.get('2') == "@")
     }
 
-    @Test 
+    @Test
     fun `get() returns correct value when leaf's key was given`() {
         val tree = makeTreeWithBothRootSSons()
         assert(tree.get('3') == "#")
     }
 
-    @Test 
+    @Test
     fun `getMin() returns correct value when root has two sons`() {
         val tree = makeTreeWithBothRootSSons()
         assert(tree.getMin() == ")")
     }
 
-    @Test 
+    @Test
     fun `getMax() returns correct value when root has two sons`() {
         val tree = makeTreeWithBothRootSSons()
         assert(tree.getMax() == "$")
     }
 
-    @Test 
+    @Test
     fun `getMinKeyPair() returns correct value when root has two sons`() {
         val tree = makeTreeWithBothRootSSons()
         assert(tree.getMinKeyPair() == ('0' to ")"))
     }
 
-    @Test 
+    @Test
     fun `getMaxKeyPair() returns correct value when root has two sons`() {
         val tree = makeTreeWithBothRootSSons()
         assert(tree.getMaxKeyPair() == ('4' to "$"))
     }
 
-    private fun makeTreeWithOnlyLeftRootSSon() : TestTree<Char, String> {
+    private fun makeTreeWithOnlyLeftRootSSon(): TestTree<Char, String> {
         val leftSon = SimpleBSTVertex('1', "!", SimpleBSTVertex('0', ")"), SimpleBSTVertex('2', "@"))
         return TestTree(SimpleBSTVertex('3', "#", leftSon, null), 4L)
     }
 
-    @Test 
+    @Test
     fun `getMax() returns correct value when root has only left son`() {
         val tree = makeTreeWithOnlyLeftRootSSon()
         assert(tree.getMax() == "#")
     }
 
-    private fun makeTreeWithOnlyRightRootSSon() : TestTree<Char, String> {
+    private fun makeTreeWithOnlyRightRootSSon(): TestTree<Char, String> {
         val rightSon = SimpleBSTVertex('6', "^", SimpleBSTVertex('5', "%"), SimpleBSTVertex('8', "*"))
         return TestTree(SimpleBSTVertex('3', "#", null, rightSon), 4L)
     }
 
-    @Test 
+    @Test
     fun `getMin() returns correct value when root has only right son`() {
         val tree = makeTreeWithOnlyRightRootSSon()
         assert(tree.getMin() == "#")
@@ -161,14 +162,14 @@ class AbstractTreeTest {
 
     @Test
     fun `removeAndReturnPair() returns null when remove() returned null`() {
-        val tree = TestTree<Int,Int>(removeShouldReturns = null)
+        val tree = TestTree<Int, Int>(removeShouldReturns = null)
         assertNull(tree.removeAndReturnPair(1))
     }
 
     @Test
     fun `removeAndReturnPair() returns (given key) to (value that remove() returned) pair`() {
         val tree = TestTree<Int, Char>(removeShouldReturns = '1')
-        assert (tree.removeAndReturnPair(3) == (3 to '1'))
+        assert(tree.removeAndReturnPair(3) == (3 to '1'))
     }
 
     @Test
@@ -176,7 +177,7 @@ class AbstractTreeTest {
         val tree = TestTree<Char, Char>()
         val map = hashMapOf('a' to 'A', 'b' to 'B', 'c' to 'C', 'a' to 'A')
         tree.putAll(map)
-        for (pair in map) 
+        for (pair in map)
             assertNotNull(tree.putWasCalledWithParams.remove(Triple(pair.component1(), pair.component2(), true)))
     }
 
@@ -185,60 +186,64 @@ class AbstractTreeTest {
         val tree = TestTree<Char, Char>()
         val map = hashMapOf('a' to 'A', 'b' to 'B', 'c' to 'C', 'a' to 'A')
         tree.putAll(map, false)
-        for (pair in map) 
+        for (pair in map)
             assertNotNull(tree.putWasCalledWithParams.remove(Triple(pair.component1(), pair.component2(), false)))
     }
 
-    @Test 
+    @Test
     fun `compareKeys return 1 when key1 larger than key2 (keys are comparable)`() {
         val tree = TestTree<Int, Int>()
-        assert (tree.compareKeysT(18, 14) == 1)
+        assert(tree.compareKeysT(18, 14) == 1)
     }
 
-    @Test 
+    @Test
     fun `compareKeys return 0 when key1 equals key2 (keys are comparable)`() {
         val tree = TestTree<Int, Int>()
-        assert (tree.compareKeysT(18, 18) == 0)
+        assert(tree.compareKeysT(18, 18) == 0)
     }
 
-    @Test 
+    @Test
     fun `compareKeys return -1 when key1 lesser than key2 (keys are comparable)`() {
         val tree = TestTree<Int, Int>()
-        assert (tree.compareKeysT(14, 18) == -1)
+        assert(tree.compareKeysT(14, 18) == -1)
     }
-    
-        class cmp : Comparator<IntArray> {
-        override fun compare(o1 : IntArray, o2 : IntArray) : Int {
+
+    class CMP : Comparator<IntArray> {
+        override fun compare(
+            o1: IntArray,
+            o2: IntArray,
+        ): Int {
             return o1.sum() - o2.sum()
         }
     }
-    
 
-    @Test 
+    @Test
     fun `compareKeys return 1 when key1 larger than key2 (comparator was given)`() {
-        val tree = TestTree<IntArray, Int>(cmp())
-        assert (tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(-1)) == 1)
+        val tree = TestTree<IntArray, Int>(CMP())
+        assert(tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(-1)) == 1)
     }
 
-    @Test 
+    @Test
     fun `compareKeys return 0 when key1 equals key2 (comparator was given)`() {
-        val tree = TestTree<IntArray, Int>(cmp())
-        assert (tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(0)) == 0)
+        val tree = TestTree<IntArray, Int>(CMP())
+        assert(tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(0)) == 0)
     }
 
-    @Test 
+    @Test
     fun `compareKeys return -1 when key1 lesser than key2 (comparator was given)`() {
-        val tree = TestTree<IntArray, Int>(cmp())
-        assert (tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(1)) == -1)
+        val tree = TestTree<IntArray, Int>(CMP())
+        assert(tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(1)) == -1)
     }
-    
-    
+
     @Test
     fun `compareKeys fall when keys type doesn't implement compareble && comparator wasn't given`() {
         var didItFall = false
         val tree = TestTree<IntArray, Int>()
-        try {tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(1))}
-        catch (e : Exception) {didItFall = true}
+        try {
+            tree.compareKeysT(intArrayOf(-18, 18), intArrayOf(1))
+        } catch (e: Exception) {
+            didItFall = true
+        }
         assert(didItFall)
     }
 }

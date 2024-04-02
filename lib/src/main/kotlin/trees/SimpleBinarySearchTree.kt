@@ -25,7 +25,6 @@ import main.vertexes.SimpleBSTVertex
  * @property root The root vertex of the tree.
  */
 open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
-
     /**
      * Associates the specified value with the specified key in this tree.
      * If parameter replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.

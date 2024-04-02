@@ -26,7 +26,6 @@ import main.vertexes.AVLVertex
  * @property root The root vertex of the tree.
  */
 open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>> {
-
     /**
      * Associates the specified value with the specified key in this tree.
      * If parameter replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.
@@ -137,7 +136,6 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         if (!isEmpty()) {
             val removeRecReturned = removeRec(key, root as AVLVertex<K, V>)
             when (removeRecReturned.first) {
-                RemovalStage.A -> {}
                 RemovalStage.B -> {
                     if (removeRecReturned.component2() != root) {
                         root = removeRecReturned.component2()
@@ -146,6 +144,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
 
                 RemovalStage.C -> root = null
                 RemovalStage.D -> root = removeRecReturned.component2()
+                else -> {}
             }
             return removeRecReturned.component3()
         }
@@ -174,7 +173,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         /**
          * Need only to change due "Son" property of (if exists) the parent
          */
-        D
+        D,
     }
 
     /**
@@ -196,7 +195,6 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         key: K,
         vertex: AVLVertex<K, V>,
     ): Triple<RemovalStage, AVLVertex<K, V>, V?> {
-
         /**
          * Triple consists of:
          *

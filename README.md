@@ -29,7 +29,7 @@
 ```kotlin
 import main.trees.SimpleBinarySearchTree
 import main.trees.AVLSearchTree
-import main.trees.RBSearchTree
+import main.trees.rbTree
 ```
 
 2. **Instantiate Trees:**

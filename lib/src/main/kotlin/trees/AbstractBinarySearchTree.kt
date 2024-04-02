@@ -26,7 +26,6 @@ import main.vertexes.InterfaceBSTVertex
  * @property root The root vertex of the tree.
  */
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
-
     /** Comparator used for comparing keys. */
     protected var comparator: Comparator<K>? = null
 

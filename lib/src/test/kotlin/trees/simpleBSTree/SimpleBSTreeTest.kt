@@ -1,4 +1,4 @@
-package trees.SimpleBSTree
+package trees.simpleBSTree
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -6,6 +6,7 @@ import kotlin.test.assertEquals
 
 class SimpleBSTreeTest {
     private lateinit var tree: TestSimpleBST<Int, String>
+
     @BeforeEach
     fun setup() {
         tree = TestSimpleBST()
@@ -53,7 +54,7 @@ class SimpleBSTreeTest {
     @Test
     fun `put many vertexes test`() {
         tree.put(0, "hello")
-        for (key in 1 .. 6) {
+        for (key in 1..6) {
             tree.put(key, "hello")
         }
         assertEquals(7, tree.size())
@@ -61,13 +62,16 @@ class SimpleBSTreeTest {
 
     @Test
     fun `put many vertexes with method putAll() test`() {
-        tree.putAll(mapOf(
-            Pair(1, "one"),
-            Pair(4, "four"),
-            Pair(0, "zero"),
-            Pair(3, "three"),
-            Pair(5, "five"),
-            Pair(2, "two")))
+        tree.putAll(
+            mapOf(
+                Pair(1, "one"),
+                Pair(4, "four"),
+                Pair(0, "zero"),
+                Pair(3, "three"),
+                Pair(5, "five"),
+                Pair(2, "two"),
+            ),
+        )
         assertEquals(6, tree.size())
     }
 
@@ -121,14 +125,16 @@ class SimpleBSTreeTest {
 
     @Test
     fun `remove two sons with right subtree vertex test`() {
-        tree.putAll(mapOf(
-            Pair(1, "one"),
-            Pair(4, "four"),
-            Pair(0, "zero"),
-            Pair(3, "three"),
-            Pair(5, "five"),
-            Pair(2, "two")
-        ))
+        tree.putAll(
+            mapOf(
+                Pair(1, "one"),
+                Pair(4, "four"),
+                Pair(0, "zero"),
+                Pair(3, "three"),
+                Pair(5, "five"),
+                Pair(2, "two"),
+            ),
+        )
         tree.remove(1)
         assertEquals(2, tree.getTreeRoot()?.key)
         assertEquals(5, tree.size())
@@ -136,14 +142,16 @@ class SimpleBSTreeTest {
 
     @Test
     fun `remove many vertex test`() {
-        tree.putAll(mapOf(
-            Pair(1, "one"),
-            Pair(4, "four"),
-            Pair(0, "zero"),
-            Pair(3, "three"),
-            Pair(5, "five"),
-            Pair(2, "two")
-        ))
+        tree.putAll(
+            mapOf(
+                Pair(1, "one"),
+                Pair(4, "four"),
+                Pair(0, "zero"),
+                Pair(3, "three"),
+                Pair(5, "five"),
+                Pair(2, "two"),
+            ),
+        )
         for (key in 0..5) {
             tree.remove(key)
         }

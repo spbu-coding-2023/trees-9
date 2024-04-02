@@ -32,7 +32,6 @@ import main.vertexes.RBVertex
  * @property root The root vertex of the tree.
  */
 class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
-
     /**
      * This method removes the vertex with the given key from the tree and returns its associated value,
      * maintaining the properties of the red-black tree.

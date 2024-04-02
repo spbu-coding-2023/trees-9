@@ -1,4 +1,4 @@
-package trees.AVLTree
+package trees.avlTree
 
 import main.trees.AVLSearchTree
 import main.vertexes.AVLVertex

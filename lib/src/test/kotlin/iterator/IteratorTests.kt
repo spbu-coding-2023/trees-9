@@ -1,6 +1,5 @@
 package iterator
 
-import iterator.TestIterator
 import main.trees.AVLSearchTree
 import main.vertexes.SimpleBSTVertex
 import org.junit.jupiter.api.Assertions.assertEquals
