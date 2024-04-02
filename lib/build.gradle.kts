@@ -53,5 +53,3 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
     }
 }
-
-

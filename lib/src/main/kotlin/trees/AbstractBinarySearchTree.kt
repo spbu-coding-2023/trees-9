@@ -4,7 +4,6 @@ import main.iterator.TreeIterator
 import main.vertexes.InterfaceBSTVertex
 
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
-
     protected var comparator: Comparator<K>? = null
     protected var size: Long = 0L
     protected var root: N? = null
@@ -50,9 +49,16 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (maxKeyNode == null) null else Pair(maxKeyNode.key, maxKeyNode.value)
     }
 
-    abstract fun put(key: K, value: V, replaceIfExists: Boolean = true)
+    abstract fun put(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean = true,
+    )
 
-    fun putAll(map: Map<K, V>, replaceIfExists: Boolean = true) {
+    fun putAll(
+        map: Map<K, V>,
+        replaceIfExists: Boolean = true,
+    ) {
         for (pair in map) put(pair.key, pair.value, replaceIfExists)
     }
 
@@ -63,7 +69,10 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (value == null) null else Pair(key, value)
     }
 
-    private fun getRec(key: K, vertex: N? = root): V? {
+    private fun getRec(
+        key: K,
+        vertex: N? = root,
+    ): V? {
         if (vertex == null) return null
         return when (compareKeys(key, vertex.key)) {
             0 -> vertex.value
@@ -73,22 +82,33 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
     }
 
     protected fun getMinKeyNodeRec(vertex: N? = root): N? {
-        if (vertex == null) return null
-        else {
-            return if (vertex.leftSon == null) vertex
-            else getMinKeyNodeRec(vertex.leftSon)
+        if (vertex == null) {
+            return null
+        } else {
+            return if (vertex.leftSon == null) {
+                vertex
+            } else {
+                getMinKeyNodeRec(vertex.leftSon)
+            }
         }
     }
 
     protected fun getMaxKeyNodeRec(vertex: N? = root): N? {
-        if (vertex == null) return null
-        else {
-            return if (vertex.rightSon == null) vertex
-            else getMaxKeyNodeRec(vertex.rightSon)
+        if (vertex == null) {
+            return null
+        } else {
+            return if (vertex.rightSon == null) {
+                vertex
+            } else {
+                getMaxKeyNodeRec(vertex.rightSon)
+            }
         }
     }
 
-    protected fun compareKeys(firstKey: K, secondKey: K): Int {
+    protected fun compareKeys(
+        firstKey: K,
+        secondKey: K,
+    ): Int {
         val cpr = comparator
         return if (cpr != null) {
             when (cpr.compare(firstKey, secondKey)) {
