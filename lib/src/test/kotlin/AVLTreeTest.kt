@@ -2,8 +2,6 @@ import AVLTreeForTest
 import kotlin.collections.hashMapOf
 import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.condition.DisabledIf
 
 class AVLTreeTest {
 

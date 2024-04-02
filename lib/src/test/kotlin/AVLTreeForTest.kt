@@ -67,7 +67,8 @@ class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {
     constructor (comparator: Comparator<K>? = null) : super(comparator)
 
     constructor(
-        map: Map<K, V>, replaceIfExists: Boolean = true,
+        map: Map<K, V>,
+        replaceIfExists: Boolean = true,
         comparator: Comparator<K>? = null
     ) : super(map, replaceIfExists, comparator)
 }
