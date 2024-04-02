@@ -1,9 +1,9 @@
 import AVLTreeForTest
+import kotlin.collections.hashMapOf
 import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.condition.DisabledIf
-import kotlin.collections.hashMapOf
 
 class AVLTreeTest {
 
@@ -175,7 +175,6 @@ class AVLTreeTest {
         )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
-
 
     @Test
     fun `size increased by 1 after added (have to rotate left)`() {
@@ -447,7 +446,6 @@ class AVLTreeTest {
         assert(tree.size() == 9L)
     }
 
-
     @Test
     fun `structure is correct after added (have to big rotate right)(1)`() {
         val tree = makeTreeForHaveToBigRotateRightPutTest()
@@ -544,7 +542,6 @@ class AVLTreeTest {
         assert(tree.size() == 1L)
         assert(tree.getRootT()?.value == '+')
     }
-
 
     private fun makeTreeForRemoveLeafWithoutBalanceingTest(): AVLTreeForTest<Char, String> {
         return AVLTreeForTest(AVLVertex('r', "r", AVLVertex('n', "n"), AVLVertex('z', "z")), 3L)
@@ -1063,7 +1060,6 @@ class AVLTreeTest {
         return AVLTreeForTest(root, 7L)
     }
 
-
     private fun makeTreeForRemoveWithRightRotate2Test(): AVLTreeForTest<Char, Boolean> {
         val leftSonSLeftSon = AVLVertex('b', true, AVLVertex('a', false), AVLVertex('c', true), 0)
         val leftSon = AVLVertex('d', true, leftSonSLeftSon, AVLVertex('e', false), 1)
@@ -1333,4 +1329,3 @@ class AVLTreeTest {
         assert(isSonsHeightDiffCorrect(tree))
     }
 }
-

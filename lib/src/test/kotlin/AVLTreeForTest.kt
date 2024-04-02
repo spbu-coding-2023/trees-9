@@ -1,8 +1,8 @@
-import main.vertexes.AVLVertex
-import main.trees.AVLSearchTree
-import kotlin.math.max
 import kotlin.collections.mutableListOf
 import kotlin.collections.mutableMapOf
+import kotlin.math.max
+import main.vertexes.AVLVertex
+import main.trees.AVLSearchTree
 
 class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {
 
@@ -59,8 +59,7 @@ class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {
         }
     }
 
-    constructor (root: AVLVertex<K, V>, size: Long, comparator: Comparator<K>? = null) :
-            super(comparator) {
+    constructor (root: AVLVertex<K, V>, size: Long, comparator: Comparator<K>? = null) : super(comparator) {
         this.root = root
         this.size = size
     }
