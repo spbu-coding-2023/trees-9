@@ -2,9 +2,8 @@ package main.vertexes
 
 class RBVertex<K, V>(
     override var key: K,
-    override var value: V
+    override var value: V,
 ) : InterfaceBSTVertex<K, V, RBVertex<K, V>> {
-
     var isRed = true
     var parent: RBVertex<K, V>? = null
     override var leftSon: RBVertex<K, V>? = null
@@ -16,8 +15,11 @@ class RBVertex<K, V>(
         leftSon: RBVertex<K, V>?,
         rightSon: RBVertex<K, V>?,
         isRed: Boolean,
-        parent: RBVertex<K, V>?
+        parent: RBVertex<K, V>?,
     ) : this(key, value) {
-        this.leftSon = leftSon; this.rightSon = rightSon; this.parent = parent; this.isRed = isRed
+        this.leftSon = leftSon
+        this.rightSon = rightSon
+        this.parent = parent
+        this.isRed = isRed
     }
 }

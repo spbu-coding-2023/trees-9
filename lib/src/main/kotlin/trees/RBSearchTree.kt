@@ -3,7 +3,6 @@ package main.trees
 import main.vertexes.RBVertex
 
 class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
-
     // 4 cases we need to look at
     // 1) remove red vertex with 0 children -> just remove vertex
 
@@ -22,8 +21,11 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
         --size
         val value = vertex.value
 
-        if (vertex == root && size == 0L) root = null
-        else if (needToBalance(vertex)) balanceAfterRemove(vertex)
+        if (vertex == root && size == 0L) {
+            root = null
+        } else if (needToBalance(vertex)) {
+            balanceAfterRemove(vertex)
+        }
 
         return value
     }
@@ -178,7 +180,11 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     // finds free place and inserts newVertex, colors it in red
     // if vertex with such key exists, replaces it
-    override fun put(key: K, value: V, replaceIfExists: Boolean) {
+    override fun put(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean,
+    ) {
         var currentVertex: RBVertex<K, V>? = root
         var parent: RBVertex<K, V>? = null
         var isLeft: Boolean = false
@@ -208,9 +214,13 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
         if (currentVertex == null) {
             currentVertex = RBVertex(key, value, null, null, true, parent)
-            if (root == null) root = currentVertex
-            else if (isLeft) parent?.let { parent.leftSon = currentVertex }
-            else parent?.let { parent.rightSon = currentVertex }
+            if (root == null) {
+                root = currentVertex
+            } else if (isLeft) {
+                parent?.let { parent.leftSon = currentVertex }
+            } else {
+                parent?.let { parent.rightSon = currentVertex }
+            }
         }
 
         balanceAfterPut(currentVertex)
@@ -286,10 +296,17 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     private fun getChild(vertex: RBVertex<K, V>) = if (vertex.leftSon != null) vertex.leftSon else vertex.rightSon
 
-    private fun replaceVertexBy(oldVertex: RBVertex<K, V>, newVertex: RBVertex<K, V>?) {
-        if (root == oldVertex) root = newVertex
-        else if (oldVertex == oldVertex.parent?.leftSon) oldVertex.parent?.leftSon = newVertex
-        else oldVertex.parent?.rightSon = newVertex
+    private fun replaceVertexBy(
+        oldVertex: RBVertex<K, V>,
+        newVertex: RBVertex<K, V>?,
+    ) {
+        if (root == oldVertex) {
+            root = newVertex
+        } else if (oldVertex == oldVertex.parent?.leftSon) {
+            oldVertex.parent?.leftSon = newVertex
+        } else {
+            oldVertex.parent?.rightSon = newVertex
+        }
         newVertex?.parent = oldVertex.parent
     }
 
@@ -330,6 +347,6 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
         map,
         replaceIfExists,
-        comparator
+        comparator,
     )
 }

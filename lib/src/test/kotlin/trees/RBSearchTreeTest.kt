@@ -158,10 +158,17 @@ class RBSearchTreeTest {
         rbTree.put(11, "Slim")
         rbTree.put(13, "Shady")
         rbTree.remove(10)
-        expectedResult = listOf(
-            Pair(7, "hi"), Pair(11, "Slim"), Pair(12, "chka"), Pair(13, "Shady"), Pair(9, "chka"),
-            Pair(4, "my"), Pair(5, "chka"), Pair(3, "is")
-        )
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(11, "Slim"),
+                Pair(12, "chka"),
+                Pair(13, "Shady"),
+                Pair(9, "chka"),
+                Pair(4, "my"),
+                Pair(5, "chka"),
+                Pair(3, "is"),
+            )
     }
 
     @Test
@@ -176,10 +183,17 @@ class RBSearchTreeTest {
         rbTree.put(11, "Slim")
         rbTree.put(13, "Shady")
         rbTree.remove(9)
-        expectedResult = listOf(
-            Pair(7, "hi"), Pair(12, "chka"), Pair(13, "Shady"), Pair(10, "name"), Pair(11, "Slim"),
-            Pair(4, "my"), Pair(5, "chka"), Pair(3, "is")
-        )
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(12, "chka"),
+                Pair(13, "Shady"),
+                Pair(10, "name"),
+                Pair(11, "Slim"),
+                Pair(4, "my"),
+                Pair(5, "chka"),
+                Pair(3, "is"),
+            )
     }
 
     @Test
@@ -193,10 +207,16 @@ class RBSearchTreeTest {
         rbTree.put(12, "Slim")
         rbTree.put(11, "Shady")
         rbTree.remove(9)
-        expectedResult = listOf(
-            Pair(7, "hi"), Pair(11, "Shady"), Pair(12, "Slim"), Pair(10, "name"), Pair(4, "my"),
-            Pair(5, "chka"), Pair(3, "is")
-        )
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(11, "Shady"),
+                Pair(12, "Slim"),
+                Pair(10, "name"),
+                Pair(4, "my"),
+                Pair(5, "chka"),
+                Pair(3, "is"),
+            )
     }
 
     @Test
@@ -233,11 +253,20 @@ class RBSearchTreeTest {
         // now vertex with key 96 is red, with key 65 - black
         rbTree.remove(65)
 
-        expectedResult = listOf(
-            Pair(60, "sixty"), Pair(96, "ninety-six"), Pair(97, "ninety-seven"),
-            Pair(94, "ninety-four"), Pair(95, "ninety-five"), Pair(84, "eighty-four"), Pair(33, "thirty-three"),
-            Pair(51, "fifty-one"), Pair(52, "Alblack"), Pair(34, "thirty-four"), Pair(15, "fifteen")
-        )
+        expectedResult =
+            listOf(
+                Pair(60, "sixty"),
+                Pair(96, "ninety-six"),
+                Pair(97, "ninety-seven"),
+                Pair(94, "ninety-four"),
+                Pair(95, "ninety-five"),
+                Pair(84, "eighty-four"),
+                Pair(33, "thirty-three"),
+                Pair(51, "fifty-one"),
+                Pair(52, "Alblack"),
+                Pair(34, "thirty-four"),
+                Pair(15, "fifteen"),
+            )
     }
 
     @Test
@@ -252,10 +281,17 @@ class RBSearchTreeTest {
         rbTree.put(1, "Slim")
         rbTree.put(3, "Shady")
         rbTree.remove(5)
-        expectedResult = listOf(
-            Pair(7, "hi"), Pair(10, "name"), Pair(12, "chka"), Pair(9, "chka"), Pair(2, "is"),
-            Pair(4, "my"), Pair(3, "Shady"), Pair(1, "Slim")
-        )
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(10, "name"),
+                Pair(12, "chka"),
+                Pair(9, "chka"),
+                Pair(2, "is"),
+                Pair(4, "my"),
+                Pair(3, "Shady"),
+                Pair(1, "Slim"),
+            )
     }
 
     @Test
@@ -269,10 +305,16 @@ class RBSearchTreeTest {
         rbTree.put(12, "Slim")
         rbTree.put(3, "Shady")
         rbTree.remove(5)
-        expectedResult = listOf(
-            Pair(7, "hi"), Pair(10, "name"), Pair(12, "Slim"), Pair(9, "chka"), Pair(3, "Shady"),
-            Pair(4, "my"), Pair(2, "is")
-        )
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(10, "name"),
+                Pair(12, "Slim"),
+                Pair(9, "chka"),
+                Pair(3, "Shady"),
+                Pair(4, "my"),
+                Pair(2, "is"),
+            )
     }
 
     @Test
@@ -309,11 +351,20 @@ class RBSearchTreeTest {
         // now vertex with key 15 is red, with key 51 - black
         rbTree.remove(51)
 
-        expectedResult = listOf(
-            Pair(60, "sixty"), Pair(84, "eighty-four"), Pair(96, "ninety-six"),
-            Pair(65, "sixty-five"), Pair(69, "sixty-nine"), Pair(61, "sixty-one"), Pair(15, "fifteen"),
-            Pair(27, "twenty-seven"), Pair(33, "thirty-three"), Pair(17, "seventeen"), Pair(5, "five")
-        )
+        expectedResult =
+            listOf(
+                Pair(60, "sixty"),
+                Pair(84, "eighty-four"),
+                Pair(96, "ninety-six"),
+                Pair(65, "sixty-five"),
+                Pair(69, "sixty-nine"),
+                Pair(61, "sixty-one"),
+                Pair(15, "fifteen"),
+                Pair(27, "twenty-seven"),
+                Pair(33, "thirty-three"),
+                Pair(17, "seventeen"),
+                Pair(5, "five"),
+            )
     }
 
     @Test

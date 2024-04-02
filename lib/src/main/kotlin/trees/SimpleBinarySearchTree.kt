@@ -3,8 +3,11 @@ package main.trees
 import main.vertexes.SimpleBSTVertex
 
 open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
-
-    override fun put(key: K, value: V, replaceIfExists: Boolean) {
+    override fun put(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean,
+    ) {
         if (root == null) {
             root = SimpleBSTVertex(key, value)
             size++
@@ -12,7 +15,12 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         putRec(key, value, replaceIfExists)
     }
 
-    private fun putRec(key: K, value: V, replaceIfExists: Boolean = true, vertex: SimpleBSTVertex<K, V>? = root) {
+    private fun putRec(
+        key: K,
+        value: V,
+        replaceIfExists: Boolean = true,
+        vertex: SimpleBSTVertex<K, V>? = root,
+    ) {
         if (vertex == null) return
         when (compareKeys(key, vertex.key)) {
             0 -> if (replaceIfExists) vertex.value = value
@@ -20,14 +28,18 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
                 if (vertex.leftSon == null) {
                     vertex.leftSon = SimpleBSTVertex(key, value)
                     size++
-                } else putRec(key, value, replaceIfExists, vertex.leftSon)
+                } else {
+                    putRec(key, value, replaceIfExists, vertex.leftSon)
+                }
             }
 
             1 -> {
                 if (vertex.rightSon == null) {
                     vertex.rightSon = SimpleBSTVertex(key, value)
                     size++
-                } else putRec(key, value, replaceIfExists, vertex.rightSon)
+                } else {
+                    putRec(key, value, replaceIfExists, vertex.rightSon)
+                }
             }
         }
     }
@@ -38,7 +50,10 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         return deletedValue
     }
 
-    private fun removeRec(key: K, vertex: SimpleBSTVertex<K, V>? = root): Triple<SimpleBSTVertex<K, V>?, V?, Boolean> {
+    private fun removeRec(
+        key: K,
+        vertex: SimpleBSTVertex<K, V>? = root,
+    ): Triple<SimpleBSTVertex<K, V>?, V?, Boolean> {
         if (vertex == null) return Triple(null, null, false)
 
         when (compareKeys(key, vertex.key)) {
@@ -81,6 +96,6 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
         map,
         replaceIfExists,
-        comparator
+        comparator,
     )
 }
