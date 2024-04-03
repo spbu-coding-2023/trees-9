@@ -133,7 +133,7 @@ class SimpleBSTreeTest {
         tree.put(1, "one", false)
         tree.put(2, "two parrots", false)
         tree.put(2, "two rabbits", false)
-        tree.put(3, "three",false)
+        tree.put(3, "three", false)
 
 //              1
 //              ^
@@ -216,10 +216,13 @@ class SimpleBSTreeTest {
 
     @Test
     fun `remove vertex with smaller key, vertex has one right son`() {
-        tree.putAll(mapOf(
-            Pair(5, "five"),
-            Pair(0, "zero"),
-            Pair(4, "four")))
+        tree.putAll(
+            mapOf(
+                Pair(5, "five"),
+                Pair(0, "zero"),
+                Pair(4, "four")
+            )
+        )
 
 //              5
 //              ^
@@ -236,10 +239,13 @@ class SimpleBSTreeTest {
 
     @Test
     fun `remove vertex with smaller key, vertex has one left son`() {
-        tree.putAll(mapOf(
-            Pair(5, "five"),
-            Pair(0, "zero"),
-            Pair(-1, "minus_one")))
+        tree.putAll(
+            mapOf(
+                Pair(5, "five"),
+                Pair(0, "zero"),
+                Pair(-1, "minus_one")
+            )
+        )
 
 //              5
 //              ^
@@ -256,12 +262,15 @@ class SimpleBSTreeTest {
 
     @Test
     fun `remove vertex with smaller key, vertex has two sons`() {
-        tree.putAll(mapOf(
-            Pair(5, "five"),
-            Pair(0, "zero"),
-            Pair(-1, "minus_one"),
-            Pair(4, "four"),
-            Pair(3, "three")))
+        tree.putAll(
+            mapOf(
+                Pair(5, "five"),
+                Pair(0, "zero"),
+                Pair(-1, "minus_one"),
+                Pair(4, "four"),
+                Pair(3, "three")
+            )
+        )
 
 //              5
 //              ^
@@ -328,12 +337,15 @@ class SimpleBSTreeTest {
 
     @Test
     fun `remove vertex with more key, vertex has two sons`() {
-        tree.putAll(mapOf(
-            Pair(1, "one"),
-            Pair(5, "five"),
-            Pair(10, "ten"),
-            Pair(2, "two"),
-            Pair(6, "six")))
+        tree.putAll(
+            mapOf(
+                Pair(1, "one"),
+                Pair(5, "five"),
+                Pair(10, "ten"),
+                Pair(2, "two"),
+                Pair(6, "six")
+            )
+        )
 
 //              1
 //              ^
