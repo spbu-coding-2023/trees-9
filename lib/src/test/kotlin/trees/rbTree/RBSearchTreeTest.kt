@@ -114,6 +114,13 @@ class RBSearchTreeTest {
     }
 
     @Test
+    fun `remove root`() {
+        rbTree.put(7, "hi")
+        rbTree.remove(7)
+        expectedResult = listOf()
+    }
+
+    @Test
     fun `delete red vertex with 0 children`() {
         rbTree.put(7, "hi")
         rbTree.put(9, "my")
