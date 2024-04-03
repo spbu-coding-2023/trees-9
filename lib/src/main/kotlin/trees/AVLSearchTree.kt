@@ -325,14 +325,14 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Balances the tree starting from the specified vertex.
-     * @param curVertex the current vertex to start balancing from
-     * @return the root vertex of the tree after balancing
+     * Balances the subtree.
+     * @param curVertex the root vertex of subtree to be balanced
+     * @return the root vertex of the subtree after balancing
      */
     private fun balance(curVertex: AVLVertex<K, V>): AVLVertex<K, V> {
         var (rightSon, leftSon) = List<AVLVertex<K, V>?>(2) { null }
 
-        fun setTwoSonHeightDiffs(values: Pair<Int, Int>) {
+        fun setSonSHeightDiffsOfTwoVerteces(values: Pair<Int, Int>) {
             curVertex.sonsHeightDiff = values.component1()
             if (rightSon != null) {
                 (rightSon as AVLVertex<K, V>).sonsHeightDiff = values.component2()
@@ -346,7 +346,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
             return if (rightSon.sonsHeightDiff == 1) {
                 val rightSonSLeftSon = rightSon.leftSon as AVLVertex<K, V>
                 val subtreeRoot = bigRotateLeft(curVertex, rightSon)
-                setTwoSonHeightDiffs(
+                setSonSHeightDiffsOfTwoVerteces(
                     when (rightSonSLeftSon.sonsHeightDiff) {
                         1 -> 0 to -1
                         -1 -> 1 to 0
@@ -357,7 +357,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
                 subtreeRoot
             } else {
                 val subtreeRoot = rotateLeft(curVertex, rightSon)
-                setTwoSonHeightDiffs(
+                setSonSHeightDiffsOfTwoVerteces(
                     if (rightSon.sonsHeightDiff == 0) {
                         -1 to 1
                     } else {
@@ -371,7 +371,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         return if (leftSon.sonsHeightDiff == -1) {
             val leftSonSRightSon = leftSon.rightSon as AVLVertex<K, V>
             val subtreeRoot = bigRotateRight(curVertex, leftSon)
-            setTwoSonHeightDiffs(
+            setSonSHeightDiffsOfTwoVerteces(
                 when (leftSonSRightSon.sonsHeightDiff) {
                     -1 -> 0 to 1
                     1 -> -1 to 0
@@ -382,7 +382,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
             subtreeRoot
         } else {
             val subtreeRoot = rotateRight(curVertex, leftSon)
-            setTwoSonHeightDiffs(
+            setSonSHeightDiffsOfTwoVerteces(
                 if (leftSon.sonsHeightDiff == 0) {
                     1 to -1
                 } else {
@@ -394,10 +394,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a single left rotation around the specified vertices.
-     * @param curVertex the current vertex to rotate around
-     * @param rightSon the right son vertex
-     * @return the new root vertex after rotation
+     * Performs a single left rotation of the subtree.
+     * @param curVertex the current vertex to rotate around (the subtree's root)
+     * @param rightSon the right son of the subtree's root
+     * @return the new root of the subtree after rotation
      */
     private fun rotateLeft(
         curVertex: AVLVertex<K, V>,
@@ -409,10 +409,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a single right rotation around the specified vertices.
-     * @param curVertex the current vertex to rotate around
-     * @param leftSon the left son vertex
-     * @return the new root vertex after rotation
+     * Performs a single right rotation of the subtree.
+     * @param curVertex the current vertex to rotate around (the subtree's root)
+     * @param leftSon the left son of the subtree's root
+     * @return the new root of the subtree after rotation
      */
     private fun rotateRight(
         curVertex: AVLVertex<K, V>,
@@ -424,10 +424,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a big left rotation around the specified vertices.
-     * @param curVertex the current vertex to rotate around
-     * @param rightSon the right son vertex
-     * @return the new root vertex after rotation
+     * Performs a big left rotation of the subtree.
+     * @param curVertex the current vertex to rotate around (the subtree's root)
+     * @param rightSon the right son of the subtree's root
+     * @return the new root of the subtree after rotation
      */
     private fun bigRotateLeft(
         curVertex: AVLVertex<K, V>,
@@ -439,10 +439,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a big right rotation around the specified vertices.
-     * @param curVertex the current vertex to rotate around
-     * @param leftSon the left son vertex
-     * @return the new root vertex after rotation
+     * Performs a big right rotation of the subtree.
+     * @param curVertex the current vertex to rotate around (the subtree's root)
+     * @param leftSon the left son vertex of the subtree's root
+     * @return the new root root of the subtree after rotation
      */
     private fun bigRotateRight(
         curVertex: AVLVertex<K, V>,
