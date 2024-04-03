@@ -37,10 +37,6 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         value: V,
         replaceIfExists: Boolean,
     ) {
-        if (root == null) {
-            root = SimpleBSTVertex(key, value)
-            size++
-        }
         putRec(key, value, replaceIfExists)
     }
 
@@ -54,10 +50,14 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
     private fun putRec(
         key: K,
         value: V,
-        replaceIfExists: Boolean = true,
+        replaceIfExists: Boolean,
         vertex: SimpleBSTVertex<K, V>? = root,
     ) {
-        if (vertex == null) return
+        if (vertex == null) {
+            root = SimpleBSTVertex(key, value)
+            size++
+            return
+        }
         when (compareKeys(key, vertex.key)) {
             0 -> if (replaceIfExists) vertex.value = value
             -1 -> {
