@@ -15,7 +15,11 @@ class RBVertex<K, V>(
     override var key: K,
     override var value: V,
 ) : InterfaceBSTVertex<K, V, RBVertex<K, V>> {
-    var isRed = true
+    enum class Color {
+        RED,
+        BLACK
+    }
+    var color: Color = Color.RED
     var parent: RBVertex<K, V>? = null
     override var leftSon: RBVertex<K, V>? = null
     override var rightSon: RBVertex<K, V>? = null
@@ -34,12 +38,12 @@ class RBVertex<K, V>(
         value: V,
         leftSon: RBVertex<K, V>?,
         rightSon: RBVertex<K, V>?,
-        isRed: Boolean,
+        color: Color,
         parent: RBVertex<K, V>?,
     ) : this(key, value) {
         this.leftSon = leftSon
         this.rightSon = rightSon
         this.parent = parent
-        this.isRed = isRed
+        this.color = color
     }
 }
