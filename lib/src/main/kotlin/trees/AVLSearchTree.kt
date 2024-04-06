@@ -102,15 +102,13 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
 
         fun doBalanceChoreWhenLeftSubTreeChanged(): AVLVertex<K, V>? {
             if (nextCallReturned.sonsHeightDiff == 0) return null
-            if (vertex.sonsHeightDiff + 1 == 2) return balance(vertex)
-            vertex.sonsHeightDiff++
+            if (++vertex.sonsHeightDiff == 2) return balance(vertex)
             return vertex
         }
 
         fun doBalanceChoreWhenRightSubTreeChanged(): AVLVertex<K, V>? {
             if (nextCallReturned.sonsHeightDiff == 0) return null
-            if (vertex.sonsHeightDiff - 1 == -2) return balance(vertex)
-            vertex.sonsHeightDiff--
+            if (--vertex.sonsHeightDiff == -2) return balance(vertex)
             return vertex
         }
         when (nextCallReturned) {
@@ -245,10 +243,9 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
             if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1)) {
                 return Triple(RemovalStage.A, vertex, nextCallReturned.component3())
             }
-            if (vertex.sonsHeightDiff - 1 == -2) {
+            if (--vertex.sonsHeightDiff == -2) {
                 return Triple(RemovalStage.B, balance(vertex), nextCallReturned.component3())
             }
-            vertex.sonsHeightDiff--
             return Triple(RemovalStage.B, vertex, nextCallReturned.third)
         }
 
@@ -256,10 +253,9 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
             if (nextCallReturned.component2().sonsHeightDiff in listOf(-1, 1)) {
                 return Triple(RemovalStage.A, vertex, nextCallReturned.component3())
             }
-            if (vertex.sonsHeightDiff + 1 == 2) {
+            if (++vertex.sonsHeightDiff == 2) {
                 return Triple(RemovalStage.B, balance(vertex), nextCallReturned.component3())
             }
-            vertex.sonsHeightDiff++
             return Triple(RemovalStage.B, vertex, nextCallReturned.component3())
         }
         when (nextCallReturned.component1()) {
@@ -328,7 +324,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
             (leftSon as AVLVertex<K, V>).sonsHeightDiff = values.component2()
         }
 
-        if (curVertex.sonsHeightDiff == -1) {
+        if (curVertex.sonsHeightDiff == -2) {
             rightSon = curVertex.rightSon as AVLVertex<K, V>
             return if (rightSon.sonsHeightDiff == 1) {
                 val rightSonSLeftSon = rightSon.leftSon as AVLVertex<K, V>
