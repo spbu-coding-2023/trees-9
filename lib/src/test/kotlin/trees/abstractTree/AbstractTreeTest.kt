@@ -19,6 +19,11 @@ class AbstractTreeTest {
     }
 
     @Test
+    fun `isNotEmpty() returns false if tree is empty `() {
+        val tree = makeEmptyTree()
+        assertFalse(tree.isNotEmpty())
+    }
+    @Test
     fun `size() returns 0 if tree is empty`() {
         val tree = makeEmptyTree()
         assert(tree.size() == 0L)
@@ -67,19 +72,25 @@ class AbstractTreeTest {
     }
 
     @Test
+    fun `isNotEmpty() returns true if tree is not empty `() {
+        val tree = makeTreeWithBothRootSSons()
+        assert(tree.isNotEmpty())
+    }
+
+    @Test
     fun `size() returns not 0 if tree is not empty`() {
         val tree = makeTreeWithBothRootSSons()
         assert(tree.size() != 0L)
     }
 
     @Test
-    fun `get() returns null when tree doesn'n contains given key`() {
+    fun `get() returns null when tree doesn't contains given key`() {
         val tree = makeTreeWithBothRootSSons()
         assertNull(tree.get('z'))
     }
 
     @Test
-    fun `getPair() returns null when tree doesn'n contains given key`() {
+    fun `getPair() returns null when tree doesn't contains given key`() {
         val tree = makeTreeWithBothRootSSons()
         assertNull(tree.getPair('z'))
     }
@@ -210,8 +221,8 @@ class AbstractTreeTest {
 
     class CMP : Comparator<IntArray> {
         override fun compare(
-            o1: IntArray,
-            o2: IntArray,
+                o1: IntArray,
+                o2: IntArray,
         ): Int {
             return o1.sum() - o2.sum()
         }
@@ -236,7 +247,7 @@ class AbstractTreeTest {
     }
 
     @Test
-    fun `compareKeys fall when keys type doesn't implement compareble && comparator wasn't given`() {
+    fun `compareKeys fall when keys type doesn't implement comparable && comparator wasn't given`() {
         var didItFall = false
         val tree = TestTree<IntArray, Int>()
         try {
