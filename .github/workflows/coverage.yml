@@ -21,16 +21,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Java JDK
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          cache: gradle
           distribution: "temurin"
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
+
       - name: Run Coverage
         run: ./gradlew jacocoTestReport
+
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
@@ -41,5 +50,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
-          pass-emoji: ':partying_face:'
-          fail-emoji: ':clown_face:'
+          pass-emoji: '🥳'
+          fail-emoji: '🤡'
