@@ -315,7 +315,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     private fun balance(curVertex: AVLVertex<K, V>): AVLVertex<K, V> {
         var (rightSon, leftSon) = List<AVLVertex<K, V>?>(2) { null }
 
-        fun setSonSHeightDiffsOfTwoVerteces(values: Pair<Int, Int>) {
+        fun setSonSHeightDiffsOfTwoVertices(values: Pair<Int, Int>) {
             curVertex.sonsHeightDiff = values.component1()
             if (rightSon != null) {
                 (rightSon as AVLVertex<K, V>).sonsHeightDiff = values.component2()
@@ -329,7 +329,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
             return if (rightSon.sonsHeightDiff == 1) {
                 val rightSonSLeftSon = rightSon.leftSon as AVLVertex<K, V>
                 val subtreeRoot = bigRotateLeft(curVertex, rightSon)
-                setSonSHeightDiffsOfTwoVerteces(
+                setSonSHeightDiffsOfTwoVertices(
                     when (rightSonSLeftSon.sonsHeightDiff) {
                         1 -> 0 to -1
                         -1 -> 1 to 0
@@ -340,7 +340,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
                 subtreeRoot
             } else {
                 val subtreeRoot = rotateLeft(curVertex, rightSon)
-                setSonSHeightDiffsOfTwoVerteces(
+                setSonSHeightDiffsOfTwoVertices(
                     if (rightSon.sonsHeightDiff == 0) {
                         -1 to 1
                     } else {
@@ -354,7 +354,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         return if (leftSon.sonsHeightDiff == -1) {
             val leftSonSRightSon = leftSon.rightSon as AVLVertex<K, V>
             val subtreeRoot = bigRotateRight(curVertex, leftSon)
-            setSonSHeightDiffsOfTwoVerteces(
+            setSonSHeightDiffsOfTwoVertices(
                 when (leftSonSRightSon.sonsHeightDiff) {
                     -1 -> 0 to 1
                     1 -> -1 to 0
@@ -365,7 +365,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
             subtreeRoot
         } else {
             val subtreeRoot = rotateRight(curVertex, leftSon)
-            setSonSHeightDiffsOfTwoVerteces(
+            setSonSHeightDiffsOfTwoVertices(
                 if (leftSon.sonsHeightDiff == 0) {
                     1 to -1
                 } else {
