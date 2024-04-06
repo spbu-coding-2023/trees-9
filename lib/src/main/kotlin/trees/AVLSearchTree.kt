@@ -38,7 +38,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         value: V,
         replaceIfExists: Boolean,
     ) {
-        if (!isEmpty()) {
+        if (isNotEmpty()) {
             when (val putRecReturned = putRec(key, value, replaceIfExists, root as AVLVertex<K, V>)) {
                 null, root -> {}
                 else -> root = putRecReturned
@@ -131,7 +131,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
      * @return the previous value associated with key, or null if there was no mapping for key
      */
     override fun remove(key: K): V? {
-        if (!isEmpty()) {
+        if (isNotEmpty()) {
             val removeRecReturned = removeRec(key, root as AVLVertex<K, V>)
             when (removeRecReturned.first) {
                 RemovalStage.B -> {
