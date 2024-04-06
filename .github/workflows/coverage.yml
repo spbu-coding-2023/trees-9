@@ -48,6 +48,8 @@ jobs:
             ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
             ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
+          title: '# :lobster: Coverage Report'
+          update-comment: true
           min-coverage-overall: 40
           pass-emoji: '🥳'
           fail-emoji: '🤡'
