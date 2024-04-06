@@ -52,5 +52,6 @@ jobs:
           update-comment: true
           skip-if-no-changes: true
           min-coverage-overall: 40
+          min-coverage-changed-files: 60
           pass-emoji: '🥳'
           fail-emoji: '🤡'

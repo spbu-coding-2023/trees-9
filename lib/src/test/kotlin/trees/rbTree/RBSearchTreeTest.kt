@@ -178,201 +178,201 @@ class RBSearchTreeTest {
             )
     }
 
-//    @Test
-//    fun `balance after remove - brother is right and black, brother's rightSon - red`() {
-//        rbTree.put(7, "hi")
-//        rbTree.put(4, "my")
-//        rbTree.put(10, "name")
-//        rbTree.put(3, "is")
-//        rbTree.put(5, "chka")
-//        rbTree.put(9, "chka")
-//        rbTree.put(12, "chka")
-//        rbTree.put(11, "Slim")
-//        rbTree.put(13, "Shady")
-//        rbTree.remove(9)
-//        expectedResult =
-//            listOf(
-//                Pair(7, "hi"),
-//                Pair(12, "chka"),
-//                Pair(13, "Shady"),
-//                Pair(10, "name"),
-//                Pair(11, "Slim"),
-//                Pair(4, "my"),
-//                Pair(5, "chka"),
-//                Pair(3, "is"),
-//            )
-//    }
-//
-//    @Test
-//    fun `balance after remove - brother is right and black, brother's leftSon - red (rightSon - black)`() {
-//        rbTree.put(7, "hi")
-//        rbTree.put(4, "my")
-//        rbTree.put(10, "name")
-//        rbTree.put(3, "is")
-//        rbTree.put(5, "chka")
-//        rbTree.put(9, "chka")
-//        rbTree.put(12, "Slim")
-//        rbTree.put(11, "Shady")
-//        rbTree.remove(9)
-//        expectedResult =
-//            listOf(
-//                Pair(7, "hi"),
-//                Pair(11, "Shady"),
-//                Pair(12, "Slim"),
-//                Pair(10, "name"),
-//                Pair(4, "my"),
-//                Pair(5, "chka"),
-//                Pair(3, "is"),
-//            )
-//    }
-//
-//    @Test
-//    fun `balance after remove - brother is right and black, both sons - black`() {
-//        rbTree.put(7, "hi")
-//        rbTree.put(4, "my")
-//        rbTree.put(10, "name")
-//        rbTree.put(9, "is")
-//        rbTree.put(12, "Slim")
-//        rbTree.put(11, "Shady")
-//        rbTree.remove(11)
-//
-//        // now vertexes with keys 9 and 12 are black
-//        rbTree.remove(9)
-//
-//        expectedResult = listOf(Pair(7, "hi"), Pair(10, "name"), Pair(12, "Slim"), Pair(4, "my"))
-//    }
-//
-//    @Test
-//    fun `balance after remove - right brother is red`() {
-//        rbTree.put(60, "sixty")
-//        rbTree.put(33, "thirty-three")
-//        rbTree.put(84, "eighty-four")
-//        rbTree.put(15, "fifteen")
-//        rbTree.put(51, "fifty-one")
-//        rbTree.put(65, "sixty-five")
-//        rbTree.put(96, "ninety-six")
-//        rbTree.put(34, "thirty-four")
-//        rbTree.put(52, "Alblack")
-//        rbTree.put(94, "ninety-four")
-//        rbTree.put(97, "ninety-seven")
-//        rbTree.put(95, "ninety-five")
-//
-//        // now vertex with key 96 is red, with key 65 - black
-//        rbTree.remove(65)
-//
-//        expectedResult =
-//            listOf(
-//                Pair(60, "sixty"),
-//                Pair(96, "ninety-six"),
-//                Pair(97, "ninety-seven"),
-//                Pair(94, "ninety-four"),
-//                Pair(95, "ninety-five"),
-//                Pair(84, "eighty-four"),
-//                Pair(33, "thirty-three"),
-//                Pair(51, "fifty-one"),
-//                Pair(52, "Alblack"),
-//                Pair(34, "thirty-four"),
-//                Pair(15, "fifteen"),
-//            )
-//    }
-//
-//    @Test
-//    fun `balance after remove - brother is left and black, brother's rightSon - red`() {
-//        rbTree.put(7, "hi")
-//        rbTree.put(4, "my")
-//        rbTree.put(10, "name")
-//        rbTree.put(2, "is")
-//        rbTree.put(5, "chka")
-//        rbTree.put(9, "chka")
-//        rbTree.put(12, "chka")
-//        rbTree.put(1, "Slim")
-//        rbTree.put(3, "Shady")
-//        rbTree.remove(5)
-//        expectedResult =
-//            listOf(
-//                Pair(7, "hi"),
-//                Pair(10, "name"),
-//                Pair(12, "chka"),
-//                Pair(9, "chka"),
-//                Pair(2, "is"),
-//                Pair(4, "my"),
-//                Pair(3, "Shady"),
-//                Pair(1, "Slim"),
-//            )
-//    }
-//
-//    @Test
-//    fun `balance after remove - brother is left and black, brother's rightSon - red (leftSon - black)`() {
-//        rbTree.put(7, "hi")
-//        rbTree.put(4, "my")
-//        rbTree.put(10, "name")
-//        rbTree.put(2, "is")
-//        rbTree.put(5, "chka")
-//        rbTree.put(9, "chka")
-//        rbTree.put(12, "Slim")
-//        rbTree.put(3, "Shady")
-//        rbTree.remove(5)
-//        expectedResult =
-//            listOf(
-//                Pair(7, "hi"),
-//                Pair(10, "name"),
-//                Pair(12, "Slim"),
-//                Pair(9, "chka"),
-//                Pair(3, "Shady"),
-//                Pair(4, "my"),
-//                Pair(2, "is"),
-//            )
-//    }
-//
-//    @Test
-//    fun `balance after remove - brother is left and black, both sons - black`() {
-//        rbTree.put(7, "hi")
-//        rbTree.put(4, "my")
-//        rbTree.put(10, "name")
-//        rbTree.put(2, "is")
-//        rbTree.put(5, "Slim")
-//        rbTree.put(3, "Shady")
-//        rbTree.remove(3)
-//
-//        // now vertexes with keys 2 and 5 are black
-//        rbTree.remove(5)
-//
-//        expectedResult = listOf(Pair(7, "hi"), Pair(10, "name"), Pair(4, "my"), Pair(2, "is"))
-//    }
-//
-//    @Test
-//    fun `balance after remove - left brother is red`() {
-//        rbTree.put(60, "sixty")
-//        rbTree.put(33, "thirty-three")
-//        rbTree.put(84, "eighty-four")
-//        rbTree.put(15, "fifteen")
-//        rbTree.put(51, "fifty-one")
-//        rbTree.put(65, "sixty-five")
-//        rbTree.put(96, "ninety-six")
-//        rbTree.put(5, "five")
-//        rbTree.put(27, "twenty-seven")
-//        rbTree.put(61, "sixty-one")
-//        rbTree.put(69, "sixty-nine")
-//        rbTree.put(17, "seventeen")
-//
-//        // now vertex with key 15 is red, with key 51 - black
-//        rbTree.remove(51)
-//
-//        expectedResult =
-//            listOf(
-//                Pair(60, "sixty"),
-//                Pair(84, "eighty-four"),
-//                Pair(96, "ninety-six"),
-//                Pair(65, "sixty-five"),
-//                Pair(69, "sixty-nine"),
-//                Pair(61, "sixty-one"),
-//                Pair(15, "fifteen"),
-//                Pair(27, "twenty-seven"),
-//                Pair(33, "thirty-three"),
-//                Pair(17, "seventeen"),
-//                Pair(5, "five"),
-//            )
-//    }
+    @Test
+    fun `balance after remove - brother is right and black, brother's rightSon - red`() {
+        rbTree.put(7, "hi")
+        rbTree.put(4, "my")
+        rbTree.put(10, "name")
+        rbTree.put(3, "is")
+        rbTree.put(5, "chka")
+        rbTree.put(9, "chka")
+        rbTree.put(12, "chka")
+        rbTree.put(11, "Slim")
+        rbTree.put(13, "Shady")
+        rbTree.remove(9)
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(12, "chka"),
+                Pair(13, "Shady"),
+                Pair(10, "name"),
+                Pair(11, "Slim"),
+                Pair(4, "my"),
+                Pair(5, "chka"),
+                Pair(3, "is"),
+            )
+    }
+
+    @Test
+    fun `balance after remove - brother is right and black, brother's leftSon - red (rightSon - black)`() {
+        rbTree.put(7, "hi")
+        rbTree.put(4, "my")
+        rbTree.put(10, "name")
+        rbTree.put(3, "is")
+        rbTree.put(5, "chka")
+        rbTree.put(9, "chka")
+        rbTree.put(12, "Slim")
+        rbTree.put(11, "Shady")
+        rbTree.remove(9)
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(11, "Shady"),
+                Pair(12, "Slim"),
+                Pair(10, "name"),
+                Pair(4, "my"),
+                Pair(5, "chka"),
+                Pair(3, "is"),
+            )
+    }
+
+    @Test
+    fun `balance after remove - brother is right and black, both sons - black`() {
+        rbTree.put(7, "hi")
+        rbTree.put(4, "my")
+        rbTree.put(10, "name")
+        rbTree.put(9, "is")
+        rbTree.put(12, "Slim")
+        rbTree.put(11, "Shady")
+        rbTree.remove(11)
+
+        // now vertexes with keys 9 and 12 are black
+        rbTree.remove(9)
+
+        expectedResult = listOf(Pair(7, "hi"), Pair(10, "name"), Pair(12, "Slim"), Pair(4, "my"))
+    }
+
+    @Test
+    fun `balance after remove - right brother is red`() {
+        rbTree.put(60, "sixty")
+        rbTree.put(33, "thirty-three")
+        rbTree.put(84, "eighty-four")
+        rbTree.put(15, "fifteen")
+        rbTree.put(51, "fifty-one")
+        rbTree.put(65, "sixty-five")
+        rbTree.put(96, "ninety-six")
+        rbTree.put(34, "thirty-four")
+        rbTree.put(52, "Alblack")
+        rbTree.put(94, "ninety-four")
+        rbTree.put(97, "ninety-seven")
+        rbTree.put(95, "ninety-five")
+
+        // now vertex with key 96 is red, with key 65 - black
+        rbTree.remove(65)
+
+        expectedResult =
+            listOf(
+                Pair(60, "sixty"),
+                Pair(96, "ninety-six"),
+                Pair(97, "ninety-seven"),
+                Pair(94, "ninety-four"),
+                Pair(95, "ninety-five"),
+                Pair(84, "eighty-four"),
+                Pair(33, "thirty-three"),
+                Pair(51, "fifty-one"),
+                Pair(52, "Alblack"),
+                Pair(34, "thirty-four"),
+                Pair(15, "fifteen"),
+            )
+    }
+
+    @Test
+    fun `balance after remove - brother is left and black, brother's rightSon - red`() {
+        rbTree.put(7, "hi")
+        rbTree.put(4, "my")
+        rbTree.put(10, "name")
+        rbTree.put(2, "is")
+        rbTree.put(5, "chka")
+        rbTree.put(9, "chka")
+        rbTree.put(12, "chka")
+        rbTree.put(1, "Slim")
+        rbTree.put(3, "Shady")
+        rbTree.remove(5)
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(10, "name"),
+                Pair(12, "chka"),
+                Pair(9, "chka"),
+                Pair(2, "is"),
+                Pair(4, "my"),
+                Pair(3, "Shady"),
+                Pair(1, "Slim"),
+            )
+    }
+
+    @Test
+    fun `balance after remove - brother is left and black, brother's rightSon - red (leftSon - black)`() {
+        rbTree.put(7, "hi")
+        rbTree.put(4, "my")
+        rbTree.put(10, "name")
+        rbTree.put(2, "is")
+        rbTree.put(5, "chka")
+        rbTree.put(9, "chka")
+        rbTree.put(12, "Slim")
+        rbTree.put(3, "Shady")
+        rbTree.remove(5)
+        expectedResult =
+            listOf(
+                Pair(7, "hi"),
+                Pair(10, "name"),
+                Pair(12, "Slim"),
+                Pair(9, "chka"),
+                Pair(3, "Shady"),
+                Pair(4, "my"),
+                Pair(2, "is"),
+            )
+    }
+
+    @Test
+    fun `balance after remove - brother is left and black, both sons - black`() {
+        rbTree.put(7, "hi")
+        rbTree.put(4, "my")
+        rbTree.put(10, "name")
+        rbTree.put(2, "is")
+        rbTree.put(5, "Slim")
+        rbTree.put(3, "Shady")
+        rbTree.remove(3)
+
+        // now vertexes with keys 2 and 5 are black
+        rbTree.remove(5)
+
+        expectedResult = listOf(Pair(7, "hi"), Pair(10, "name"), Pair(4, "my"), Pair(2, "is"))
+    }
+
+    @Test
+    fun `balance after remove - left brother is red`() {
+        rbTree.put(60, "sixty")
+        rbTree.put(33, "thirty-three")
+        rbTree.put(84, "eighty-four")
+        rbTree.put(15, "fifteen")
+        rbTree.put(51, "fifty-one")
+        rbTree.put(65, "sixty-five")
+        rbTree.put(96, "ninety-six")
+        rbTree.put(5, "five")
+        rbTree.put(27, "twenty-seven")
+        rbTree.put(61, "sixty-one")
+        rbTree.put(69, "sixty-nine")
+        rbTree.put(17, "seventeen")
+
+        // now vertex with key 15 is red, with key 51 - black
+        rbTree.remove(51)
+
+        expectedResult =
+            listOf(
+                Pair(60, "sixty"),
+                Pair(84, "eighty-four"),
+                Pair(96, "ninety-six"),
+                Pair(65, "sixty-five"),
+                Pair(69, "sixty-nine"),
+                Pair(61, "sixty-one"),
+                Pair(15, "fifteen"),
+                Pair(27, "twenty-seven"),
+                Pair(33, "thirty-three"),
+                Pair(17, "seventeen"),
+                Pair(5, "five"),
+            )
+    }
 
     @Test
     fun `test secondary constructor`() {
