@@ -59,6 +59,10 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return size == 0L
     }
 
+    fun isNotEmpty(): Boolean {
+        return size != 0L
+    }
+
     /**
      * Returns the value associated with the specified key in this tree.
      * If the key is not found, returns null.
