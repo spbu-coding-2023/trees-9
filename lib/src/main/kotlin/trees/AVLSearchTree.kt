@@ -143,7 +143,6 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
                 }
 
                 RemovalStage.C -> root = null
-                RemovalStage.D -> root = removeRecReturned.component2()
                 else -> {}
             }
             return removeRecReturned.component3()
@@ -169,11 +168,6 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
          * Need to null due "Son" property of (if exists) the parent of removed vertex + b
          */
         C,
-
-        /**
-         * Need only to change due "Son" property of (if exists) the parent
-         */
-        D,
     }
 
     /**
@@ -235,12 +229,14 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
                         Triple(RemovalStage.B, vertex.leftSon as AVLVertex<K, V>, vertex.value)
                     }
 
-                    else ->
+                    else -> {
+                        val valueOfVertex = vertex.value
                         Triple(
-                            RemovalStage.D,
-                            prepareLargestLowerToReplaceVertex(vertex),
-                            vertex.value,
+                                RemovalStage.B,
+                                replaceSubtreeSRootByLargestInItsLeftSubtree(vertex),
+                                valueOfVertex,
                         )
+                    }
                 }
             }
         }
@@ -298,15 +294,6 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
                         return doBalanceChoreWhenRightSubTreeChanged()
                     }
                 }
-
-            RemovalStage.D -> {
-                if (compareKeys(nextCallReturned.component2().key, vertex.key) == -1) {
-                    vertex.leftSon = nextCallReturned.component2()
-                } else {
-                    vertex.rightSon = nextCallReturned.component2()
-                }
-                return Triple(RemovalStage.A, vertex, nextCallReturned.component3())
-            }
         }
     }
 
@@ -315,13 +302,13 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
      * @param vertex the vertex to be replaced
      * @return the substitute vertex prepared to replace the specified vertex
      */
-    private fun prepareLargestLowerToReplaceVertex(vertex: AVLVertex<K, V>): AVLVertex<K, V> {
-        val substitute = getMaxKeyNodeRec(vertex.leftSon) as AVLVertex<K, V>
-        remove(substitute.key)
-        substitute.leftSon = vertex.leftSon
-        substitute.rightSon = vertex.rightSon
-        substitute.sonsHeightDiff = vertex.sonsHeightDiff
-        return substitute
+    private fun replaceSubtreeSRootByLargestInItsLeftSubtree (subtreeSInitiallyRoot: AVLVertex<K, V>): AVLVertex<K, V> {
+        val substitute = getMaxKeyNodeRec(subtreeSInitiallyRoot.leftSon) as AVLVertex<K, V>
+        val removeRecReturned = removeRec(substitute.key, subtreeSInitiallyRoot)
+        subtreeSInitiallyRoot.key = substitute.key
+        subtreeSInitiallyRoot.value = substitute.value
+        return if (removeRecReturned.component1() == RemovalStage.A) subtreeSInitiallyRoot
+        else removeRecReturned.component2()
     }
 
     /**
