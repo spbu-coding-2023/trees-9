@@ -38,18 +38,19 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
      *
      * 4 cases we need to look at:
      *
-     * 1) remove red vertex with 0 children -> just remove vetrex
+     * 1) remove red vertex with 0 children -> just remove vertex
      *
      * 2) remove red or black vertex with 2 children ->
      * find min vertex on the right subtree and swap it's key and value with
      * key and value of vertex that we need to remove.
      * Now we can work with vertex which has 1 or 0 children
      *
-     * 3) remove black vetrex with 1 child -> child can be only red
+     * 3) remove black vertex with 1 child -> child can be only red,
      * so we just swap child's key and value with key and value that we need to remove
      * and look at case 1)
      *
      * 4) remove black vertex with 0 children -> just remove vertex
+     *
      * @param key the key of the vertex to be removed
      * @return the value associated with the removed vertex, or null if the key is not found
      */

@@ -64,8 +64,8 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         replaceIfExists: Boolean,
         vertex: AVLVertex<K, V>,
     ): AVLVertex<K, V>? {
-        fun putRecShort(vrtx: AVLVertex<K, V>): AVLVertex<K, V>? {
-            return putRec(key, value, replaceIfExists, vrtx)
+        fun putRecShort(vertex: AVLVertex<K, V>): AVLVertex<K, V>? {
+            return putRec(key, value, replaceIfExists, vertex)
         }
 
         val nextCallReturned: AVLVertex<K, V>?
@@ -158,7 +158,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         A,
 
         /**
-         * Probably need some tree changes, but not nulling
+         * Probably need some tree changes, but not null
          */
         B,
 
@@ -295,7 +295,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
 
     /**
      * Prepares the largest lower vertex to replace the specified vertex.
-     * @param vertex the vertex to be replaced
+     * @param subtreeSInitiallyRoot the vertex to be replaced
      * @return the substitute vertex prepared to replace the specified vertex
      */
     private fun replaceSubtreeSRootByLargestInItsLeftSubtree (subtreeSInitiallyRoot: AVLVertex<K, V>): AVLVertex<K, V> {
@@ -425,7 +425,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
      * Performs a big right rotation of the subtree.
      * @param curVertex the current vertex to rotate around (the subtree's root)
      * @param leftSon the left son vertex of the subtree's root
-     * @return the new root root of the subtree after rotation
+     * @return the new root of the subtree after rotation
      */
     private fun bigRotateRight(
         curVertex: AVLVertex<K, V>,
