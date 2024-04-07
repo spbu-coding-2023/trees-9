@@ -289,10 +289,11 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Prepares the largest lower vertex to replace the specified vertex
+     * Replaces the initially subtree's root by the its left subtree's vertex with largest key,
+     * having previously removed that vertex
      *
-     * @param subtreeSInitiallyRoot `AVLVertex<K, V>` type; the vertex to be replaced
-     * @return the substitute vertex prepared to replace the specified vertex
+     * @param subtreeSInitiallyRoot `AVLVertex<K, V>` type; initially root of the subtree
+     * @return vertex that is the subtree's root after function was executed
      */
     private fun replaceSubtreeSRootByLargestInItsLeftSubtree (subtreeSInitiallyRoot: AVLVertex<K, V>): AVLVertex<K, V> {
         val substitute = getMaxKeyNodeRec(subtreeSInitiallyRoot.leftSon) as AVLVertex<K, V>
