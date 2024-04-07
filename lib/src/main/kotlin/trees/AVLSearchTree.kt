@@ -4,34 +4,27 @@ import vertexes.AVLVertex
 
 /**
  * An implementation of a binary search tree that automatically balances itself using AVL rotations.
- * It extends AbstractBinarySearchTree and uses AVLVertex as vertices.
- * This class extends AbstractBinarySearchTree and provides methods to put, remove for key-value pairs.
  *
- * When attempting to perform insertion, removal, or search operations on a non-empty binary search tree with a key that
- * is incomparable with the keys in the tree, the behavior is as follows:
+ * It extends [AbstractBinarySearchTree] and uses [AVLVertex] as vertices.
  *
- * **Put**: If an attempt is made to put a key-value pair with a key that is incomparable with the existing
- * keys in the tree, the insertion operation will fail and the tree will remain unchanged.
+ * If the tree has an incomparable key type and comparator is `null`, if the tree
+ * is non-empty, when trying to call the search, insert and delete methods, the tree
+ * will remain unchanged, the operation throws an exception with the message "Key's
+ * type is incomparable and comparator was not given".
  *
- * **Remove**: If an attempt is made to remove a key-value pair with a key that is incomparable with the existing keys
- * in the tree, the removal operation will fail and the tree will remain unchanged.
- *
- * **Get**: When getting for a key that is incomparable with the keys in the tree, the search operation will not
- * find any matching key-value pair the get operation will fail.
- *
- * @param K the type of keys in the tree
- * @param V the type of values associated with the keys
- * @property comparator The comparator used to order the keys. If null, keys are expected to be comparable.
- * @property size The number of elements in the tree.
- * @property root The root vertex of the tree.
+ * @param K key type
+ * @param V value type
+ * @property comparator `Comparator<K>?` type; used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
+ * @property size `Long` type; number of key-value pairs in this tree
+ * @property root `AVLVertex<K, V>?` type, `null` by default
  */
 open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>> {
     /**
-     * Associates the specified value with the specified key in this tree.
-     * If parameter replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.
-     * @param key the key with which the specified value is to be associated
-     * @param value the value to be associated with the specified key
-     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
+     * Puts a new vertex of a certain type into the tree with a given key and value
+     *
+     * @param key `K` type
+     * @param value `V` type, associated with this key
+     * @param replaceIfExists `Boolean` type; If `true` - replaces the value if the key already exists. If `false` - ignores it.
      */
     override fun put(
         key: K,
@@ -50,13 +43,13 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Associates the specified value with the specified key in this tree.
-     * If replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.
-     * @param key the key with which the specified value is to be associated
-     * @param value the value to be associated with the specified key
-     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
-     * @param vertex the current vertex in the recursion
-     * @return the root vertex of the tree after the operation
+     * Associates the specified value with the specified key in this tree
+     *
+     * @param key `K` type
+     * @param value `V` type
+     * @param replaceIfExists `Boolean` type; If `true` - replaces the value if the key already exists. If `false` - ignores it.
+     * @param vertex `AVLVertex<K, V>` type; current vertex in the recursion
+     * @return root vertex of the tree after the operation
      */
     private fun putRec(
         key: K,
@@ -126,9 +119,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Removes the mapping for a key from this tree if it is present.
-     * @param key the key whose mapping is to be removed from the tree
-     * @return the previous value associated with key, or null if there was no mapping for key
+     * Removes the mapping for a key from this tree if it is present
+     *
+     * @param key `K` type
+     * @return the previous value associated with key, or `null` if there was no mapping for key
      */
     override fun remove(key: K): V? {
         if (isNotEmpty()) {
@@ -158,19 +152,20 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
         A,
 
         /**
-         * Probably need some tree changes, but not null
+         * Probably need some tree changes, but not make the son of the vertex `null`
          */
         B,
 
         /**
-         * Need to null due "Son" property of (if exists) the parent of removed vertex + b
+         * Need to `null` due "Son" property of (if exists) the parent of removed vertex + b
          */
         C,
     }
 
     /**
-     * Recursively removes a key-value pair from the subtree rooted at the given vertex.
-     * @param key the key to remove
+     * Recursively removes a key-value pair from the subtree rooted at the given vertex
+     *
+     * @param key `K` type
      * @param vertex the root of the subtree to remove from
      * @return Triple that consists of:
      *
@@ -182,7 +177,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
      *
      *          if RemovalStage == c : the removed vertex;
      *
-     *          3) a value of the removed vertex (or null if key not exists). */
+     *          3) a value of the removed vertex (or `null` if key not exists). */
     private fun removeRec(
         key: K,
         vertex: AVLVertex<K, V>,
@@ -196,7 +191,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
          * if RemovalStage == b : the root of the changed subtree;
          * if RemovalStage == c : the removed vertex;
          *
-         * 3) a value of the removed vertex (or null if key not exists).
+         * 3) a value of the removed vertex (or `null` if key not exists).
          */
         val nextCallReturned: Triple<RemovalStage, AVLVertex<K, V>?, V?>
         when (compareKeys(key, vertex.key)) {
@@ -294,8 +289,9 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Prepares the largest lower vertex to replace the specified vertex.
-     * @param subtreeSInitiallyRoot the vertex to be replaced
+     * Prepares the largest lower vertex to replace the specified vertex
+     *
+     * @param subtreeSInitiallyRoot `AVLVertex<K, V>` type; the vertex to be replaced
      * @return the substitute vertex prepared to replace the specified vertex
      */
     private fun replaceSubtreeSRootByLargestInItsLeftSubtree (subtreeSInitiallyRoot: AVLVertex<K, V>): AVLVertex<K, V> {
@@ -308,9 +304,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Balances the subtree.
-     * @param curVertex the root vertex of subtree to be balanced
-     * @return the root vertex of the subtree after balancing
+     * Balances the subtree
+     *
+     * @param curVertex `AVLVertex<K, V>` type; the root vertex of subtree to be balanced
+     * @return root vertex of the subtree after balancing
      */
     private fun balance(curVertex: AVLVertex<K, V>): AVLVertex<K, V> {
         var (rightSon, leftSon) = List<AVLVertex<K, V>?>(2) { null }
@@ -377,9 +374,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a single left rotation of the subtree.
-     * @param curVertex the current vertex to rotate around (the subtree's root)
-     * @param rightSon the right son of the subtree's root
+     * Performs a single left rotation of the subtree
+     *
+     * @param curVertex `AVLVertex<K, V>` type; the current vertex to rotate around (the subtree's root)
+     * @param rightSon `AVLVertex<K, V>` type; the right son of the subtree's root
      * @return the new root of the subtree after rotation
      */
     private fun rotateLeft(
@@ -392,9 +390,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a single right rotation of the subtree.
-     * @param curVertex the current vertex to rotate around (the subtree's root)
-     * @param leftSon the left son of the subtree's root
+     * Performs a single right rotation of the subtree
+     *
+     * @param curVertex `AVLVertex<K, V>` type; the current vertex to rotate around (the subtree's root)
+     * @param leftSon `AVLVertex<K, V>` type; the left son of the subtree's root
      * @return the new root of the subtree after rotation
      */
     private fun rotateRight(
@@ -407,9 +406,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a big left rotation of the subtree.
-     * @param curVertex the current vertex to rotate around (the subtree's root)
-     * @param rightSon the right son of the subtree's root
+     * Performs a big left rotation of the subtree
+     *
+     * @param curVertex `AVLVertex<K, V>` type; the current vertex to rotate around (the subtree's root)
+     * @param rightSon `AVLVertex<K, V>` type; the right son of the subtree's root
      * @return the new root of the subtree after rotation
      */
     private fun bigRotateLeft(
@@ -422,9 +422,10 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Performs a big right rotation of the subtree.
-     * @param curVertex the current vertex to rotate around (the subtree's root)
-     * @param leftSon the left son vertex of the subtree's root
+     * Performs a big right rotation of the subtree
+     *
+     * @param curVertex `AVLVertex<K, V>` type; the current vertex to rotate around (the subtree's root)
+     * @param leftSon `AVLVertex<K, V>` type; the left son vertex of the subtree's root
      * @return the new root of the subtree after rotation
      */
     private fun bigRotateRight(
@@ -437,16 +438,21 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
     }
 
     /**
-     * Constructs a new binary search tree with the specified comparator.
-     * @param comparator the comparator to use for comparing keys, or null to use natural ordering
+     * Constructs a new binary search tree with the specified comparator
+     *
+     * @param comparator `Comparator<K>?` type, `null `by default; used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
      */
     constructor (comparator: Comparator<K>? = null) : super(comparator)
 
     /**
-     * Constructs a new binary search tree and initializes it with the mappings from the specified map.
-     * @param map the map whose mappings are to be added to this tree
-     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
-     * @param comparator the comparator to use for comparing keys, or null to use natural ordering
+     * Constructs a new binary search tree and puts all key-value pairs from the specified map to this tree
+     *
+     * @param map `Map<K, V>` type
+     * @param replaceIfExists `Boolean` type.
+     * If `true` - replaces the value if the key already exists. If `false` - ignores it.
+     * Supplied only if a [comparator] is present. If comparator is `null`, the value is replaced
+     * by the last value from the key-value pair in the map, where the key is the one already existing in the tree.
+     * @param comparator `Comparator<K>?` type, `null `by default; used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
      */
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) : super(
         map,
