@@ -1,7 +1,7 @@
-package main.iterator
+package iterator
 
-import main.vertexes.InterfaceBSTVertex
-import java.util.LinkedList
+import vertexes.InterfaceBSTVertex
+import java.util.Stack
 
 /**
  * Iterator iterates over the vertices of the tree, visiting each vertex in the order of a depth-first traversal.
@@ -13,7 +13,7 @@ import java.util.LinkedList
 open class TreeIterator<K, V, N : InterfaceBSTVertex<K, V, N>>(
     vertex: N?,
 ) : Iterator<Pair<K, V>> {
-    protected val stack = LinkedList<N>()
+    protected val stack = Stack<N>()
 
     init {
         // Initialize the iterator with the given vertex by adding it to the stack
@@ -35,7 +35,7 @@ open class TreeIterator<K, V, N : InterfaceBSTVertex<K, V, N>>(
      * @return the next element in the iteration as a Pair containing the key and value of the vertex
      */
     override fun next(): Pair<K, V> {
-        val nextVertex: N = stack.removeLast()
+        val nextVertex: N = stack.pop()
         nextVertex.leftSon?.let { stack.add(it) }
         nextVertex.rightSon?.let { stack.add(it) }
         return Pair(nextVertex.key, nextVertex.value)

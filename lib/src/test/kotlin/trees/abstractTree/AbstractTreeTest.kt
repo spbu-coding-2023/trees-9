@@ -1,11 +1,8 @@
 package trees.abstractTree
 
-import main.vertexes.SimpleBSTVertex
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.util.Comparator
+import vertexes.SimpleBSTVertex
 
 class AbstractTreeTest {
     private fun makeEmptyTree(): TestTree<IntArray, String> {

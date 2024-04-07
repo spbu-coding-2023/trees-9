@@ -1,7 +1,6 @@
-import main.vertexes.SimpleBSTVertex
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
-import java.util.Comparator
+import org.junit.jupiter.api.Test
+import vertexes.SimpleBSTVertex
 
 class AbstractTreeTest {
 

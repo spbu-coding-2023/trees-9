@@ -1,6 +1,6 @@
-package main.trees
+package trees
 
-import main.vertexes.RBVertex
+import vertexes.RBVertex
 
 /**
  * Red-Black Tree implementation. It extends AbstractBinarySearchTree and uses RBVertex as vertices.

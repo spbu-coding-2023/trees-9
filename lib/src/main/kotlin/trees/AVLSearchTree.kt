@@ -1,6 +1,6 @@
-package main.trees
+package trees
 
-import main.vertexes.AVLVertex
+import vertexes.AVLVertex
 
 /**
  * An implementation of a binary search tree that automatically balances itself using AVL rotations.
@@ -230,7 +230,7 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
                     else -> {
                         val valueOfVertex = vertex.value
                         Triple(
-                                RemovalStage.B,
+                            RemovalStage.B,
                                 replaceSubtreeSRootByLargestInItsLeftSubtree(vertex),
                                 valueOfVertex,
                         )

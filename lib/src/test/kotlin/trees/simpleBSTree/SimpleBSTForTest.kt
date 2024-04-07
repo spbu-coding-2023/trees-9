@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class SimpleBSTreeTest {
+class SimpleBSTForTest {
     private lateinit var tree: TestSimpleBST<Int, String>
 
     @BeforeEach
@@ -173,8 +173,6 @@ class SimpleBSTreeTest {
 //              5
 //              ^
 //            0  null
-//           ^
-//      null  null
 
         val returned = tree.remove(5)
         assertEquals("zero", tree.getTreeRoot()?.value)
@@ -189,8 +187,6 @@ class SimpleBSTreeTest {
 //              5
 //              ^
 //         null  6
-//                ^
-//            null  null
 
         val returned = tree.remove(5)
         assertEquals("six", tree.getTreeRoot()?.value)
@@ -205,8 +201,6 @@ class SimpleBSTreeTest {
 //              5
 //              ^
 //            0  null
-//           ^
-//      null  null
 
         val returned = tree.remove(0)
         assertEquals("five", tree.getTreeRoot()?.value)

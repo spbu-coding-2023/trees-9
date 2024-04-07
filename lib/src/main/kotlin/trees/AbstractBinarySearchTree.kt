@@ -1,7 +1,7 @@
-package main.trees
+package trees
 
-import main.iterator.TreeIterator
-import main.vertexes.InterfaceBSTVertex
+import iterator.TreeIterator
+import vertexes.InterfaceBSTVertex
 
 /**
  * An abstract class representing a binary search tree.
@@ -120,13 +120,6 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return if (maxKeyNode == null) null else Pair(maxKeyNode.key, maxKeyNode.value)
     }
 
-    /**
-     * Associates the specified value with the specified key in this tree.
-     * If parameter replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.
-     * @param key the key with which the specified value is to be associated
-     * @param value the value to be associated with the specified key
-     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
-     */
     abstract fun put(
         key: K,
         value: V,

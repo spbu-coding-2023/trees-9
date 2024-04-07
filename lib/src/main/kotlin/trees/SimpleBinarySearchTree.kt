@@ -1,6 +1,6 @@
-package main.trees
+package trees
 
-import main.vertexes.SimpleBSTVertex
+import vertexes.SimpleBSTVertex
 
 /**
  * This class represents a simple implementation of a binary search tree.
@@ -18,8 +18,8 @@ import main.vertexes.SimpleBSTVertex
  * **Get**: When getting for a key that is incomparable with the keys in the tree, the search operation will not
  * find any matching key-value pair the get operation will fail.
  *
- * @param K The type of keys in the tree.
- * @param V The type of values in the tree.
+ * @param K key type
+ * @param V value type
  * @property comparator The comparator used to order the keys. If null, keys are expected to be comparable.
  * @property size The number of elements in the tree.
  * @property root The root vertex of the tree.

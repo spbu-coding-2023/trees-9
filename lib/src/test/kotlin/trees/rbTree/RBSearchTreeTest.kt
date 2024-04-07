@@ -1,9 +1,9 @@
 package trees.rbTree
 
-import main.trees.RBSearchTree
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import trees.RBSearchTree
 import kotlin.test.assertEquals
 
 class RBSearchTreeTest {

@@ -1,7 +1,7 @@
 package trees.abstractTree
 
-import main.trees.AbstractBinarySearchTree
-import main.vertexes.SimpleBSTVertex
+import trees.AbstractBinarySearchTree
+import vertexes.SimpleBSTVertex
 
 class TestTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
     var removeShouldReturns: V? = null

@@ -1,6 +1,6 @@
 package trees.avlTree
 
-import main.vertexes.AVLVertex
+import vertexes.AVLVertex
 
 object AuxiliaryFunctions {
     fun <K, V> isTreeConsistsOf(

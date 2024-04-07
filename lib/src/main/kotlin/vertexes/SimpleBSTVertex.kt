@@ -1,4 +1,4 @@
-package main.vertexes
+package vertexes
 
 /**
  * Represents a simple vertex in a Binary Search Tree.

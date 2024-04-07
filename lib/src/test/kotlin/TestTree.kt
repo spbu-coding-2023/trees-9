@@ -1,7 +1,7 @@
-import main.trees.AbstractBinarySearchTree
-import main.vertexes.SimpleBSTVertex
+import trees.AbstractBinarySearchTree
+import vertexes.SimpleBSTVertex
 
-class TestTree<K,V> : AbstractBinarySearchTree<K,V, SimpleBSTVertex<K,V>> {
+class TestTree<K,V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
  
         var removeShouldReturns : V? = null
         var getShouldReturns : V? = null
@@ -16,7 +16,7 @@ class TestTree<K,V> : AbstractBinarySearchTree<K,V, SimpleBSTVertex<K,V>> {
         fun compareKeysT(firstKey: K, secondKey: K): Int {
                 return super.compareKeys(firstKey, secondKey)
         }
-        constructor (root: SimpleBSTVertex<K,V>, size: Long, comparator: Comparator<K>? = null) :
+        constructor (root: SimpleBSTVertex<K, V>, size: Long, comparator: Comparator<K>? = null) :
         super(comparator) {
            this.root = root
            this.size = size

@@ -1,4 +1,4 @@
-package main.vertexes
+package vertexes
 
 /**
  * Represents a vertex in an AVL tree.
