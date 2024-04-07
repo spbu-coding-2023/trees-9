@@ -1,15 +1,15 @@
 package vertexes
 
 /**
- * Represents a vertex in a Red-Black Tree.
- * @param K Type of keys.
- * @param V Type of values.
- * @property key The key associated with this vertex.
- * @property value The value associated with this vertex.
- * @property isRed A boolean indicating whether this vertex is red.
- * @property parent The parent vertex of this vertex.
- * @property leftSon The left child vertex of this vertex.
- * @property rightSon The right child vertex of this vertex.
+ * Represents a vertex in a Red-Black tree
+ *
+ * @param K key type
+ * @param V value type
+ * @property key
+ * @property value
+ * @property leftSon `RBVertex<K, V>?` type, `null` by default
+ * @property rightSon `RBVertex<K, V>?` type, `null` by default
+ * @property parent `RBVertex<K, V>?` type, `null` by default
  */
 class RBVertex<K, V>(
     override var key: K,
@@ -21,13 +21,13 @@ class RBVertex<K, V>(
     override var rightSon: RBVertex<K, V>? = null
 
     /**
-     * Creates a new RBVertex with the specified parameters.
-     * @param key The key associated with this vertex.
-     * @param value The value associated with this vertex.
-     * @param leftSon The left child vertex of this vertex.
-     * @param rightSon The right child vertex of this vertex.
-     * @param isRed A boolean indicating whether this vertex is red.
-     * @param parent The parent vertex of this vertex.
+     * Constructs a new RBVertex with the specified parameters
+     *
+     * @param key `K` type
+     * @param value `V` type
+     * @param leftSon `RBVertex<K, V>?` type
+     * @param rightSon `RBVertex<K, V>?` type
+     * @param parent `RBVertex<K, V>?` type
      */
     constructor(
         key: K,

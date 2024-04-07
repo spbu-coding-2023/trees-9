@@ -1,14 +1,15 @@
 package vertexes
 
 /**
- * Represents a vertex in an AVL tree.
- * @param K Type of keys.
- * @param V Type of values.
- * @property key The key associated with this vertex.
- * @property value The value associated with this vertex.
- * @property leftSon The left child vertex of this vertex, of type [AVLVertex].
- * @property rightSon The right child vertex of this vertex, of type [AVLVertex].
- * @property sonsHeightDiff The difference in height between the left and right subtrees.
+ * Represents a vertex in an AVL tree
+ *
+ * @param K key type
+ * @param V value type
+ * @property key
+ * @property value
+ * @property leftSon `AVLVertex<K, V>?` type,
+ * @property rightSon `AVLVertex<K, V>?` type
+ * @property sonsHeightDiff 'Int' type, difference in height between the left and right subtrees
  */
 
 class AVLVertex<K, V>(
@@ -24,12 +25,13 @@ class AVLVertex<K, V>(
     var sonsHeightDiff: Int = 0
 
     /**
-     * Constructs a vertex with the specified key and value.
-     * @param key The key associated with this vertex.
-     * @param value The value associated with this vertex.
-     * @param leftSon The left child vertex of this vertex.
-     * @param rightSon The right child vertex of this vertex.
-     * @param sonsHeightDiff The difference in height between the left and right subtrees.
+     * Constructs vertex for AVL tree with the specified key and value
+     *
+     * @param key `K` type
+     * @param value `V` type
+     * @param leftSon `AVLVertex<K, V>?` type
+     * @param rightSon `AVLVertex<K, V>?` type
+     * @param sonsHeightDiff 'Int' type, 0 by default; difference in height between the left and right subtrees
      */
     constructor(
         key: K,
