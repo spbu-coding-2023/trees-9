@@ -59,6 +59,10 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
         return size == 0L
     }
 
+    fun isNotEmpty(): Boolean {
+        return size != 0L
+    }
+
     /**
      * Returns the value associated with the specified key in this tree.
      * If the key is not found, returns null.
@@ -229,7 +233,8 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
                 else -> 1
             }
         } else {
-            val comparableKey = firstKey as Comparable<K>
+            val comparableKey = firstKey as? Comparable<K> ?:
+                throw Exception("Key's type is incomparable and comparator wasn't given")
             when (comparableKey.compareTo(secondKey)) {
                 in Int.MIN_VALUE..-1 -> -1
                 0 -> 0
