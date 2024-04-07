@@ -6,7 +6,7 @@ package main.vertexes
  * @param V Type of values.
  * @property key The key associated with this vertex.
  * @property value The value associated with this vertex.
- * @property isRed A boolean indicating whether this vertex is red.
+ * @property color The color of this vertex (red or black).
  * @property parent The parent vertex of this vertex.
  * @property leftSon The left child vertex of this vertex.
  * @property rightSon The right child vertex of this vertex.
@@ -30,7 +30,7 @@ class RBVertex<K, V>(
      * @param value The value associated with this vertex.
      * @param leftSon The left child vertex of this vertex.
      * @param rightSon The right child vertex of this vertex.
-     * @param isRed A boolean indicating whether this vertex is red.
+     * @param color The color of this vertex (red or black).
      * @param parent The parent vertex of this vertex.
      */
     constructor(
