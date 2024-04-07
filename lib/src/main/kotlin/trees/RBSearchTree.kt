@@ -300,45 +300,29 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
         while (currentVertex.parent?.color == red) {
             val grandparent = currentVertex.parent?.parent
+            val isUncleRightSon = (currentVertex.parent == grandparent?.leftSon)
+            val uncle = if (isUncleRightSon) grandparent?.rightSon else grandparent?.leftSon
 
-            if (currentVertex.parent == grandparent?.leftSon) {
-                val uncle = grandparent?.rightSon
-
-                if (uncle?.color == red) {
-                    currentVertex.parent?.color = black
-                    uncle.color = black
-                    grandparent.color = red
-                    currentVertex = grandparent
-                } else {
-                    if (currentVertex == currentVertex.parent?.rightSon) {
-                        currentVertex = currentVertex.parent ?: currentVertex
-                        rotateLeft(currentVertex)
-                    }
-
-                    currentVertex.parent?.color = black
-                    currentVertex.parent?.parent?.color = red
-                    val vertexForRightRotate = currentVertex.parent?.parent
-                    vertexForRightRotate?.let { rotateRight(vertexForRightRotate) }
-                }
+            if (uncle?.color == red) {
+                currentVertex.parent?.color = black
+                uncle.color = black
+                grandparent?.color = red
+                currentVertex = grandparent ?: currentVertex
             } else {
-                val uncle = grandparent?.leftSon
-
-                if (uncle?.color == red) {
-                    currentVertex.parent?.color = black
-                    uncle.color = black
-                    grandparent.color = red
-                    currentVertex = grandparent
-                } else {
-                    if (currentVertex == currentVertex.parent?.leftSon) {
-                        currentVertex = currentVertex.parent ?: currentVertex
-                        rotateRight(currentVertex)
-                    }
-
-                    currentVertex.parent?.color = black
-                    currentVertex.parent?.parent?.color = red
-                    val vertexForLeftRotate = currentVertex.parent?.parent
-                    vertexForLeftRotate?.let { rotateLeft(vertexForLeftRotate) }
+                if ((isUncleRightSon) && (currentVertex == currentVertex.parent?.rightSon)) {
+                    currentVertex = currentVertex.parent ?: currentVertex
+                    rotateLeft(currentVertex)
                 }
+
+                else if ((!isUncleRightSon) && (currentVertex == currentVertex.parent?.leftSon)) {
+                    currentVertex = currentVertex.parent ?: currentVertex
+                    rotateRight(currentVertex)
+                }
+
+                currentVertex.parent?.color = black
+                currentVertex.parent?.parent?.color = red
+                val vertexForRotate = currentVertex.parent?.parent
+                vertexForRotate?.let { if (isUncleRightSon) rotateRight(vertexForRotate) else rotateLeft(vertexForRotate) }
             }
         }
         root?.color = black
