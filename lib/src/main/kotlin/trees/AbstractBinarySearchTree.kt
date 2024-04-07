@@ -14,9 +14,9 @@ import vertexes.InterfaceBSTVertex
  * @param K key type
  * @param V value type
  * @param N vertex type implementing the [InterfaceBSTVertex] interface
- * @property comparator used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
- * @property size number of tree vertices
- * @property root
+ * @property comparator `Comparator<K>?` type; used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
+ * @property size `Long` type; number of key-value pairs in this tree
+ * @property root `N?` type, `null` by default
  */
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
 
