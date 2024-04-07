@@ -41,14 +41,14 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
      *
      * 4 cases we need to look at:
      *
-     * 1) remove red vertex with 0 children -> just remove vetrex
+     * 1) remove red vertex with 0 children -> just remove vertex
      *
      * 2) remove red or black vertex with 2 children ->
      * find min vertex on the right subtree and swap it's key and value with
      * key and value of vertex that we need to remove.
      * Now we can work with vertex which has 1 or 0 children
      *
-     * 3) remove black vetrex with 1 child -> child can be only red
+     * 3) remove black vertex with 1 child -> child can be only red
      * so we just swap child's key and value with key and value that we need to remove
      * and look at case 1)
      *
@@ -131,75 +131,67 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     private fun balanceAfterRemove(vertex: RBVertex<K, V>?) {
         var currentVertex = vertex
         while (currentVertex != root && (currentVertex?.color == black || currentVertex == null)) {
-            var brother: RBVertex<K, V>?
-            if (currentVertex == currentVertex?.parent?.leftSon) {
-                brother = currentVertex?.parent?.rightSon
+            val isBrotherRightSon = (currentVertex == currentVertex?.parent?.leftSon)
+            var brother: RBVertex<K, V>? = if (isBrotherRightSon) currentVertex?.parent?.rightSon else currentVertex?.parent?.leftSon
 
-                if (brother?.color == red) {
-                    brother.color = black
-                    currentVertex?.parent?.color = red
-                    val vertexForRotate = currentVertex?.parent
-                    vertexForRotate?.let { rotateLeft(vertexForRotate) }
+            if (brother?.color == red) {
+                brother.color = black
+                currentVertex?.parent?.color = red
+                val vertexForRotate = currentVertex?.parent
+
+                when (isBrotherRightSon) {
+                    true -> {
+                        vertexForRotate?.let { rotateLeft(vertexForRotate) }
+                        brother = currentVertex?.parent?.rightSon
+                    } else -> {
+                        vertexForRotate?.let { rotateRight(vertexForRotate) }
+                        brother = currentVertex?.parent?.leftSon
+                    }
+                }
+            }
+
+            if ((brother?.leftSon?.color == black || brother?.leftSon == null) &&
+                (brother?.rightSon?.color == black || brother?.rightSon == null)
+            ) {
+                brother?.color = red
+                currentVertex = currentVertex?.parent
+
+                when (vertex) {
+                    currentVertex?.leftSon -> currentVertex?.leftSon = null
+                    currentVertex?.rightSon -> currentVertex?.rightSon = null
+                }
+            } else {
+                if ((isBrotherRightSon) && (brother.rightSon?.color == black || brother.rightSon == null)) {
+                    brother.leftSon?.color = black
+                    brother.color = red
+                    rotateRight(brother)
                     brother = currentVertex?.parent?.rightSon
                 }
 
-                if ((brother?.leftSon?.color == black || brother?.leftSon == null) &&
-                    (brother?.rightSon?.color == black || brother?.rightSon == null)
-                ) {
-                    brother?.color = red
-                    currentVertex = currentVertex?.parent
-                    if (vertex == currentVertex?.leftSon) currentVertex?.leftSon = null
-                } else {
-                    if (brother.rightSon?.color == black || brother.rightSon == null) {
-                        brother.leftSon?.color = black
-                        brother.color = red
-                        rotateRight(brother)
-                        brother = currentVertex?.parent?.rightSon
-                    }
-
-                    val parentColor = currentVertex?.parent?.color
-                    parentColor?.let { brother?.color = parentColor }
-                    currentVertex?.parent?.color = black
-                    brother?.rightSon?.color = black
-                    val vertexForRotate = currentVertex?.parent
-                    vertexForRotate?.let { rotateLeft(vertexForRotate) }
-                    if (currentVertex == vertex) currentVertex?.parent?.leftSon = null
-                    currentVertex = root
-                }
-            } else {
-                brother = currentVertex?.parent?.leftSon
-
-                if (brother?.color == red) {
-                    brother.color = black
-                    currentVertex?.parent?.color = red
-                    val vertexForRotate = currentVertex?.parent
-                    vertexForRotate?.let { rotateRight(vertexForRotate) }
+                else if ((!isBrotherRightSon) && (brother.leftSon?.color == black || brother.leftSon == null)) {
+                    brother.rightSon?.color = black
+                    brother.color = red
+                    rotateLeft(brother)
                     brother = currentVertex?.parent?.leftSon
                 }
 
-                if ((brother?.leftSon?.color == black || brother?.leftSon == null) &&
-                    (brother?.rightSon?.color == black || brother?.rightSon == null)
-                ) {
-                    brother?.color = red
-                    currentVertex = currentVertex?.parent
-                    if (vertex == currentVertex?.rightSon) currentVertex?.rightSon = null
-                } else {
-                    if (brother.leftSon?.color == black || brother.leftSon == null) {
-                        brother.rightSon?.color = black
-                        brother.color = red
-                        rotateLeft(brother)
-                        brother = currentVertex?.parent?.leftSon
-                    }
+                val parentColor = currentVertex?.parent?.color
+                parentColor?.let { brother?.color = parentColor }
+                currentVertex?.parent?.color = black
+                val vertexForRotate = currentVertex?.parent
 
-                    val parentColor = currentVertex?.parent?.color
-                    parentColor?.let { brother?.color = parentColor }
-                    currentVertex?.parent?.color = black
-                    brother?.leftSon?.color = black
-                    val vertexForRotate = currentVertex?.parent
-                    vertexForRotate?.let { rotateRight(vertexForRotate) }
-                    if (currentVertex == vertex) currentVertex?.parent?.rightSon = null
-                    currentVertex = root
+                when (isBrotherRightSon) {
+                    true -> {
+                        brother?.rightSon?.color = black
+                        vertexForRotate?.let { rotateLeft(vertexForRotate) }
+                        if (currentVertex == vertex) currentVertex?.parent?.leftSon = null
+                    } else -> {
+                        brother?.leftSon?.color = black
+                        vertexForRotate?.let { rotateRight(vertexForRotate) }
+                        if (currentVertex == vertex) currentVertex?.parent?.rightSon = null
+                    }
                 }
+                currentVertex = root
             }
         }
         currentVertex?.color = black
