@@ -1,45 +1,49 @@
 package vertexes
 
 /**
- * Represents a vertex in a Red-Black tree
- *
- * @param K key type
- * @param V value type
- * @property key
- * @property value
- * @property leftSon `RBVertex<K, V>?` type, `null` by default
- * @property rightSon `RBVertex<K, V>?` type, `null` by default
- * @property parent `RBVertex<K, V>?` type, `null` by default
+ * Represents a vertex in a Red-Black Tree.
+ * @param K Type of keys.
+ * @param V Type of values.
+ * @property key The key associated with this vertex.
+ * @property value The value associated with this vertex.
+ * @property color The color of this vertex (red or black).
+ * @property parent The parent vertex of this vertex.
+ * @property leftSon The left child vertex of this vertex.
+ * @property rightSon The right child vertex of this vertex.
  */
 class RBVertex<K, V>(
     override var key: K,
     override var value: V,
 ) : InterfaceBSTVertex<K, V, RBVertex<K, V>> {
-    var isRed = true
+    enum class Color {
+        RED,
+        BLACK
+    }
+    var color: Color = Color.RED
     var parent: RBVertex<K, V>? = null
     override var leftSon: RBVertex<K, V>? = null
     override var rightSon: RBVertex<K, V>? = null
 
     /**
-     * Constructs a new RBVertex with the specified parameters
-     *
-     * @param key `K` type
-     * @param value `V` type
-     * @param leftSon `RBVertex<K, V>?` type
-     * @param rightSon `RBVertex<K, V>?` type
-     * @param parent `RBVertex<K, V>?` type
+     * Creates a new RBVertex with the specified parameters.
+     * @param key The key associated with this vertex.
+     * @param value The value associated with this vertex.
+     * @param leftSon The left child vertex of this vertex.
+     * @param rightSon The right child vertex of this vertex.
+     * @param color The color of this vertex (red or black).
+     * @param parent The parent vertex of this vertex.
      */
     constructor(
         key: K,
         value: V,
         leftSon: RBVertex<K, V>?,
         rightSon: RBVertex<K, V>?,
-        isRed: Boolean,
+        color: Color,
         parent: RBVertex<K, V>?,
     ) : this(key, value) {
         this.leftSon = leftSon
         this.rightSon = rightSon
         this.parent = parent
-        this.isRed = isRed
+        this.color = color
     }
 }
