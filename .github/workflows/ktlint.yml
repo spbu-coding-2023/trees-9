@@ -1,0 +1,25 @@
+name: ktlint
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - fixes-after-1st-review
+  push:
+    branches:
+      - main
+      - develop
+      - fixes-after-1st-review
+  workflow_dispatch:
+
+jobs:
+  ktlint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v2
+
+      - name: "ktlint"
+        uses: "block42-blockchain-company/ktlint-action@master"
