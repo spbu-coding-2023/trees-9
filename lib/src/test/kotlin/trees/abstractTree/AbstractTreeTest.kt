@@ -1,11 +1,10 @@
 package trees.abstractTree
 
-import main.vertexes.SimpleBSTVertex
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import java.util.Comparator
+import vertexes.SimpleBSTVertex
 
 class AbstractTreeTest {
     private fun makeEmptyTree(): TestTree<IntArray, String> {
@@ -16,6 +15,12 @@ class AbstractTreeTest {
     fun `isEmpty() returns true if tree is empty `() {
         val tree = makeEmptyTree()
         assert(tree.isEmpty())
+    }
+
+    @Test
+    fun `isNotEmpty() returns false if tree is empty `() {
+        val tree = makeEmptyTree()
+        assertFalse(tree.isNotEmpty())
     }
 
     @Test
@@ -67,19 +72,25 @@ class AbstractTreeTest {
     }
 
     @Test
+    fun `isNotEmpty() returns true if tree is not empty `() {
+        val tree = makeTreeWithBothRootSSons()
+        assert(tree.isNotEmpty())
+    }
+
+    @Test
     fun `size() returns not 0 if tree is not empty`() {
         val tree = makeTreeWithBothRootSSons()
         assert(tree.size() != 0L)
     }
 
     @Test
-    fun `get() returns null when tree doesn'n contains given key`() {
+    fun `get() returns null when tree doesn't contains given key`() {
         val tree = makeTreeWithBothRootSSons()
         assertNull(tree.get('z'))
     }
 
     @Test
-    fun `getPair() returns null when tree doesn'n contains given key`() {
+    fun `getPair() returns null when tree doesn't contains given key`() {
         val tree = makeTreeWithBothRootSSons()
         assertNull(tree.getPair('z'))
     }
@@ -236,7 +247,7 @@ class AbstractTreeTest {
     }
 
     @Test
-    fun `compareKeys fall when keys type doesn't implement compareble && comparator wasn't given`() {
+    fun `compareKeys fall when keys type doesn't implement comparable && comparator wasn't given`() {
         var didItFall = false
         val tree = TestTree<IntArray, Int>()
         try {

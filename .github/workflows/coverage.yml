@@ -1,0 +1,56 @@
+name: Jacoco coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - fixes-after-1st-review
+  push:
+    branches:
+      - main
+      - develop
+      - fixes-after-1st-review
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: "temurin"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Run Coverage
+        run: ./gradlew jacocoTestReport
+
+      - name: Generate JaCoCo Report
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: lib/build/reports/jacoco/test/jacocoTestReport.csv
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}/lib/build/reports/jacoco/test/jacocoTestReport.xml,
+            ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: '# 🇷🇺 Coverage Report'
+          update-comment: true
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
+          pass-emoji: '🥳'
+          fail-emoji: '🤡'

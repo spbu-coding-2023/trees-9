@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - develop
+      - fixes-after-1st-review
   push:
     branches:
       - main
       - develop
+      - fixes-after-1st-review
   workflow_dispatch:
 
 jobs:

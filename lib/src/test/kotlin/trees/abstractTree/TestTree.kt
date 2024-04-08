@@ -1,7 +1,7 @@
 package trees.abstractTree
 
-import main.trees.AbstractBinarySearchTree
-import main.vertexes.SimpleBSTVertex
+import trees.AbstractBinarySearchTree
+import vertexes.SimpleBSTVertex
 
 class TestTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
     var removeShouldReturns: V? = null
@@ -26,6 +26,7 @@ class TestTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
     ): Int {
         return super.compareKeys(firstKey, secondKey)
     }
+
     constructor (root: SimpleBSTVertex<K, V>, size: Long, comparator: Comparator<K>? = null) :
         super(comparator) {
             this.root = root

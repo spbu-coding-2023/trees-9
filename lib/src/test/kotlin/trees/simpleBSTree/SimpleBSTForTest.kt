@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class SimpleBSTreeTest {
+class SimpleBSTForTest {
     private lateinit var tree: TestSimpleBST<Int, String>
 
     @BeforeEach
@@ -173,8 +173,6 @@ class SimpleBSTreeTest {
 //              5
 //              ^
 //            0  null
-//           ^
-//      null  null
 
         val returned = tree.remove(5)
         assertEquals("zero", tree.getTreeRoot()?.value)
@@ -189,8 +187,6 @@ class SimpleBSTreeTest {
 //              5
 //              ^
 //         null  6
-//                ^
-//            null  null
 
         val returned = tree.remove(5)
         assertEquals("six", tree.getTreeRoot()?.value)
@@ -205,8 +201,6 @@ class SimpleBSTreeTest {
 //              5
 //              ^
 //            0  null
-//           ^
-//      null  null
 
         val returned = tree.remove(0)
         assertEquals("five", tree.getTreeRoot()?.value)
@@ -220,8 +214,8 @@ class SimpleBSTreeTest {
             mapOf(
                 Pair(5, "five"),
                 Pair(0, "zero"),
-                Pair(4, "four")
-            )
+                Pair(4, "four"),
+            ),
         )
 
 //              5
@@ -243,8 +237,8 @@ class SimpleBSTreeTest {
             mapOf(
                 Pair(5, "five"),
                 Pair(0, "zero"),
-                Pair(-1, "minus_one")
-            )
+                Pair(-1, "minus_one"),
+            ),
         )
 
 //              5
@@ -268,8 +262,8 @@ class SimpleBSTreeTest {
                 Pair(0, "zero"),
                 Pair(-1, "minus_one"),
                 Pair(4, "four"),
-                Pair(3, "three")
-            )
+                Pair(3, "three"),
+            ),
         )
 
 //              5
@@ -343,8 +337,8 @@ class SimpleBSTreeTest {
                 Pair(5, "five"),
                 Pair(10, "ten"),
                 Pair(2, "two"),
-                Pair(6, "six")
-            )
+                Pair(6, "six"),
+            ),
         )
 
 //              1

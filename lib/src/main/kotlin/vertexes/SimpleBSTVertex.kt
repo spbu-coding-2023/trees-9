@@ -1,13 +1,14 @@
-package main.vertexes
+package vertexes
 
 /**
- * Represents a simple vertex in a Binary Search Tree.
- * @param K Type of keys.
- * @param V Type of values.
- * @property key The key associated with this vertex.
- * @property value The value associated with this vertex.
- * @property leftSon The left child vertex of this vertex, of type SimpleBSTVertex.
- * @property rightSon The right child vertex of this vertex, of type SimpleBSTVertex.
+ * Represents a simple vertex in a binary search tree
+ *
+ * @param K key type
+ * @param V value type
+ * @property key
+ * @property value
+ * @property leftSon `SimpleBSTVertex<K, V>?` type, `null` by default
+ * @property rightSon `SimpleBSTVertex<K, V>?` type, `null` by default
  */
 class SimpleBSTVertex<K, V>(
     override var key: K,
@@ -17,11 +18,12 @@ class SimpleBSTVertex<K, V>(
     override var rightSon: SimpleBSTVertex<K, V>? = null
 
     /**
-     * Constructs a simple vertex with the specified key and value.
-     * @param key The key associated with this vertex.
-     * @param value The value associated with this vertex.
-     * @param leftSon The left child vertex of this vertex.
-     * @param rightSon The right child vertex of this vertex.
+     * Constructs a simple vertex with the specified key and value
+     *
+     * @param key `K` type
+     * @param value `V` type
+     * @param leftSon `SimpleBSTVertex<K, V>?` type
+     * @param rightSon `SimpleBSTVertex<K, V>?` type
      */
     constructor(
         key: K,

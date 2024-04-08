@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - develop
+      - fixes-after-1st-review
   push:
     branches:
       - main
       - develop
+      - fixes-after-1st-review
   workflow_dispatch:
 
 jobs:
@@ -17,15 +19,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Java JDK
         uses: actions/setup-java@v4
         with:
           java-version: 17
           cache: gradle
           distribution: "temurin"
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
+
       - name: Build with Gradle
         run: ./gradlew build
+
       - name: Run tests
         run: ./gradlew test
