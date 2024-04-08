@@ -1,11 +1,11 @@
 package trees.avlTree.putTest
 
-import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
-import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
-import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
-import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import trees.avlTree.AVLTreeForTest
+import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
+import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
+import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
+import vertexes.AVLVertex
 
 class HaveToRotateLeft {
     private fun makeTreeForHaveToRotateLeftPutTest(): AVLTreeForTest<Char, Char> {

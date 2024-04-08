@@ -14,6 +14,9 @@ plugins {
 
     // Code coverage plugin
     jacoco
+
+    // Documentation generation
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 repositories {
@@ -31,6 +34,8 @@ dependencies {
     testImplementation(libs.junit.jupiter.engine)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    compileOnly("org.jetbrains.dokka:dokka-core:1.9.20")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -52,4 +57,24 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         xml.required = true
         html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
     }
+}
+
+tasks.dokkaHtml {
+    outputDirectory.set(layout.buildDirectory.dir("documentation/html"))
+}
+
+tasks.dokkaGfm {
+    outputDirectory.set(layout.buildDirectory.dir("documentation/markdown"))
+}
+
+tasks.register<Jar>("dokkaHtmlJar") {
+    dependsOn(tasks.dokkaHtml)
+    from(tasks.dokkaHtml.flatMap { it.outputDirectory })
+    archiveClassifier.set("html-docs")
+}
+
+tasks.register<Jar>("dokkaJavadocJar") {
+    dependsOn(tasks.dokkaJavadoc)
+    from(tasks.dokkaJavadoc.flatMap { it.outputDirectory })
+    archiveClassifier.set("javadoc")
 }

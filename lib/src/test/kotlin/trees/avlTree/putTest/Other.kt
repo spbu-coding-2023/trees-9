@@ -1,9 +1,9 @@
 package trees.avlTree.putTest
 
-import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
-import main.vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import trees.avlTree.AVLTreeForTest
+import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
+import vertexes.AVLVertex
 
 class Other {
     private fun makeSize1Tree(): AVLTreeForTest<Char, Char> {

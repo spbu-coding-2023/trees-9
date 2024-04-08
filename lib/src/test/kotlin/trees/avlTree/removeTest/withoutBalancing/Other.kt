@@ -3,7 +3,7 @@ package trees.avlTree.removeTest.withoutBalancing
 import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
 import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
 import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
-import main.vertexes.AVLVertex
+import vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import trees.avlTree.AVLTreeForTest
 

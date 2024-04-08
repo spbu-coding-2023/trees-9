@@ -1,9 +1,7 @@
 package trees.avlTree
 
-import main.trees.AVLSearchTree
-import main.vertexes.AVLVertex
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableMapOf
+import trees.AVLSearchTree
+import vertexes.AVLVertex
 import kotlin.math.max
 
 class AVLTreeForTest<K, V> : AVLSearchTree<K, V> {

@@ -1,35 +1,30 @@
-package main.trees
+package trees
 
-import main.vertexes.RBVertex
+import vertexes.RBVertex
 
 /**
- * Red-Black Tree implementation. It extends AbstractBinarySearchTree and uses RBVertex as vertices.
+ * Red-Black Tree implementation.
+ *
+ * It extends [AbstractBinarySearchTree] and uses [RBVertex] as vertices.
  * Red-Black Tree is a balanced binary search tree, where each vertex is colored either red or black.
  * This implementation ensures the following properties:
  *
  *   - Every vertex is either red or black.
  *   - The root is black.
- *   - Every leaf (NIL) is black.
+ *   - Every leaf is black.
  *   - If a vertex is red, then both its children are black.
- *   - Every simple path from a vertex to a descendant leaf (NIL) has the same number of black vertexes.
+ *   - Every simple path from a vertex to a descendant leaf has the same number of black vertexes.
  *
- * When attempting to perform insertion, removal, or search operations on a non-empty binary search tree with a key that
- * is incomparable with the keys in the tree, the behavior is as follows:
+ * If the tree has an incomparable key type and comparator is `null`, if the tree
+ * is non-empty, when trying to call the search, insert and delete methods, the tree
+ * will remain unchanged, the operation throws an exception with the message "Key's
+ * type is incomparable and comparator was not given".
  *
- * **Put**: If an attempt is made to put a key-value pair with a key that is incomparable with the existing
- * keys in the tree, the insertion operation will fail and the tree will remain unchanged.
- *
- * **Remove**: If an attempt is made to remove a key-value pair with a key that is incomparable with the existing keys
- * in the tree, the removal operation will fail and the tree will remain unchanged.
- *
- * **Get**: When getting for a key that is incomparable with the keys in the tree, the search operation will not
- * find any matching key-value pair the get operation will fail.
- *
- * @param K the type of keys in the tree
- * @param V the type of values associated with the keys
- * @property comparator The comparator used to order the keys. If null, keys are expected to be comparable.
- * @property size The number of elements in the tree.
- * @property root The root vertex of the tree.
+ * @param K key type
+ * @param V value type
+ * @property comparator `Comparator<K>?` type; used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
+ * @property size `Long` type; number of key-value pairs in this tree
+ * @property root `RBVertex<K, V>?` type, `null` by default
  */
 class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     private val red = RBVertex.Color.RED
@@ -48,13 +43,14 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
      * key and value of vertex that we need to remove.
      * Now we can work with vertex which has 1 or 0 children
      *
-     * 3) remove black vertex with 1 child -> child can be only red
+     * 3) remove black vertex with 1 child -> child can be only red,
      * so we just swap child's key and value with key and value that we need to remove
      * and look at case 1)
      *
      * 4) remove black vertex with 0 children -> just remove vertex
-     * @param key the key of the vertex to be removed
-     * @return the value associated with the removed vertex, or null if the key is not found
+     *
+     * @param key `K` type
+     * @return value associated with the removed vertex, or `null` if the key is not found
      */
     override fun remove(key: K): V? {
         val vertex: RBVertex<K, V> = getVertex(key) ?: return null
@@ -72,7 +68,8 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     /**
      * Determines whether balancing is required after removing a vertex from the Red-Black Search Tree.
-     * @param vertex The vertex to be checked for balancing.
+     *
+     * @param vertex `RBVertex<K, V>` type; The vertex to be checked for balancing.
      * @return true if further balancing is required, false otherwise.
      */
     private fun needToBalance(vertex: RBVertex<K, V>): Boolean {
@@ -110,6 +107,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     /**
      * We need to balance tree after removal black vertex with 0 children.
+     *
      * In this fun we need to look at vertex's parent and brother:
      * 1) brother is black and brother's rightSon is red -> we paint
      * brother in parent's color, parent and brother's rightSon in black
@@ -126,7 +124,8 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
      *
      * 4) brother is red -> make brother black, parent red and
      * rotate left. We move conflict on level below, then we look at the previous cases
-     * @param vertex The child vertex of the removed vertex or null if the removed vertex had no children.
+     *
+     * @param vertex `RBVertex<K, V>` type; The child vertex of the removed vertex or `null` if the removed vertex had no children.
      */
     private fun balanceAfterRemove(vertex: RBVertex<K, V>?) {
         var currentVertex = vertex
@@ -198,9 +197,10 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     }
 
     /**
-     * Finds a vertex by corresponding key. If such vertex doesn't exist returns null.
-     * @param key The key to search for.
-     * @return The vertex with the corresponding key, or null if such vertex doesn't exist.
+     * Finds a vertex by corresponding key. If such vertex doesn't exist returns `null`
+     *
+     * @param key 'K` type
+     * @return vertex with the corresponding key, or `null` if such vertex doesn't exist
      */
     private fun getVertex(key: K): RBVertex<K, V>? {
         var currentVertex: RBVertex<K, V>? = root
@@ -222,10 +222,10 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     /**
      * Finds free place and inserts newVertex, colors it in red.
-     * If parameter replaceIfExists is true and the key already exists, the value is replaced; otherwise, the value is ignored.
-     * @param key the key with which the specified value is to be associated
-     * @param value the value to be associated with the specified key
-     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
+     *
+     * @param key 'K` type
+     * @param value `V` type
+     * @param replaceIfExists `Boolean` type; If `true` - replaces the value if the key already exists. If `false` - ignores it.
      */
     override fun put(
         key: K,
@@ -275,6 +275,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     /**
      * Balances the tree after inserting a new vertex.
+     *
      * We need to balance tree in two cases:
      * 1) when newVertex is root, so our root is red
      * 2) when parent of our newVertex is red(because newVertex is also red)
@@ -285,7 +286,8 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
      * launch algorithm to grandfather because now it's color changed to red
      * if uncle is black we also make newVertex's parent black, grandparent red
      * and rotate it right
-     * @param vertex The newly inserted vertex.
+     *
+     * @param vertex `RBVertex<K, V>` type; The newly inserted vertex.
      */
     private fun balanceAfterPut(vertex: RBVertex<K, V>) {
         var currentVertex = vertex
@@ -321,8 +323,9 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     }
 
     /**
-     * Counts the number of children of the given vertex.
-     * @param vertex The vertex whose children count is to be determined.
+     * Counts the number of children of the given vertex
+     *
+     * @param vertex `RBVertex<K, V>` type; The vertex whose children count is to be determined.
      * @return The number of children of the given vertex.
      */
     private fun countChildren(vertex: RBVertex<K, V>): Int {
@@ -333,16 +336,18 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     }
 
     /**
-     * Retrieves the child vertex of the given vertex.
-     * @param vertex The vertex whose child is to be retrieved.
+     * Retrieves the child vertex of the given vertex
+     *
+     * @param vertex `RBVertex<K, V>` type; vertex The vertex whose child is to be retrieved.
      * @return The child vertex of the given vertex.
      */
     private fun getChild(vertex: RBVertex<K, V>) = if (vertex.leftSon != null) vertex.leftSon else vertex.rightSon
 
     /**
-     * Replaces the old vertex with the new vertex in the tree structure.
-     * @param oldVertex The old vertex to be replaced.
-     * @param newVertex The new vertex that replaces the old vertex.
+     * Replaces the old vertex with the new vertex in the tree structure
+     *
+     * @param oldVertex `RBVertex<K, V>` type; The old vertex to be replaced.
+     * @param newVertex `RBVertex<K, V>` type; The new vertex that replaces the old vertex.
      */
     private fun replaceVertexBy(
         oldVertex: RBVertex<K, V>,
@@ -360,8 +365,10 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     /**
      * Performs a left rotation on the given vertex.
+     *
      * Suppose that vertex has a rightSon. Swap parent and rightSon, rightSon's leftSon becomes parent's rightSon.
-     * @param vertex The vertex on which the left rotation is to be performed.
+     *
+     * @param vertex `RBVertex<K, V>` type; The vertex on which the left rotation is to be performed.
      */
     private fun rotateLeft(vertex: RBVertex<K, V>) {
         val rightVertex: RBVertex<K, V>? = vertex.rightSon
@@ -379,8 +386,9 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
 
     /**
      * Performs a right rotation on the given vertex.
+     *
      * Suppose that vertex has a leftSon. Swap parent and leftSon, leftSon's rightSon becomes parent's leftSon.
-     * @param vertex The vertex on which the right rotation is to be performed.
+     * @param vertex `RBVertex<K, V>` type; The vertex on which the right rotation is to be performed.
      */
     private fun rotateRight(vertex: RBVertex<K, V>) {
         val leftVertex: RBVertex<K, V>? = vertex.leftSon
@@ -397,18 +405,23 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
     }
 
     /**
-     * Constructs a new binary search tree with the specified comparator.
-     * @param comparator the comparator to use for comparing keys, or null to use natural ordering
+     * Constructs a new binary search tree with the specified comparator
+     *
+     * @param comparator `Comparator<K>?` type, `null `by default; used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
      */
     constructor(comparator: Comparator<K>? = null) {
         this.comparator = comparator
     }
 
     /**
-     * Constructs a new binary search tree and initializes it with the mappings from the specified map.
-     * @param map the map whose mappings are to be added to this tree
-     * @param replaceIfExists if true, replaces the value if the key already exists, otherwise ignores it
-     * @param comparator the comparator to use for comparing keys, or null to use natural ordering
+     * Constructs a new binary search tree and puts all key-value pairs from the specified map to this tree
+     *
+     * @param map `Map<K, V>` type
+     * @param replaceIfExists `Boolean` type.
+     * If `true` - replaces the value if the key already exists. If `false` - ignores it.
+     * Supplied only if a [comparator] is present. If comparator is `null`, the value is replaced
+     * by the last value from the key-value pair in the map, where the key is the one already existing in the tree.
+     * @param comparator `Comparator<K>?` type, `null `by default; used optionally to compare keys in a tree. If `null`, it is expected that keys of comparable type.
      */
     constructor(map: Map<K, V>, replaceIfExists: Boolean = true, comparator: Comparator<K>? = null) {
         this.comparator = comparator
