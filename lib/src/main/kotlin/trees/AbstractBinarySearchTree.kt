@@ -19,7 +19,6 @@ import vertexes.InterfaceBSTVertex
  * @property root `N?` type, `null` by default
  */
 abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
-
     protected var comparator: Comparator<K>? = null
     protected var size: Long = 0L
     protected var root: N? = null
@@ -244,8 +243,9 @@ abstract class AbstractBinarySearchTree<K, V, N : InterfaceBSTVertex<K, V, N>> {
                 else -> 1
             }
         } else {
-            val comparableKey = firstKey as? Comparable<K> ?:
-                throw Exception("Key's type is incomparable and comparator wasn't given")
+            val comparableKey =
+                firstKey as? Comparable<K>
+                    ?: throw Exception("Key's type is incomparable and comparator wasn't given")
             when (comparableKey.compareTo(secondKey)) {
                 in Int.MIN_VALUE..-1 -> -1
                 0 -> 0

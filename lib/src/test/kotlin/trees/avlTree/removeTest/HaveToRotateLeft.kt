@@ -1,11 +1,11 @@
 package trees.avlTree.removeTest
 
-import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
-import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
-import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
-import vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import trees.avlTree.AVLTreeForTest
+import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
+import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
+import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
+import vertexes.AVLVertex
 
 class HaveToRotateLeft {
     private fun makeTreeForRemoveWithLeftRotation1Test(): AVLTreeForTest<Char, Boolean> {
@@ -40,14 +40,14 @@ class HaveToRotateLeft {
         val tree = makeTreeForRemoveWithLeftRotation1Test()
         tree.remove('l')
         val expectedContent =
-                setOf(
-                        'k' to true,
-                        'i' to false,
-                        'm' to true,
-                        'o' to false,
-                        'p' to true,
-                        'a' to false,
-                )
+            setOf(
+                'k' to true,
+                'i' to false,
+                'm' to true,
+                'o' to false,
+                'p' to true,
+                'a' to false,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -56,15 +56,15 @@ class HaveToRotateLeft {
         val tree = makeTreeForRemoveWithLeftRotation2Test()
         tree.remove('l')
         val expectedContent =
-                setOf(
-                        'k' to true,
-                        'i' to false,
-                        'm' to true,
-                        'o' to false,
-                        'p' to true,
-                        'n' to true,
-                        'a' to false,
-                )
+            setOf(
+                'k' to true,
+                'i' to false,
+                'm' to true,
+                'o' to false,
+                'p' to true,
+                'n' to true,
+                'a' to false,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -96,12 +96,12 @@ class HaveToRotateLeft {
         val tree = makeTreeForRemoveWithLeftRotation2Test()
         tree.remove('l')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 3),
-                        Triple(3, 4, 6),
-                        Triple(4, null, 5),
-                        Triple(1, 2, null),
-                )
+            listOf(
+                Triple(0, 1, 3),
+                Triple(3, 4, 6),
+                Triple(4, null, 5),
+                Triple(1, 2, null),
+            )
         val expectedOrder = arrayOf('k', 'i', 'a', 'o', 'm', 'n', 'p')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }
@@ -161,5 +161,4 @@ class HaveToRotateLeft {
         tree.remove(0)
         assert(isSonsHeightDiffCorrect(tree))
     }
-
 }

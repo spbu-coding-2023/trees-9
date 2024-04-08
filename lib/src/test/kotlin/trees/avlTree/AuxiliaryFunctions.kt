@@ -4,8 +4,8 @@ import vertexes.AVLVertex
 
 object AuxiliaryFunctions {
     fun <K, V> isTreeConsistsOf(
-            expectedContent: Set<Pair<K, V>>,
-            tree: AVLTreeForTest<K, V>,
+        expectedContent: Set<Pair<K, V>>,
+        tree: AVLTreeForTest<K, V>,
     ): Boolean {
         val vertexes = tree.getVertexesInDFSOrder()
         val pairsFromVertexes = (Array(vertexes.size) { i -> (vertexes[i].key to vertexes[i].value) }).toSet()
@@ -13,9 +13,9 @@ object AuxiliaryFunctions {
     }
 
     fun <K, V> isTreeSStructureThat(
-            tree: AVLTreeForTest<K, V>,
-            order: Array<K>,
-            deps: List<Triple<Int, Int?, Int?>>,
+        tree: AVLTreeForTest<K, V>,
+        order: Array<K>,
+        deps: List<Triple<Int, Int?, Int?>>,
     ): Boolean {
         // Triple consists of indexes in order of (1)vertex, one's (2)leftSon and (3)RightSon
         val vertexes = tree.getVertexesInDFSOrder()
@@ -43,16 +43,16 @@ object AuxiliaryFunctions {
         if (vertexes.size != heights.size) return false
         for (vertex in vertexes) {
             val expectedSonsHeightDiff =
-                    when ((vertex.leftSon == null) to (vertex.rightSon == null)) {
-                        true to true -> 0
-                        true to false -> -1 - (heights[(vertex.rightSon as AVLVertex<K, V>).key] ?: return false)
-                        false to true -> 1 + (heights[(vertex.leftSon as AVLVertex<K, V>).key] ?: return false)
-                        else -> {
-                            val heightOfLeftSubtree = heights[(vertex.leftSon as AVLVertex<K, V>).key] ?: return false
-                            val heightOfRightSubtree = heights[(vertex.rightSon as AVLVertex<K, V>).key] ?: return false
-                            heightOfLeftSubtree - heightOfRightSubtree
-                        }
+                when ((vertex.leftSon == null) to (vertex.rightSon == null)) {
+                    true to true -> 0
+                    true to false -> -1 - (heights[(vertex.rightSon as AVLVertex<K, V>).key] ?: return false)
+                    false to true -> 1 + (heights[(vertex.leftSon as AVLVertex<K, V>).key] ?: return false)
+                    else -> {
+                        val heightOfLeftSubtree = heights[(vertex.leftSon as AVLVertex<K, V>).key] ?: return false
+                        val heightOfRightSubtree = heights[(vertex.rightSon as AVLVertex<K, V>).key] ?: return false
+                        heightOfLeftSubtree - heightOfRightSubtree
                     }
+                }
             if (expectedSonsHeightDiff != vertex.sonsHeightDiff) return false
         }
         return true

@@ -214,8 +214,8 @@ class SimpleBSTForTest {
             mapOf(
                 Pair(5, "five"),
                 Pair(0, "zero"),
-                Pair(4, "four")
-            )
+                Pair(4, "four"),
+            ),
         )
 
 //              5
@@ -237,8 +237,8 @@ class SimpleBSTForTest {
             mapOf(
                 Pair(5, "five"),
                 Pair(0, "zero"),
-                Pair(-1, "minus_one")
-            )
+                Pair(-1, "minus_one"),
+            ),
         )
 
 //              5
@@ -262,8 +262,8 @@ class SimpleBSTForTest {
                 Pair(0, "zero"),
                 Pair(-1, "minus_one"),
                 Pair(4, "four"),
-                Pair(3, "three")
-            )
+                Pair(3, "three"),
+            ),
         )
 
 //              5
@@ -337,8 +337,8 @@ class SimpleBSTForTest {
                 Pair(5, "five"),
                 Pair(10, "ten"),
                 Pair(2, "two"),
-                Pair(6, "six")
-            )
+                Pair(6, "six"),
+            ),
         )
 
 //              1

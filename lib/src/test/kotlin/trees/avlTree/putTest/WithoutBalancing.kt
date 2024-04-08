@@ -110,4 +110,3 @@ class WithoutBalancing {
         assert(isSonsHeightDiffCorrect(tree))
     }
 }
-

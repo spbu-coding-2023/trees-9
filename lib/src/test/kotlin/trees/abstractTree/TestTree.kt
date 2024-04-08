@@ -28,9 +28,9 @@ class TestTree<K, V> : AbstractBinarySearchTree<K, V, SimpleBSTVertex<K, V>> {
     }
     constructor (root: SimpleBSTVertex<K, V>, size: Long, comparator: Comparator<K>? = null) :
         super(comparator) {
-            this.root = root
-            this.size = size
-        }
+        this.root = root
+        this.size = size
+    }
 
     constructor (removeShouldReturns: V?) : super() {
         this.removeShouldReturns = removeShouldReturns

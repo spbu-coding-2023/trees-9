@@ -1,14 +1,13 @@
 package trees.avlTree.removeTest.withoutBalancing
 
-import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
-import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
-import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
-import vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import trees.avlTree.AVLTreeForTest
+import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
+import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
+import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
+import vertexes.AVLVertex
 
 class VertexHadTwoSons {
-
     private fun makeTreeForRemoveSonWithBothSons(): AVLTreeForTest<Char, Char> {
         val eVrt = AVLVertex('e', 'E', AVLVertex('c', 'C'), null, 1)
         val bVrt = AVLVertex('b', 'B', AVLVertex('a', 'A'), eVrt, -1)
@@ -30,20 +29,20 @@ class VertexHadTwoSons {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('f')
         val expectedContent =
-                setOf(
-                        'a' to 'A',
-                        'b' to 'B',
-                        'c' to 'C',
-                        'e' to 'E',
-                        'i' to 'I',
-                        'z' to 'Z',
-                        'k' to 'K',
-                        'n' to 'N',
-                        'u' to 'U',
-                        'q' to 'Q',
-                        's' to 'S',
-                        'w' to 'W',
-                )
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'e' to 'E',
+                'i' to 'I',
+                'z' to 'Z',
+                'k' to 'K',
+                'n' to 'N',
+                'u' to 'U',
+                'q' to 'Q',
+                's' to 'S',
+                'w' to 'W',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -59,14 +58,14 @@ class VertexHadTwoSons {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('f')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 7),
-                        Triple(1, 2, 5),
-                        Triple(2, 3, 4),
-                        Triple(5, null, 6),
-                        Triple(7, 8, 10),
-                        Triple(10, null, 11),
-                )
+            listOf(
+                Triple(0, 1, 7),
+                Triple(1, 2, 5),
+                Triple(2, 3, 4),
+                Triple(5, null, 6),
+                Triple(7, 8, 10),
+                Triple(10, null, 11),
+            )
         val expectedOrder = arrayOf('n', 'e', 'b', 'a', 'c', 'i', 'k', 'u', 'q', 's', 'w', 'z')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }
@@ -89,20 +88,20 @@ class VertexHadTwoSons {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('u')
         val expectedContent =
-                setOf(
-                        'a' to 'A',
-                        'b' to 'B',
-                        'c' to 'C',
-                        'e' to 'E',
-                        'i' to 'I',
-                        'z' to 'Z',
-                        'k' to 'K',
-                        'n' to 'N',
-                        'f' to 'F',
-                        'q' to 'Q',
-                        's' to 'S',
-                        'w' to 'W',
-                )
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'e' to 'E',
+                'i' to 'I',
+                'z' to 'Z',
+                'k' to 'K',
+                'n' to 'N',
+                'f' to 'F',
+                'q' to 'Q',
+                's' to 'S',
+                'w' to 'W',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -118,15 +117,15 @@ class VertexHadTwoSons {
         val tree = makeTreeForRemoveSonWithBothSons()
         tree.remove('u')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 8),
-                        Triple(1, 2, 6),
-                        Triple(2, 3, 4),
-                        Triple(6, null, 7),
-                        Triple(4, 5, null),
-                        Triple(8, 9, 10),
-                        Triple(10, null, 11),
-                )
+            listOf(
+                Triple(0, 1, 8),
+                Triple(1, 2, 6),
+                Triple(2, 3, 4),
+                Triple(6, null, 7),
+                Triple(4, 5, null),
+                Triple(8, 9, 10),
+                Triple(10, null, 11),
+            )
         val expectedOrder = arrayOf('n', 'f', 'b', 'a', 'e', 'c', 'i', 'k', 's', 'q', 'w', 'z')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }

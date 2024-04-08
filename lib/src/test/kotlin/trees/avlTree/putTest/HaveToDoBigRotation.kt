@@ -21,17 +21,17 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigLeftRotationPutTest()
         tree.put('f', 'F')
         val expectedContent =
-                setOf(
-                        'a' to 'A',
-                        'b' to 'B',
-                        'c' to 'C',
-                        'd' to 'D',
-                        'e' to 'E',
-                        'g' to 'G',
-                        'f' to 'F',
-                        'i' to 'I',
-                        'j' to 'J',
-                )
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'e' to 'E',
+                'g' to 'G',
+                'f' to 'F',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -40,17 +40,17 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigLeftRotationPutTest()
         tree.put('h', 'H')
         val expectedContent =
-                setOf(
-                        'a' to 'A',
-                        'b' to 'B',
-                        'c' to 'C',
-                        'd' to 'D',
-                        'e' to 'E',
-                        'h' to 'H',
-                        'g' to 'G',
-                        'i' to 'I',
-                        'j' to 'J',
-                )
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'e' to 'E',
+                'h' to 'H',
+                'g' to 'G',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -73,13 +73,13 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigLeftRotationPutTest()
         tree.put('f', 'F')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 3),
-                        Triple(1, 2, null),
-                        Triple(3, 4, 7),
-                        Triple(4, 5, 6),
-                        Triple(7, null, 8),
-                )
+            listOf(
+                Triple(0, 1, 3),
+                Triple(1, 2, null),
+                Triple(3, 4, 7),
+                Triple(4, 5, 6),
+                Triple(7, null, 8),
+            )
         val expectedOrder = arrayOf('c', 'b', 'a', 'g', 'e', 'd', 'f', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }
@@ -89,13 +89,13 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigLeftRotationPutTest()
         tree.put('h', 'H')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 3),
-                        Triple(1, 2, null),
-                        Triple(3, 4, 6),
-                        Triple(4, 5, null),
-                        Triple(6, 7, 8),
-                )
+            listOf(
+                Triple(0, 1, 3),
+                Triple(1, 2, null),
+                Triple(3, 4, 6),
+                Triple(4, 5, null),
+                Triple(6, 7, 8),
+            )
         val expectedOrder = arrayOf('c', 'b', 'a', 'g', 'e', 'd', 'i', 'h', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }
@@ -127,17 +127,17 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigRightRotationPutTest()
         tree.put('c', 'C')
         val expectedContent =
-                setOf(
-                        'a' to 'A',
-                        'b' to 'B',
-                        'c' to 'C',
-                        'd' to 'D',
-                        'h' to 'H',
-                        'g' to 'G',
-                        'f' to 'F',
-                        'i' to 'I',
-                        'j' to 'J',
-                )
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'h' to 'H',
+                'g' to 'G',
+                'f' to 'F',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -146,17 +146,17 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigRightRotationPutTest()
         tree.put('e', 'E')
         val expectedContent =
-                setOf(
-                        'a' to 'A',
-                        'b' to 'B',
-                        'f' to 'F',
-                        'd' to 'D',
-                        'e' to 'E',
-                        'h' to 'H',
-                        'g' to 'G',
-                        'i' to 'I',
-                        'j' to 'J',
-                )
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'f' to 'F',
+                'd' to 'D',
+                'e' to 'E',
+                'h' to 'H',
+                'g' to 'G',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -179,13 +179,13 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigRightRotationPutTest()
         tree.put('c', 'C')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 7),
-                        Triple(7, null, 8),
-                        Triple(1, 2, 5),
-                        Triple(5, null, 6),
-                        Triple(2, 3, 4),
-                )
+            listOf(
+                Triple(0, 1, 7),
+                Triple(7, null, 8),
+                Triple(1, 2, 5),
+                Triple(5, null, 6),
+                Triple(2, 3, 4),
+            )
         val expectedOrder = arrayOf('h', 'd', 'b', 'a', 'c', 'f', 'g', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }
@@ -195,13 +195,13 @@ class HaveToDoBigRotation {
         val tree = makeTreeForHaveToDoBigRightRotationPutTest()
         tree.put('e', 'E')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 7),
-                        Triple(7, null, 8),
-                        Triple(1, 2, 4),
-                        Triple(2, 3, null),
-                        Triple(4, 5, 6),
-                )
+            listOf(
+                Triple(0, 1, 7),
+                Triple(7, null, 8),
+                Triple(1, 2, 4),
+                Triple(2, 3, null),
+                Triple(4, 5, 6),
+            )
         val expectedOrder = arrayOf('h', 'd', 'b', 'a', 'f', 'e', 'g', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }

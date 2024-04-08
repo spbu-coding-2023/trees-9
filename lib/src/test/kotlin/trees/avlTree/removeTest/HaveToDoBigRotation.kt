@@ -1,11 +1,11 @@
 package trees.avlTree.removeTest
 
-import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
-import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
-import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
-import vertexes.AVLVertex
 import org.junit.jupiter.api.Test
 import trees.avlTree.AVLTreeForTest
+import trees.avlTree.AuxiliaryFunctions.isSonsHeightDiffCorrect
+import trees.avlTree.AuxiliaryFunctions.isTreeConsistsOf
+import trees.avlTree.AuxiliaryFunctions.isTreeSStructureThat
+import vertexes.AVLVertex
 
 class HaveToDoBigRotation {
     private fun makeTreeForBigLeftRotationChangesRootRemoveTest(): AVLTreeForTest<Char, Char> {
@@ -26,15 +26,15 @@ class HaveToDoBigRotation {
         val tree = makeTreeForBigLeftRotationChangesRootRemoveTest()
         tree.remove(' ')
         val expectedContent =
-                setOf(
-                        'd' to 'D',
-                        'c' to 'C',
-                        'e' to 'E',
-                        'f' to 'F',
-                        'g' to 'G',
-                        'b' to 'B',
-                        'a' to 'A',
-                )
+            setOf(
+                'd' to 'D',
+                'c' to 'C',
+                'e' to 'E',
+                'f' to 'F',
+                'g' to 'G',
+                'b' to 'B',
+                'a' to 'A',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -79,15 +79,15 @@ class HaveToDoBigRotation {
         val tree = makeTreeForBigRightRotationChangesRootRemoveTest()
         tree.remove('k')
         val expectedContent =
-                setOf(
-                        'a' to 1,
-                        'b' to 2,
-                        'c' to 3,
-                        'd' to 4,
-                        'e' to 5,
-                        'i' to 9,
-                        'f' to 8,
-                )
+            setOf(
+                'a' to 1,
+                'b' to 2,
+                'c' to 3,
+                'd' to 4,
+                'e' to 5,
+                'i' to 9,
+                'f' to 8,
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 

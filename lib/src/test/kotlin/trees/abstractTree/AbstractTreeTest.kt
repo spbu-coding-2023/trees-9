@@ -1,6 +1,8 @@
 package trees.abstractTree
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import vertexes.SimpleBSTVertex
 
@@ -20,6 +22,7 @@ class AbstractTreeTest {
         val tree = makeEmptyTree()
         assertFalse(tree.isNotEmpty())
     }
+
     @Test
     fun `size() returns 0 if tree is empty`() {
         val tree = makeEmptyTree()
@@ -218,8 +221,8 @@ class AbstractTreeTest {
 
     class CMP : Comparator<IntArray> {
         override fun compare(
-                o1: IntArray,
-                o2: IntArray,
+            o1: IntArray,
+            o2: IntArray,
         ): Int {
             return o1.sum() - o2.sum()
         }

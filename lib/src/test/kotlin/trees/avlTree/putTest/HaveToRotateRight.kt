@@ -20,17 +20,17 @@ class HaveToRotateRight {
         val tree = makeTreeForHaveToRotateRightPutTest()
         tree.put('a', 'A')
         val expectedContent =
-                setOf(
-                        'a' to 'A',
-                        'b' to 'B',
-                        'c' to 'C',
-                        'd' to 'D',
-                        'e' to 'E',
-                        'h' to 'H',
-                        'f' to 'F',
-                        'i' to 'I',
-                        'j' to 'J',
-                )
+            setOf(
+                'a' to 'A',
+                'b' to 'B',
+                'c' to 'C',
+                'd' to 'D',
+                'e' to 'E',
+                'h' to 'H',
+                'f' to 'F',
+                'i' to 'I',
+                'j' to 'J',
+            )
         assert(isTreeConsistsOf(expectedContent, tree))
     }
 
@@ -46,13 +46,13 @@ class HaveToRotateRight {
         val tree = makeTreeForHaveToRotateRightPutTest()
         tree.put('a', 'A')
         val expectedDependencies =
-                listOf(
-                        Triple(0, 1, 7),
-                        Triple(1, 2, 4),
-                        Triple(2, 3, null),
-                        Triple(4, 5, 6),
-                        Triple(7, null, 8),
-                )
+            listOf(
+                Triple(0, 1, 7),
+                Triple(1, 2, 4),
+                Triple(2, 3, null),
+                Triple(4, 5, 6),
+                Triple(7, null, 8),
+            )
         val expectedOrder = arrayOf('h', 'c', 'b', 'a', 'f', 'd', 'e', 'i', 'j')
         assert(isTreeSStructureThat(tree, expectedOrder, expectedDependencies))
     }

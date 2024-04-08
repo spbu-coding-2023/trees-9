@@ -226,8 +226,8 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
                         val valueOfVertex = vertex.value
                         Triple(
                             RemovalStage.B,
-                                replaceSubtreeSRootByLargestInItsLeftSubtree(vertex),
-                                valueOfVertex,
+                            replaceSubtreeSRootByLargestInItsLeftSubtree(vertex),
+                            valueOfVertex,
                         )
                     }
                 }
@@ -295,13 +295,16 @@ open class AVLSearchTree<K, V> : AbstractBinarySearchTree<K, V, AVLVertex<K, V>>
      * @param subtreeSInitiallyRoot `AVLVertex<K, V>` type; initially root of the subtree
      * @return vertex that is the subtree's root after function was executed
      */
-    private fun replaceSubtreeSRootByLargestInItsLeftSubtree (subtreeSInitiallyRoot: AVLVertex<K, V>): AVLVertex<K, V> {
+    private fun replaceSubtreeSRootByLargestInItsLeftSubtree(subtreeSInitiallyRoot: AVLVertex<K, V>): AVLVertex<K, V> {
         val substitute = getMaxKeyNodeRec(subtreeSInitiallyRoot.leftSon) as AVLVertex<K, V>
         val removeRecReturned = removeRec(substitute.key, subtreeSInitiallyRoot)
         subtreeSInitiallyRoot.key = substitute.key
         subtreeSInitiallyRoot.value = substitute.value
-        return if (removeRecReturned.component1() == RemovalStage.A) subtreeSInitiallyRoot
-        else removeRecReturned.component2()
+        return if (removeRecReturned.component1() == RemovalStage.A) {
+            subtreeSInitiallyRoot
+        } else {
+            removeRecReturned.component2()
+        }
     }
 
     /**

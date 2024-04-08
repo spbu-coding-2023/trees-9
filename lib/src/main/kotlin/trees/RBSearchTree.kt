@@ -165,9 +165,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
                     brother.color = red
                     rotateRight(brother)
                     brother = currentVertex?.parent?.rightSon
-                }
-
-                else if ((!isBrotherRightSon) && (brother.leftSon?.color == black || brother.leftSon == null)) {
+                } else if ((!isBrotherRightSon) && (brother.leftSon?.color == black || brother.leftSon == null)) {
                     brother.rightSon?.color = black
                     brother.color = red
                     rotateLeft(brother)
@@ -306,9 +304,7 @@ class RBSearchTree<K, V> : AbstractBinarySearchTree<K, V, RBVertex<K, V>> {
                 if ((isUncleRightSon) && (currentVertex == currentVertex.parent?.rightSon)) {
                     currentVertex = currentVertex.parent ?: currentVertex
                     rotateLeft(currentVertex)
-                }
-
-                else if ((!isUncleRightSon) && (currentVertex == currentVertex.parent?.leftSon)) {
+                } else if ((!isUncleRightSon) && (currentVertex == currentVertex.parent?.leftSon)) {
                     currentVertex = currentVertex.parent ?: currentVertex
                     rotateRight(currentVertex)
                 }

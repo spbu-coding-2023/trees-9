@@ -17,8 +17,9 @@ class RBVertex<K, V>(
 ) : InterfaceBSTVertex<K, V, RBVertex<K, V>> {
     enum class Color {
         RED,
-        BLACK
+        BLACK,
     }
+
     var color: Color = Color.RED
     var parent: RBVertex<K, V>? = null
     override var leftSon: RBVertex<K, V>? = null
