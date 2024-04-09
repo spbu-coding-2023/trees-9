@@ -1,7 +1,7 @@
 package trees.simpleBSTree
 
-import main.trees.SimpleBinarySearchTree
-import main.vertexes.SimpleBSTVertex
+import trees.SimpleBinarySearchTree
+import vertexes.SimpleBSTVertex
 
 class TestSimpleBST<K, V> : SimpleBinarySearchTree<K, V> {
     fun getTreeRoot(): SimpleBSTVertex<K, V>? {

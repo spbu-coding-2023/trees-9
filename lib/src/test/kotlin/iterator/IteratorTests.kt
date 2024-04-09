@@ -1,8 +1,8 @@
 package iterator
 
-import main.trees.AVLSearchTree
-import main.vertexes.SimpleBSTVertex
 import org.junit.jupiter.api.Assertions.assertEquals
+import trees.AVLSearchTree
+import vertexes.SimpleBSTVertex
 import kotlin.test.Test
 
 class IteratorTests {

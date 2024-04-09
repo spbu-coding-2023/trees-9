@@ -1,9 +1,9 @@
 package trees.rbTree
 
-import main.trees.RBSearchTree
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import trees.RBSearchTree
 import kotlin.test.assertEquals
 
 class RBSearchTreeTest {
@@ -111,6 +111,13 @@ class RBSearchTreeTest {
         rbTree.put(7, "hi")
         rbTree.remove(9)
         expectedResult = listOf(Pair(7, "hi"))
+    }
+
+    @Test
+    fun `remove root`() {
+        rbTree.put(7, "hi")
+        rbTree.remove(7)
+        expectedResult = listOf()
     }
 
     @Test

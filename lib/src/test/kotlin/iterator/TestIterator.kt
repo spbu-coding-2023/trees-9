@@ -1,11 +1,10 @@
 package iterator
 
-import main.iterator.TreeIterator
-import main.vertexes.InterfaceBSTVertex
-import java.util.LinkedList
+import vertexes.InterfaceBSTVertex
+import java.util.Stack
 
 internal class TestIterator<K, V, N : InterfaceBSTVertex<K, V, N>>(vertex: N?) : TreeIterator<K, V, N>(vertex) {
-    fun getTreeStack(): LinkedList<N> {
+    fun getTreeStack(): Stack<N> {
         return stack
     }
 }
