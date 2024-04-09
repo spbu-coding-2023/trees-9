@@ -85,9 +85,17 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
      * @return The value associated with the removed key, or null if the key is not found.
      */
     override fun remove(key: K): V? {
-        val (_, deletedValue, isRemoved) = removeRec(key)
-        if (isRemoved) size--
-        return deletedValue
+        /**
+         * returnedTriple contains:
+         * 1. new root;
+         * 2. deleted value;
+         * 3. boolean parameter isRemoved that is 'true' if removed operation successful,
+         * and 'false' otherwise
+         */
+        val returnedTriple = removeRec(key)
+        root = returnedTriple.first
+        if (returnedTriple.third) size--
+        return returnedTriple.second
     }
 
     /**
@@ -124,22 +132,22 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
 
             else -> {
                 val deletedValue: V = vertex.value
-                if (vertex.leftSon == null || vertex.rightSon == null) {
-                    if (vertex.leftSon == null) {
-                        if (vertex == root) root = root?.rightSon
-                        return Triple(vertex.rightSon, deletedValue, true)
+                return if (vertex.leftSon == null && vertex.rightSon == null) {
+                    Triple(null, deletedValue, true)
+                } else if (vertex.leftSon == null) {
+                    Triple(vertex.rightSon, deletedValue, true)
+                } else if (vertex.rightSon == null) {
+                    Triple(vertex.leftSon, deletedValue, true)
+                } else {
+                    val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
+                    minKeyRightSubtreeNode?.let {
+                        vertex.key = it.key
+                        vertex.value = it.value
+                        val (updatedRightSon, _, _) = removeRec(it.key, vertex.rightSon)
+                        vertex.rightSon = updatedRightSon
                     }
-                    if (vertex == root) root = root?.leftSon
-                    return Triple(vertex.leftSon, deletedValue, true)
+                    return Triple(vertex, deletedValue, true)
                 }
-                val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
-                minKeyRightSubtreeNode?.let {
-                    vertex.key = it.key
-                    vertex.value = it.value
-                    val (updatedRightSon, _, _) = removeRec(it.key, vertex.rightSon)
-                    vertex.rightSon = updatedRightSon
-                }
-                return Triple(vertex, deletedValue, true)
             }
         }
     }
