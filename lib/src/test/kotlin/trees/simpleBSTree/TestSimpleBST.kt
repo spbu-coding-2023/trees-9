@@ -54,9 +54,9 @@ class TestSimpleBST {
         tree.put(1, "one")
         tree.put(0, "zero")
 
-//              1
-//              ^
-//            0  null
+//                  1
+//                /  \
+//              0    null
 
         assertEquals("zero", tree.getTreeRoot()?.leftSon?.value)
         assertEquals(2L, tree.size())
@@ -69,11 +69,11 @@ class TestSimpleBST {
         tree.put(2, "two cats", true)
         tree.put(1, "one", true)
 
-//              3
-//              ^
-//            2  null
-//           ^
-//         1  null
+//                      3
+//                    /  \
+//                  2    null
+//                /  \
+//              1    null
 
         assertEquals("three", tree.getTreeRoot()?.value)
         assertEquals("two cats", tree.getTreeRoot()?.leftSon?.value)
@@ -88,11 +88,11 @@ class TestSimpleBST {
         tree.put(2, "two cats", false)
         tree.put(1, "one", false)
 
-//              3
-//              ^
-//            2  null
-//           ^
-//         1  null
+//                       3
+//                     /  \
+//                   2    null
+//                 /  \
+//               1    null
 
         assertEquals("three", tree.getTreeRoot()?.value)
         assertEquals("two dogs", tree.getTreeRoot()?.leftSon?.value)
@@ -116,11 +116,11 @@ class TestSimpleBST {
         tree.put(2, "two rabbits", true)
         tree.put(3, "three", true)
 
-//              1
-//              ^
-//         null  2
-//                ^
-//            null  3
+//                      1
+//                    /  \
+//                 null   2
+//                      /  \
+//                   null   3
 
         assertEquals("one", tree.getTreeRoot()?.value)
         assertEquals("two rabbits", tree.getTreeRoot()?.rightSon?.value)
@@ -135,11 +135,11 @@ class TestSimpleBST {
         tree.put(2, "two rabbits", false)
         tree.put(3, "three", false)
 
-//              1
-//              ^
-//         null  2
-//                ^
-//            null  3
+//                      1
+//                    /  \
+//                 null   2
+//                      /  \
+//                   null   3
 
         assertEquals("one", tree.getTreeRoot()?.value)
         assertEquals("two parrots", tree.getTreeRoot()?.rightSon?.value)
@@ -170,9 +170,9 @@ class TestSimpleBST {
     fun `remove root vertex with one left son`() {
         tree.putAll(mapOf(Pair(5, "five"), Pair(0, "zero")))
 
-//              5
-//              ^
-//            0  null
+//                  5
+//                /  \
+//              0    null
 
         val returned = tree.remove(5)
         assertEquals("zero", tree.getTreeRoot()?.value)
@@ -184,9 +184,9 @@ class TestSimpleBST {
     fun `remove root vertex with one right son`() {
         tree.putAll(mapOf(Pair(5, "five"), Pair(6, "six")))
 
-//              5
-//              ^
-//         null  6
+//                  5
+//                /  \
+//             null   6
 
         val returned = tree.remove(5)
         assertEquals("six", tree.getTreeRoot()?.value)
@@ -198,9 +198,9 @@ class TestSimpleBST {
     fun `remove vertex with smaller key, vertex has not sons`() {
         tree.putAll(mapOf(Pair(5, "five"), Pair(0, "zero")))
 
-//              5
-//              ^
-//            0  null
+//                   5
+//                 /  \
+//               0     null
 
         val returned = tree.remove(0)
         assertEquals("five", tree.getTreeRoot()?.value)
@@ -218,11 +218,11 @@ class TestSimpleBST {
             ),
         )
 
-//              5
-//              ^
-//            0  null
-//           ^
-//       null  4
+//                        5
+//                      /  \
+//                    0    null
+//                  /  \
+//              null    4
 
         val returned = tree.remove(0)
         assertEquals("five", tree.getTreeRoot()?.value)
@@ -241,11 +241,11 @@ class TestSimpleBST {
             ),
         )
 
-//              5
-//              ^
-//            0  null
-//           ^
-//        -1  null
+//                          5
+//                        /  \
+//                      0    null
+//                    /  \
+//                 -1     null
 
         val returned = tree.remove(0)
         assertEquals("five", tree.getTreeRoot()?.value)
@@ -266,13 +266,13 @@ class TestSimpleBST {
             ),
         )
 
-//              5
-//              ^
-//            0  null
-//           ^
-//        -1  4
-//            ^
-//          3  null
+//                          5
+//                        /  \
+//                      0     null
+//                    /  \
+//                  -1    4
+//                       /  \
+//                      3    null
 
         val returned = tree.remove(0)
         assertEquals("five", tree.getTreeRoot()?.value)
@@ -285,9 +285,9 @@ class TestSimpleBST {
     fun `remove vertex with more key, vertex has not sons`() {
         tree.putAll(mapOf(Pair(1, "one"), Pair(5, "five")))
 
-//              1
-//              ^
-//         null   5
+//                      1
+//                    /  \
+//                null    5
 
         val returned = tree.remove(5)
         assertEquals("one", tree.getTreeRoot()?.value)
@@ -299,11 +299,11 @@ class TestSimpleBST {
     fun `remove vertex with more key, vertex has one left son`() {
         tree.putAll(mapOf(Pair(1, "one"), Pair(5, "five"), Pair(2, "two")))
 
-//              1
-//              ^
-//         null   5
-//                ^
-//              2  null
+//                      1
+//                    /  \
+//                 null   5
+//                      /  \
+//                     2   null
 
         val returned = tree.remove(5)
         assertEquals("one", tree.getTreeRoot()?.value)
@@ -316,11 +316,11 @@ class TestSimpleBST {
     fun `remove vertex with more key, vertex has one right son`() {
         tree.putAll(mapOf(Pair(1, "one"), Pair(5, "five"), Pair(10, "ten")))
 
-//              1
-//              ^
-//         null   5
-//                ^
-//            null  10
+//                      1
+//                    /  \
+//                 null   5
+//                      /  \
+//                   null   10
 
         val returned = tree.remove(5)
         assertEquals("one", tree.getTreeRoot()?.value)
@@ -341,13 +341,13 @@ class TestSimpleBST {
             ),
         )
 
-//              1
-//              ^
-//         null   5
-//                ^
-//              2  10
-//                  ^
-//                6  null
+//                      1
+//                    /  \
+//                null    5
+//                      /  \
+//                     2    10
+//                        /  \
+//                       6   null
 
         val returned = tree.remove(5)
         assertEquals("one", tree.getTreeRoot()?.value)
