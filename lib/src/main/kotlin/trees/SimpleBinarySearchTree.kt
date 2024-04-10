@@ -73,6 +73,9 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         }
     }
 
+    /**
+     * A property of the parent vertex that indicates which son the currentVertex is
+     */
     enum class Place {
         RIGHTSon,
         LEFTSon,
