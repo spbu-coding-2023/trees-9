@@ -73,6 +73,11 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         }
     }
 
+    enum class Place {
+        RIGHTSon,
+        LEFTSon,
+    }
+
     /**
      * Removes the key-value pair associated with the specified key from the tree.
      *
@@ -80,71 +85,100 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
      * @return The value associated with the removed key, or null if the key is not found.
      */
     override fun remove(key: K): V? {
-        /**
-         * returnedTriple contains:
-         * 1. new root;
-         * 2. deleted value;
-         * 3. boolean parameter isRemoved that is 'true' if removed operation successful,
-         * and 'false' otherwise
-         */
-        val returnedTriple = removeRec(key)
-        root = returnedTriple.first
-        if (returnedTriple.third) size--
-        return returnedTriple.second
-    }
+        if (root == null) {
+            return null
+        }
+        var sonPlace = Place.RIGHTSon
+        var currentVertex: SimpleBSTVertex<K, V>? = root
+        var parentVertex: SimpleBSTVertex<K, V>? = null
 
-    /**
-     * Recursively removes the key-value pair associated with the specified key from the tree.
-     *
-     * This method traverses the tree recursively to find the node with the given key and removes it.
-     * If the key is found and the corresponding node has both left and right children,
-     * the method replaces the node's key and value with those of the minimum key node in its right subtree,
-     * and then removes the minimum key node from the right subtree.
-     * If the key is not found, it returns a pair containing the vertex and null value.
-     *
-     * @param key `K` type
-     * @param vertex `SimpleBSTVertex<K, V>?` type, `root` by default; The current vertex being examined in the recursion.
-     * @return A pair containing the updated vertex and the value associated with the removed key, or null if the key is not found.
-     */
-    private fun removeRec(
-        key: K,
-        vertex: SimpleBSTVertex<K, V>? = root,
-    ): Triple<SimpleBSTVertex<K, V>?, V?, Boolean> {
-        if (vertex == null) return Triple(null, null, false)
-
-        when (compareKeys(key, vertex.key)) {
-            -1 -> {
-                val (updatedLeftSon, deletedValue, isRemoved) = removeRec(key, vertex.leftSon)
-                vertex.leftSon = updatedLeftSon
-                return Triple(vertex, deletedValue, isRemoved)
+        while (currentVertex != null) {
+            if (currentVertex.key == key) {
+                break
             }
+            when (compareKeys(key, currentVertex.key)) {
+                // the first key is less than the second key
+                -1 -> {
+                    sonPlace = Place.LEFTSon
+                    parentVertex = currentVertex
+                    currentVertex = currentVertex.leftSon
+                }
 
-            1 -> {
-                val (updatedRightSon, deletedValue, isRemoved) = removeRec(key, vertex.rightSon)
-                vertex.rightSon = updatedRightSon
-                return Triple(vertex, deletedValue, isRemoved)
-            }
-
-            else -> {
-                val deletedValue: V = vertex.value
-                return if (vertex.leftSon == null && vertex.rightSon == null) {
-                    Triple(null, deletedValue, true)
-                } else if (vertex.leftSon == null) {
-                    Triple(vertex.rightSon, deletedValue, true)
-                } else if (vertex.rightSon == null) {
-                    Triple(vertex.leftSon, deletedValue, true)
-                } else {
-                    val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
-                    minKeyRightSubtreeNode?.let {
-                        vertex.key = it.key
-                        vertex.value = it.value
-                        val (updatedRightSon, _, _) = removeRec(it.key, vertex.rightSon)
-                        vertex.rightSon = updatedRightSon
-                    }
-                    return Triple(vertex, deletedValue, true)
+                // the first key is greater than the second key
+                1 -> {
+                    sonPlace = Place.RIGHTSon
+                    parentVertex = currentVertex
+                    currentVertex = currentVertex.rightSon
                 }
             }
         }
+        if (currentVertex == null) {
+            return null
+        }
+        val deletedValue = currentVertex.value
+        if (currentVertex == root) {
+            if (currentVertex.leftSon == null && currentVertex.rightSon == null) {
+                root = null
+                size--
+                return deletedValue
+            } else if (currentVertex.leftSon != null && currentVertex.rightSon == null) {
+                root = currentVertex.leftSon
+                size--
+                return deletedValue
+            } else if (currentVertex.leftSon == null) {
+                root = currentVertex.rightSon
+                size--
+                return deletedValue
+            }
+        } else if (currentVertex.leftSon == null && currentVertex.rightSon == null) {
+            size--
+            if (sonPlace == Place.RIGHTSon) {
+                parentVertex?.rightSon = null
+                return deletedValue
+            }
+            parentVertex?.leftSon = null
+            return deletedValue
+        } else if (currentVertex.leftSon == null) {
+            size--
+            if (sonPlace == Place.RIGHTSon) {
+                parentVertex?.rightSon = currentVertex.rightSon
+                return deletedValue
+            }
+            parentVertex?.leftSon = currentVertex.rightSon
+            return deletedValue
+        } else if (currentVertex.rightSon == null) {
+            size--
+            if (sonPlace == Place.RIGHTSon) {
+                parentVertex?.rightSon = currentVertex.leftSon
+                return deletedValue
+            }
+            parentVertex?.leftSon = currentVertex.leftSon
+            return deletedValue
+        } else {
+            size--
+            var minKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = currentVertex.rightSon
+            var parentOfMinKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = null
+            while (minKeyRightSubtreeVertex?.leftSon != null) {
+                parentOfMinKeyRightSubtreeVertex = minKeyRightSubtreeVertex
+                minKeyRightSubtreeVertex = minKeyRightSubtreeVertex.leftSon
+            }
+            if (sonPlace == Place.RIGHTSon) {
+                minKeyRightSubtreeVertex?.let {
+                    parentVertex?.rightSon?.key = it.key
+                    parentVertex?.rightSon?.value = it.value
+                }
+                parentOfMinKeyRightSubtreeVertex?.leftSon = null
+                return deletedValue
+            } else {
+                minKeyRightSubtreeVertex?.let {
+                    parentVertex?.leftSon?.key = it.key
+                    parentVertex?.leftSon?.value = it.value
+                }
+                parentOfMinKeyRightSubtreeVertex?.leftSon = null
+                return deletedValue
+            }
+        }
+        return deletedValue
     }
 
     /**
