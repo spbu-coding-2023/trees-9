@@ -24,8 +24,7 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
      *
      * @param key `K` type
      * @param value `V` type
-     * @param replaceIfExists `Boolean` type,
-     *
+     * @param replaceIfExists `Boolean` type;
      * If `true` - replaces the value if the key already exists. If `false` - ignores it.
      */
     override fun put(
@@ -33,46 +32,42 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         value: V,
         replaceIfExists: Boolean,
     ) {
-        putRec(key, value, replaceIfExists)
-    }
-
-    /**
-     * Recursively inserts a key-value pair into the tree.
-     *
-     * @param key `K` type
-     * @param value `V` type
-     * @param replaceIfExists `Boolean` type,
-     * If `true` - replaces the value if the key already exists. If `false` - ignores it.
-     * @param vertex `SimpleBSTVertex<K, V>?` type, `root` by default; The current vertex in the recursion.
-     */
-    private fun putRec(
-        key: K,
-        value: V,
-        replaceIfExists: Boolean,
-        vertex: SimpleBSTVertex<K, V>? = root,
-    ) {
-        if (vertex == null) {
+        if (root == null) {
             root = SimpleBSTVertex(key, value)
             size++
             return
         }
-        when (compareKeys(key, vertex.key)) {
-            0 -> if (replaceIfExists) vertex.value = value
-            -1 -> {
-                if (vertex.leftSon == null) {
-                    vertex.leftSon = SimpleBSTVertex(key, value)
-                    size++
-                } else {
-                    putRec(key, value, replaceIfExists, vertex.leftSon)
+        var vertex: SimpleBSTVertex<K, V> = root as SimpleBSTVertex<K, V>
+        while (true) {
+            when (compareKeys(key, vertex.key)) {
+                // keys are equal
+                0 -> {
+                    if (replaceIfExists) vertex.value = value
+                    return
                 }
-            }
 
-            1 -> {
-                if (vertex.rightSon == null) {
-                    vertex.rightSon = SimpleBSTVertex(key, value)
-                    size++
-                } else {
-                    putRec(key, value, replaceIfExists, vertex.rightSon)
+                // the first key is less than the second key
+                -1 -> {
+                    if (vertex.leftSon == null) {
+                        vertex.leftSon = SimpleBSTVertex(key, value)
+                        size++
+                        return
+                    } else {
+                        vertex = vertex.leftSon as SimpleBSTVertex<K, V>
+                        continue
+                    }
+                }
+
+                // the first key is greater than the second key
+                1 -> {
+                    if (vertex.rightSon == null) {
+                        vertex.rightSon = SimpleBSTVertex(key, value)
+                        size++
+                        return
+                    } else {
+                        vertex = vertex.rightSon as SimpleBSTVertex<K, V>
+                        continue
+                    }
                 }
             }
         }
