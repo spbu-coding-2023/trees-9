@@ -74,7 +74,7 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
     }
 
     /**
-     * A property of the parent vertex that indicates which son the currentVertex is
+     * A property of the parent vertex that indicates which son the toRemoveVertex is
      */
     enum class Place {
         RIGHTSon,
@@ -92,68 +92,68 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
             return null
         }
         var sonPlace = Place.RIGHTSon
-        var currentVertex: SimpleBSTVertex<K, V>? = root
-        var parentVertex: SimpleBSTVertex<K, V>? = null
+        var toRemoveVertex: SimpleBSTVertex<K, V>? = root
+        var parentOfToRemoveVertex: SimpleBSTVertex<K, V>? = null
 
-        while (currentVertex != null) {
-            if (currentVertex.key == key) {
+        while (toRemoveVertex != null) {
+            if (toRemoveVertex.key == key) {
                 break
             }
-            when (compareKeys(key, currentVertex.key)) {
+            when (compareKeys(key, toRemoveVertex.key)) {
                 // the first key is less than the second key
                 -1 -> {
                     sonPlace = Place.LEFTSon
-                    parentVertex = currentVertex
-                    currentVertex = currentVertex.leftSon
+                    parentOfToRemoveVertex = toRemoveVertex
+                    toRemoveVertex = toRemoveVertex.leftSon
                 }
 
                 // the first key is greater than the second key
                 1 -> {
                     sonPlace = Place.RIGHTSon
-                    parentVertex = currentVertex
-                    currentVertex = currentVertex.rightSon
+                    parentOfToRemoveVertex = toRemoveVertex
+                    toRemoveVertex = toRemoveVertex.rightSon
                 }
             }
         }
-        if (currentVertex == null) {
+        if (toRemoveVertex == null) {
             return null
         }
-        val deletedValue = currentVertex.value
-        if (currentVertex == root) {
-            if (currentVertex.leftSon == null && currentVertex.rightSon == null) {
+        val deletedValue = toRemoveVertex.value
+        if (toRemoveVertex == root) {
+            if (toRemoveVertex.leftSon == null && toRemoveVertex.rightSon == null) {
                 root = null
                 size--
-            } else if (currentVertex.leftSon != null && currentVertex.rightSon == null) {
-                root = currentVertex.leftSon
+            } else if (toRemoveVertex.leftSon != null && toRemoveVertex.rightSon == null) {
+                root = toRemoveVertex.leftSon
                 size--
-            } else if (currentVertex.leftSon == null) {
-                root = currentVertex.rightSon
+            } else if (toRemoveVertex.leftSon == null) {
+                root = toRemoveVertex.rightSon
                 size--
             }
-        } else if (currentVertex.leftSon == null && currentVertex.rightSon == null) {
+        } else if (toRemoveVertex.leftSon == null && toRemoveVertex.rightSon == null) {
             size--
             if (sonPlace == Place.RIGHTSon) {
-                parentVertex?.rightSon = null
+                parentOfToRemoveVertex?.rightSon = null
             } else {
-                parentVertex?.leftSon = null
+                parentOfToRemoveVertex?.leftSon = null
             }
-        } else if (currentVertex.leftSon == null) {
+        } else if (toRemoveVertex.leftSon == null) {
             size--
             if (sonPlace == Place.RIGHTSon) {
-                parentVertex?.rightSon = currentVertex.rightSon
+                parentOfToRemoveVertex?.rightSon = toRemoveVertex.rightSon
             } else {
-                parentVertex?.leftSon = currentVertex.rightSon
+                parentOfToRemoveVertex?.leftSon = toRemoveVertex.rightSon
             }
-        } else if (currentVertex.rightSon == null) {
+        } else if (toRemoveVertex.rightSon == null) {
             size--
             if (sonPlace == Place.RIGHTSon) {
-                parentVertex?.rightSon = currentVertex.leftSon
+                parentOfToRemoveVertex?.rightSon = toRemoveVertex.leftSon
             } else {
-                parentVertex?.leftSon = currentVertex.leftSon
+                parentOfToRemoveVertex?.leftSon = toRemoveVertex.leftSon
             }
         } else {
             size--
-            var minKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = currentVertex.rightSon
+            var minKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = toRemoveVertex.rightSon
             var parentOfMinKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = null
             while (minKeyRightSubtreeVertex?.leftSon != null) {
                 parentOfMinKeyRightSubtreeVertex = minKeyRightSubtreeVertex
@@ -161,14 +161,14 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
             }
             if (sonPlace == Place.RIGHTSon) {
                 minKeyRightSubtreeVertex?.let {
-                    parentVertex?.rightSon?.key = it.key
-                    parentVertex?.rightSon?.value = it.value
+                    parentOfToRemoveVertex?.rightSon?.key = it.key
+                    parentOfToRemoveVertex?.rightSon?.value = it.value
                 }
                 parentOfMinKeyRightSubtreeVertex?.leftSon = null
             } else {
                 minKeyRightSubtreeVertex?.let {
-                    parentVertex?.leftSon?.key = it.key
-                    parentVertex?.leftSon?.value = it.value
+                    parentOfToRemoveVertex?.leftSon?.key = it.key
+                    parentOfToRemoveVertex?.leftSon?.value = it.value
                 }
                 parentOfMinKeyRightSubtreeVertex?.leftSon = null
             }
