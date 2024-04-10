@@ -123,40 +123,34 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
             if (currentVertex.leftSon == null && currentVertex.rightSon == null) {
                 root = null
                 size--
-                return deletedValue
             } else if (currentVertex.leftSon != null && currentVertex.rightSon == null) {
                 root = currentVertex.leftSon
                 size--
-                return deletedValue
             } else if (currentVertex.leftSon == null) {
                 root = currentVertex.rightSon
                 size--
-                return deletedValue
             }
         } else if (currentVertex.leftSon == null && currentVertex.rightSon == null) {
             size--
             if (sonPlace == Place.RIGHTSon) {
                 parentVertex?.rightSon = null
-                return deletedValue
+            } else {
+                parentVertex?.leftSon = null
             }
-            parentVertex?.leftSon = null
-            return deletedValue
         } else if (currentVertex.leftSon == null) {
             size--
             if (sonPlace == Place.RIGHTSon) {
                 parentVertex?.rightSon = currentVertex.rightSon
-                return deletedValue
+            } else {
+                parentVertex?.leftSon = currentVertex.rightSon
             }
-            parentVertex?.leftSon = currentVertex.rightSon
-            return deletedValue
         } else if (currentVertex.rightSon == null) {
             size--
             if (sonPlace == Place.RIGHTSon) {
                 parentVertex?.rightSon = currentVertex.leftSon
-                return deletedValue
+            } else {
+                parentVertex?.leftSon = currentVertex.leftSon
             }
-            parentVertex?.leftSon = currentVertex.leftSon
-            return deletedValue
         } else {
             size--
             var minKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = currentVertex.rightSon
@@ -171,14 +165,12 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
                     parentVertex?.rightSon?.value = it.value
                 }
                 parentOfMinKeyRightSubtreeVertex?.leftSon = null
-                return deletedValue
             } else {
                 minKeyRightSubtreeVertex?.let {
                     parentVertex?.leftSon?.key = it.key
                     parentVertex?.leftSon?.value = it.value
                 }
                 parentOfMinKeyRightSubtreeVertex?.leftSon = null
-                return deletedValue
             }
         }
         return deletedValue
