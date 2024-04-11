@@ -24,8 +24,7 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
      *
      * @param key `K` type
      * @param value `V` type
-     * @param replaceIfExists `Boolean` type,
-     *
+     * @param replaceIfExists `Boolean` type;
      * If `true` - replaces the value if the key already exists. If `false` - ignores it.
      */
     override fun put(
@@ -33,49 +32,53 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
         value: V,
         replaceIfExists: Boolean,
     ) {
-        putRec(key, value, replaceIfExists)
-    }
-
-    /**
-     * Recursively inserts a key-value pair into the tree.
-     *
-     * @param key `K` type
-     * @param value `V` type
-     * @param replaceIfExists `Boolean` type,
-     * If `true` - replaces the value if the key already exists. If `false` - ignores it.
-     * @param vertex `SimpleBSTVertex<K, V>?` type, `root` by default; The current vertex in the recursion.
-     */
-    private fun putRec(
-        key: K,
-        value: V,
-        replaceIfExists: Boolean,
-        vertex: SimpleBSTVertex<K, V>? = root,
-    ) {
-        if (vertex == null) {
+        if (root == null) {
             root = SimpleBSTVertex(key, value)
             size++
             return
         }
-        when (compareKeys(key, vertex.key)) {
-            0 -> if (replaceIfExists) vertex.value = value
-            -1 -> {
-                if (vertex.leftSon == null) {
-                    vertex.leftSon = SimpleBSTVertex(key, value)
-                    size++
-                } else {
-                    putRec(key, value, replaceIfExists, vertex.leftSon)
+        var vertex: SimpleBSTVertex<K, V> = root as SimpleBSTVertex<K, V>
+        while (true) {
+            when (compareKeys(key, vertex.key)) {
+                // keys are equal
+                0 -> {
+                    if (replaceIfExists) vertex.value = value
+                    return
                 }
-            }
 
-            1 -> {
-                if (vertex.rightSon == null) {
-                    vertex.rightSon = SimpleBSTVertex(key, value)
-                    size++
-                } else {
-                    putRec(key, value, replaceIfExists, vertex.rightSon)
+                // the first key is less than the second key
+                -1 -> {
+                    if (vertex.leftSon == null) {
+                        vertex.leftSon = SimpleBSTVertex(key, value)
+                        size++
+                        return
+                    } else {
+                        vertex = vertex.leftSon as SimpleBSTVertex<K, V>
+                        continue
+                    }
+                }
+
+                // the first key is greater than the second key
+                1 -> {
+                    if (vertex.rightSon == null) {
+                        vertex.rightSon = SimpleBSTVertex(key, value)
+                        size++
+                        return
+                    } else {
+                        vertex = vertex.rightSon as SimpleBSTVertex<K, V>
+                        continue
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * A property of the parent vertex that indicates which son the toRemoveVertex is
+     */
+    enum class Place {
+        RIGHTSon,
+        LEFTSon,
     }
 
     /**
@@ -85,63 +88,92 @@ open class SimpleBinarySearchTree<K, V> : AbstractBinarySearchTree<K, V, SimpleB
      * @return The value associated with the removed key, or null if the key is not found.
      */
     override fun remove(key: K): V? {
-        val (_, deletedValue, isRemoved) = removeRec(key)
-        if (isRemoved) size--
-        return deletedValue
-    }
+        if (root == null) {
+            return null
+        }
+        var sonPlace = Place.RIGHTSon
+        var toRemoveVertex: SimpleBSTVertex<K, V>? = root
+        var parentOfToRemoveVertex: SimpleBSTVertex<K, V>? = null
 
-    /**
-     * Recursively removes the key-value pair associated with the specified key from the tree.
-     *
-     * This method traverses the tree recursively to find the node with the given key and removes it.
-     * If the key is found and the corresponding node has both left and right children,
-     * the method replaces the node's key and value with those of the minimum key node in its right subtree,
-     * and then removes the minimum key node from the right subtree.
-     * If the key is not found, it returns a pair containing the vertex and null value.
-     *
-     * @param key `K` type
-     * @param vertex `SimpleBSTVertex<K, V>?` type, `root` by default; The current vertex being examined in the recursion.
-     * @return A pair containing the updated vertex and the value associated with the removed key, or null if the key is not found.
-     */
-    private fun removeRec(
-        key: K,
-        vertex: SimpleBSTVertex<K, V>? = root,
-    ): Triple<SimpleBSTVertex<K, V>?, V?, Boolean> {
-        if (vertex == null) return Triple(null, null, false)
-
-        when (compareKeys(key, vertex.key)) {
-            -1 -> {
-                val (updatedLeftSon, deletedValue, isRemoved) = removeRec(key, vertex.leftSon)
-                vertex.leftSon = updatedLeftSon
-                return Triple(vertex, deletedValue, isRemoved)
+        while (toRemoveVertex != null) {
+            if (toRemoveVertex.key == key) {
+                break
             }
-
-            1 -> {
-                val (updatedRightSon, deletedValue, isRemoved) = removeRec(key, vertex.rightSon)
-                vertex.rightSon = updatedRightSon
-                return Triple(vertex, deletedValue, isRemoved)
-            }
-
-            else -> {
-                val deletedValue: V = vertex.value
-                if (vertex.leftSon == null || vertex.rightSon == null) {
-                    if (vertex.leftSon == null) {
-                        if (vertex == root) root = root?.rightSon
-                        return Triple(vertex.rightSon, deletedValue, true)
-                    }
-                    if (vertex == root) root = root?.leftSon
-                    return Triple(vertex.leftSon, deletedValue, true)
+            when (compareKeys(key, toRemoveVertex.key)) {
+                // the first key is less than the second key
+                -1 -> {
+                    sonPlace = Place.LEFTSon
+                    parentOfToRemoveVertex = toRemoveVertex
+                    toRemoveVertex = toRemoveVertex.leftSon
                 }
-                val minKeyRightSubtreeNode: SimpleBSTVertex<K, V>? = getMinKeyNodeRec(vertex.rightSon)
-                minKeyRightSubtreeNode?.let {
-                    vertex.key = it.key
-                    vertex.value = it.value
-                    val (updatedRightSon, _, _) = removeRec(it.key, vertex.rightSon)
-                    vertex.rightSon = updatedRightSon
+
+                // the first key is greater than the second key
+                1 -> {
+                    sonPlace = Place.RIGHTSon
+                    parentOfToRemoveVertex = toRemoveVertex
+                    toRemoveVertex = toRemoveVertex.rightSon
                 }
-                return Triple(vertex, deletedValue, true)
             }
         }
+        if (toRemoveVertex == null) {
+            return null
+        }
+        val deletedValue = toRemoveVertex.value
+        if (toRemoveVertex == root) {
+            if (toRemoveVertex.leftSon == null && toRemoveVertex.rightSon == null) {
+                root = null
+                size--
+            } else if (toRemoveVertex.leftSon != null && toRemoveVertex.rightSon == null) {
+                root = toRemoveVertex.leftSon
+                size--
+            } else if (toRemoveVertex.leftSon == null) {
+                root = toRemoveVertex.rightSon
+                size--
+            }
+        } else if (toRemoveVertex.leftSon == null && toRemoveVertex.rightSon == null) {
+            size--
+            if (sonPlace == Place.RIGHTSon) {
+                parentOfToRemoveVertex?.rightSon = null
+            } else {
+                parentOfToRemoveVertex?.leftSon = null
+            }
+        } else if (toRemoveVertex.leftSon == null) {
+            size--
+            if (sonPlace == Place.RIGHTSon) {
+                parentOfToRemoveVertex?.rightSon = toRemoveVertex.rightSon
+            } else {
+                parentOfToRemoveVertex?.leftSon = toRemoveVertex.rightSon
+            }
+        } else if (toRemoveVertex.rightSon == null) {
+            size--
+            if (sonPlace == Place.RIGHTSon) {
+                parentOfToRemoveVertex?.rightSon = toRemoveVertex.leftSon
+            } else {
+                parentOfToRemoveVertex?.leftSon = toRemoveVertex.leftSon
+            }
+        } else {
+            size--
+            var minKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = toRemoveVertex.rightSon
+            var parentOfMinKeyRightSubtreeVertex: SimpleBSTVertex<K, V>? = null
+            while (minKeyRightSubtreeVertex?.leftSon != null) {
+                parentOfMinKeyRightSubtreeVertex = minKeyRightSubtreeVertex
+                minKeyRightSubtreeVertex = minKeyRightSubtreeVertex.leftSon
+            }
+            if (sonPlace == Place.RIGHTSon) {
+                minKeyRightSubtreeVertex?.let {
+                    parentOfToRemoveVertex?.rightSon?.key = it.key
+                    parentOfToRemoveVertex?.rightSon?.value = it.value
+                }
+                parentOfMinKeyRightSubtreeVertex?.leftSon = null
+            } else {
+                minKeyRightSubtreeVertex?.let {
+                    parentOfToRemoveVertex?.leftSon?.key = it.key
+                    parentOfToRemoveVertex?.leftSon?.value = it.value
+                }
+                parentOfMinKeyRightSubtreeVertex?.leftSon = null
+            }
+        }
+        return deletedValue
     }
 
     /**
